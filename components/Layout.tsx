@@ -199,11 +199,14 @@ export const Footer: React.FC = () => {
             <div className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
               <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
             </div>
-            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
-              Building the operating systems for modern small businesses in Canada & the US.
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">
+              We build systems that sell while you sleep.
+            </p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
+              Serving 50+ businesses since 2023
             </p>
             <div className="text-sm text-gray-400 dark:text-gray-600">
-              <p>Toronto, ON • Remote</p>
+              <p>Toronto, ON • Remote Worldwide</p>
             </div>
           </div>
           

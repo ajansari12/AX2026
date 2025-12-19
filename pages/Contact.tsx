@@ -76,9 +76,9 @@ export const Contact: React.FC = () => {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
 
           <div className="relative z-10">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-8 tracking-tight">Stop losing <br/><span className="text-gray-400">leads today.</span></h1>
+            <h1 className="text-5xl lg:text-6xl font-bold mb-8 tracking-tight">Every hour you wait, <br/><span className="text-gray-400">someone else closes.</span></h1>
             <p className="text-gray-300 text-lg mb-12 max-w-md leading-relaxed">
-              Tell us where your business hurts. We'll show you the exact system to fix it on a free 20-minute strategy call.
+              Tell us what's broken. We'll show you the exact system to fix it on a free 20-minute call. No pitch. Just answers.
             </p>
 
             <div className="space-y-8">
@@ -107,7 +107,8 @@ export const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">Response Time</h4>
-                  <p className="text-gray-400">Within 24 hours</p>
+                  <p className="text-gray-400">Within 4 business hours</p>
+                  <p className="text-gray-500 text-sm">If we can't help, we'll tell you who can</p>
                 </div>
               </div>
             </div>
@@ -265,7 +266,7 @@ export const Contact: React.FC = () => {
                  </div>
 
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'message' ? 'opacity-60' : 'opacity-100'}`}>
-                   <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                   <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">What's your biggest bottleneck right now?</label>
                    <textarea
                     id="message"
                     name="message"
@@ -275,7 +276,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setFocusedField('message')}
                     onBlur={() => setFocusedField(null)}
                     className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg resize-none"
-                    placeholder="Tell us about your goals..."
+                    placeholder="e.g., We're losing leads because we can't respond fast enough..."
                    ></textarea>
                  </div>
 

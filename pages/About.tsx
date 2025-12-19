@@ -36,7 +36,7 @@ export const About: React.FC = () => {
               We build systems, <br /><span className="text-gray-400">not just hype.</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-xl">
-              Axrategy was founded on a simple belief: Small businesses don't need more "brand awareness." They need operational efficiency. They need systems that capture demand and close deals without burning out the founder.
+              Small businesses don't need more "brand awareness." They need systems that capture demand and close deals without burning out the founder. That's what we build. Nothing more, nothing less.
             </p>
             <div className="flex gap-4">
               <NavLink to="/contact">
@@ -70,9 +70,9 @@ export const About: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
            {[
-             { title: "Clarity over Cleverness", desc: "If it confuses the customer, it's wrong. We strip away the jargon and focus on what sells." },
-             { title: "Speed is a Feature", desc: "We deploy systems in weeks, not months. Momentum is the lifeblood of small business growth." },
-             { title: "Radical Ownership", desc: "You own every account, line of code, and asset. No gatekeeping. No hostage fees." }
+             { title: "No Monthly Retainers", desc: "We build systems, hand them over, and get out of the way. You don't pay rent on what you already own." },
+             { title: "Ship in Weeks, Not Months", desc: "Momentum matters. We deploy working systems in 4-6 weeks. No endless discovery phases. No death by committee." },
+             { title: "You Own Everything", desc: "Every line of code. Every account. Every asset. No gatekeeping. No hostage fees. No lock-in. Ever." }
            ].map((val, i) => (
              <FadeIn key={i} delay={i * 0.1}>
                <div className="bg-gray-50 dark:bg-gray-800/50 p-8 rounded-3xl h-full border border-gray-100 dark:border-gray-800">
@@ -93,7 +93,7 @@ export const About: React.FC = () => {
            <div className="flex-1">
               <div className="mb-6 text-emerald-400 dark:text-emerald-600 font-bold uppercase tracking-widest text-sm">From the Founder</div>
               <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-relaxed">
-                "I started Axrategy because I was tired of seeing great businesses fail due to bad systems. You don't need more leads; you need a bucket that doesn't leak."
+                "I watched my dad's dental practice lose $100k a year to no-shows before anyone told him automation existed. Now I make sure that doesn't happen to anyone else."
               </h3>
               <p className="text-gray-400 dark:text-gray-600 font-medium text-lg">
                 — Alex Stratton, Founder

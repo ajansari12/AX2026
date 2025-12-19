@@ -7,23 +7,23 @@ import { useResourceDownload } from '../hooks/useResourceDownload';
 
 const LEAD_MAGNETS = [
   {
-    title: "AI Automation Checklist",
-    desc: "Identify where AI can save you 10+ hours/week. Don't build robots for tasks that don't matter. A 20-point audit for high-ROI workflows.",
+    title: "The 20-Point AI Audit: Find Where You're Wasting 10+ Hours/Week",
+    desc: "Don't automate tasks that don't matter. This checklist helps you identify the high-ROI workflows that actually deserve AI. Used by 200+ service businesses.",
     color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
   },
   {
-    title: "Website Conversion Teardown Template",
-    desc: "A step-by-step audit sheet to find the conversion leaks on your homepage before you buy ads. Based on 100+ SMB site reviews.",
+    title: "The Homepage Scorecard: Grade Your Site in 5 Minutes",
+    desc: "Find the conversion leaks on your homepage before you spend another dollar on ads. Based on 100+ SMB site reviews. Includes video walkthrough.",
     color: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400"
   },
   {
-    title: "Follow-up Scripts Pack",
-    desc: "5 copy-paste email templates to re-engage dead leads without sounding desperate. Includes 'The 9-Word Email' and 'The Breakup Email'.",
+    title: "5 Emails That Revive Dead Leads (Including the Breakup Email)",
+    desc: "Copy-paste templates to re-engage cold leads without sounding desperate. Includes 'The 9-Word Email' that gets 35% response rates.",
     color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400"
   },
   {
-    title: "Small Business Systems Blueprint",
-    desc: "The exact operational SOPs, tech stack, and hiring triggers we use to run a lean, high-margin consultancy without burnout.",
+    title: "The Lean Ops Blueprint: How We Run a 6-Figure Consultancy Solo",
+    desc: "The exact SOPs, tech stack, and hiring triggers we use internally. No fluff. Just the systems that let you work 40 hours, not 70.",
     color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400"
   }
 ];

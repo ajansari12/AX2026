@@ -66,11 +66,11 @@ export const Home: React.FC = () => {
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05] mb-8">
-              Turn your scattered tools into a <span className="text-gray-400 dark:text-gray-500">revenue engine.</span>
+              Your competitors respond in 5 minutes. <span className="text-gray-400 dark:text-gray-500">You respond tomorrow.</span>
             </h1>
-            
+
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-lg leading-relaxed">
-              Stop chasing leads manually. We build the websites, AI agents, and automation you need to grow without hiring more staff.
+              We build systems that book calls on your calendar while you sleep. No more missed leads. No more hiring headaches.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 mb-12">
@@ -95,7 +95,7 @@ export const Home: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <p>Trusted by 50+ founders</p>
+              <p>Trusted by 50+ service businesses in healthcare, legal, and real estate</p>
             </div>
           </motion.div>
 
@@ -148,20 +148,20 @@ export const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-gray-800">
             <FadeIn>
               <div className="p-6">
-                <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">24/7</p>
-                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Lead response via AI</p>
+                <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">0</p>
+                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Leads left on read</p>
               </div>
             </FadeIn>
             <FadeIn delay={0.1}>
               <div className="p-6">
                 <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">2x</p>
-                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">More qualified calls</p>
+                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">More qualified calls booked (avg. result)</p>
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
               <div className="p-6">
                 <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">15hr+</p>
-                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Admin work removed/week</p>
+                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Freed up weekly (that's half an employee)</p>
               </div>
             </FadeIn>
           </div>
@@ -178,30 +178,30 @@ export const Home: React.FC = () => {
       {/* 3. Three Core Pillars */}
       <Section id="what-we-build">
         <Container size="md" className="mb-20 md:text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Don't just build a website. <br />Build a sales machine.</h2>
-          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">Most agencies give you a pretty brochure. We give you a system that captures leads, nurtures them, and puts appointments on your calendar.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Three systems. <br />One revenue engine.</h2>
+          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">Most agencies give you a pretty brochure. We give you infrastructure that captures leads, qualifies them, and puts appointments on your calendar while you focus on closing.</p>
         </Container>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               icon: Layers,
-              title: "Websites That Convert",
-              desc: "Fast, clean, and written to sell. We build digital storefronts that make visitors trust you instantly.",
+              title: "Storefronts That Sell",
+              desc: "Most visitors decide in 8 seconds. Our sites close them in 5. Fast, clean, and engineered to convert strangers into booked calls.",
               color: "text-blue-600 bg-blue-50 dark:bg-blue-500/10 dark:text-blue-400",
               link: "/services/websites-landing-pages"
             },
             {
               icon: Zap,
-              title: "AI Sales Agents",
-              desc: "Smart bots that live on your site to answer FAQs, qualify leads, and book meetings for you 24/7.",
+              title: "24/7 Lead Response",
+              desc: "Never lose a lead to voicemail again. AI agents answer instantly, qualify prospects, and book meetings for you around the clock.",
               color: "text-orange-600 bg-orange-50 dark:bg-orange-500/10 dark:text-orange-400",
               link: "/services/ai-assistants"
             },
             {
               icon: BarChart3,
-              title: "Workflow Automation",
-              desc: "Connect your forms to your CRM, email, and Slack. Zero manual data entry. Zero missed follow-ups.",
+              title: "Zero Manual Entry",
+              desc: "Forms sync to your CRM. Follow-ups send automatically. Nothing falls through the cracks. Reclaim 15+ hours every week.",
               color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 dark:text-emerald-400",
               link: "/services/automation-systems"
             }
@@ -342,12 +342,12 @@ export const Home: React.FC = () => {
       {/* 7. Testimonials */}
       <Section>
         <Container size="lg" className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">What partners are saying</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Real results from real businesses</h2>
         </Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left max-w-6xl mx-auto">
             <div className="bg-white dark:bg-gray-900/50 p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition-shadow backdrop-blur-sm">
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
-                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"Axrategy didn't just build a website. They built a lead machine. Our admin time dropped by 50% in the first month."</p>
+                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"We went from drowning in voicemails to fully booked 6 weeks out. Admin time? Down 50%. New patient inquiries? Up 35%."</p>
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
                       <img src="https://picsum.photos/seed/face9/100/100" alt="User" className="w-full h-full object-cover" />
@@ -360,7 +360,7 @@ export const Home: React.FC = () => {
             </div>
             <div className="bg-white dark:bg-gray-900/50 p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition-shadow backdrop-blur-sm">
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
-                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"The AI assistant qualifies leads better than our previous sales rep did. It's working 24/7 without complaint."</p>
+                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"Last month, the AI qualified 47 leads and booked 12 consultations. That's $180k in potential case value we would have missed."</p>
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
                       <img src="https://picsum.photos/seed/face10/100/100" alt="User" className="w-full h-full object-cover" />
@@ -380,10 +380,10 @@ export const Home: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center tracking-tight">Frequently Asked Questions</h2>
           <div className="space-y-6">
             {[
-              { q: "Do you work with businesses outside of North America?", a: "We primarily focus on Canada and the US to ensure time-zone alignment and legal compliance, but we do take select international projects." },
-              { q: "How long does a typical project take?", a: "A standard website + automation build takes 4-6 weeks. Custom apps can take 8-12 weeks." },
-              { q: "Do I need to pay for software subscriptions?", a: "Yes. You own all your accounts. We'll recommend the best stack (usually ~$50-150/mo total for hosting, AI, and CRM)." },
-              { q: "Can I update the website myself?", a: "Absolutely. We build on user-friendly CMS platforms and provide training videos upon handover." }
+              { q: "How fast can you deliver?", a: "Most projects launch in 4-6 weeks. We've shipped in as fast as 2 weeks when scope is tight. No endless meetings. No waiting on feedback loops. We move fast." },
+              { q: "Do I own everything when it's done?", a: "100%. You own all the code, accounts, and assets. We hand over everything with training videos. Nothing held hostage." },
+              { q: "What's the ongoing cost after launch?", a: "Typically $50-150/month total for hosting, AI credits, and CRM. You own all accounts directly. No markup." },
+              { q: "Do you work with businesses outside of North America?", a: "We focus on Canada and the US for time-zone alignment, but take select international projects if the fit is right." }
             ].map((faq, i) => (
               <details key={i} className="group bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 open:shadow-lg transition-all duration-300">
                 <summary className="flex items-center justify-between p-8 font-semibold text-lg cursor-pointer list-none text-gray-900 dark:text-white select-none">
@@ -407,8 +407,8 @@ export const Home: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/20 dark:bg-emerald-900/20 blur-[120px] rounded-full z-0 pointer-events-none"></div>
           
           <div className="relative z-10 max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">Ready to turn your business into a system?</h2>
-            <p className="text-xl md:text-2xl text-gray-400 mb-12 font-light">Stop trading time for money. Let's build the infrastructure that scales your revenue.</p>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">Every hour you wait, someone else closes your prospect.</h2>
+            <p className="text-xl md:text-2xl text-gray-400 mb-12 font-light">Stop losing leads to competitors who respond faster. Let's build your unfair advantage this week.</p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <NavLink to="/contact">
                 <Button className="bg-white text-black hover:bg-gray-100 dark:hover:bg-gray-200 hover:shadow-white/20 w-full sm:w-auto px-10 py-5 text-lg border-0">Book a Strategy Call</Button>
