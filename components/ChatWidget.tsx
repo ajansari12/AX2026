@@ -1,7 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Loader2, RotateCcw, Calendar, ArrowRight } from 'lucide-react';
+import { MessageCircle, X, Send, RotateCcw, Calendar, ArrowRight, User, Bot } from 'lucide-react';
 import { useChat } from '../hooks/useChat';
+import { ChatMessage } from './ChatMessage';
+
+const TypingIndicator: React.FC = () => (
+  <div className="flex items-center gap-1">
+    {[0, 1, 2].map((i) => (
+      <motion.span
+        key={i}
+        className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
+        animate={{ y: [0, -4, 0] }}
+        transition={{
+          duration: 0.6,
+          repeat: Infinity,
+          delay: i * 0.15,
+          ease: 'easeInOut',
+        }}
+      />
+    ))}
+  </div>
+);
 
 const QUICK_ACTIONS = [
   { label: 'What services do you offer?', icon: ArrowRight },
@@ -89,10 +108,15 @@ export const ChatWidget: React.FC = () => {
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 ? (
                 <div className="space-y-4">
-                  <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-md p-4 max-w-[85%]">
-                    <p className="text-sm text-gray-700 dark:text-gray-300">
-                      Hi! I'm the Axrategy AI assistant. I can help you learn about our services, pricing, and process. What would you like to know?
-                    </p>
+                  <div className="flex gap-2">
+                    <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 flex items-center justify-center mt-1">
+                      <Bot className="w-4 h-4 text-white dark:text-gray-900" />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-md p-4 max-w-[80%]">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        Hi! I'm the Axrategy AI assistant. I can help you learn about our services, pricing, and process. What would you like to know?
+                      </p>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     {QUICK_ACTIONS.map((action, index) => (
@@ -113,17 +137,28 @@ export const ChatWidget: React.FC = () => {
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                    transition={{ delay: index * 0.05 }}
+                    className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
+                    {message.role === 'assistant' && (
+                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 flex items-center justify-center mt-1">
+                        <Bot className="w-4 h-4 text-white dark:text-gray-900" />
+                      </div>
+                    )}
                     <div
-                      className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                         message.role === 'user'
                           ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-br-md'
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-bl-md'
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <ChatMessage content={message.content} isUser={message.role === 'user'} />
                     </div>
+                    {message.role === 'user' && (
+                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center mt-1">
+                        <User className="w-4 h-4 text-white" />
+                      </div>
+                    )}
                   </motion.div>
                 ))
               )}
@@ -132,13 +167,13 @@ export const ChatWidget: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex justify-start"
+                  className="flex gap-2 justify-start"
                 >
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 flex items-center justify-center mt-1">
+                    <Bot className="w-4 h-4 text-white dark:text-gray-900" />
+                  </div>
                   <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-bl-md px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin text-gray-500" />
-                      <span className="text-sm text-gray-500">Thinking...</span>
-                    </div>
+                    <TypingIndicator />
                   </div>
                 </motion.div>
               )}
