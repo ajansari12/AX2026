@@ -200,13 +200,13 @@ export const Footer: React.FC = () => {
               <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">
-              We build systems that sell while you sleep.
+              Simple tools that help small businesses grow.
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
-              Serving 50+ businesses since 2023
+              Helping 50+ businesses across North America
             </p>
             <div className="text-sm text-gray-400 dark:text-gray-600">
-              <p>Toronto, ON • Remote Worldwide</p>
+              <p>Toronto, Canada</p>
             </div>
           </div>
           

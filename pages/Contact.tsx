@@ -76,9 +76,9 @@ export const Contact: React.FC = () => {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
 
           <div className="relative z-10">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-8 tracking-tight">Every hour you wait, <br/><span className="text-gray-400">someone else closes.</span></h1>
+            <h1 className="text-5xl lg:text-6xl font-bold mb-8 tracking-tight">Let's figure out <br/><span className="text-gray-400">what you need.</span></h1>
             <p className="text-gray-300 text-lg mb-12 max-w-md leading-relaxed">
-              Tell us what's broken. We'll show you the exact system to fix it on a free 20-minute call. No pitch. Just answers.
+              Tell us what's taking up your time. We'll have a quick chat and see if we can help - no pressure, no sales pitch.
             </p>
 
             <div className="space-y-8">
@@ -106,9 +106,9 @@ export const Contact: React.FC = () => {
                    <Clock className="text-emerald-400" size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">Response Time</h4>
-                  <p className="text-gray-400">Within 4 business hours</p>
-                  <p className="text-gray-500 text-sm">If we can't help, we'll tell you who can</p>
+                  <h4 className="font-bold text-lg">We'll Get Back to You</h4>
+                  <p className="text-gray-400">Within a few hours</p>
+                  <p className="text-gray-500 text-sm">And if we're not the right fit, we'll say so</p>
                 </div>
               </div>
             </div>
@@ -119,7 +119,7 @@ export const Contact: React.FC = () => {
                 className="flex items-center gap-3 text-emerald-400 hover:text-emerald-300 transition-colors font-semibold"
               >
                 <Calendar size={20} />
-                <span>Skip the form - Book directly on our calendar</span>
+                <span>Or just pick a time to talk</span>
               </button>
             </div>
           </div>
@@ -141,7 +141,7 @@ export const Contact: React.FC = () => {
                 className="w-full max-w-lg"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Book a Strategy Call</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Pick a Time to Talk</h2>
                   <button
                     onClick={() => setShowCalendar(false)}
                     className="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -162,9 +162,9 @@ export const Contact: React.FC = () => {
                 <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Check size={40} strokeWidth={3} />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Request Received!</h2>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Got it!</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-                  Thanks for reaching out. We'll be in touch within 24 hours to schedule your call.
+                  Thanks for reaching out. We'll get back to you within a day to set up a time to talk.
                 </p>
                 <div className="space-y-4">
                   <button
@@ -266,7 +266,7 @@ export const Contact: React.FC = () => {
                  </div>
 
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'message' ? 'opacity-60' : 'opacity-100'}`}>
-                   <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">What's your biggest bottleneck right now?</label>
+                   <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">What's taking up most of your time?</label>
                    <textarea
                     id="message"
                     name="message"
@@ -276,7 +276,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setFocusedField('message')}
                     onBlur={() => setFocusedField(null)}
                     className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg resize-none"
-                    placeholder="e.g., We're losing leads because we can't respond fast enough..."
+                    placeholder="e.g., I'm spending too much time on follow-ups and paperwork..."
                    ></textarea>
                  </div>
 
@@ -285,7 +285,7 @@ export const Contact: React.FC = () => {
                       <span className="flex items-center gap-2">
                         <Loader2 className="animate-spin" size={20} /> Sending...
                       </span>
-                    ) : 'Book Strategy Call'}
+                    ) : 'Send Message'}
                  </Button>
               </motion.form>
             )}

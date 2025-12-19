@@ -66,23 +66,23 @@ export const Home: React.FC = () => {
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05] mb-8">
-              Your competitors respond in 5 minutes. <span className="text-gray-400 dark:text-gray-500">You respond tomorrow.</span>
+              You're too busy working to answer every call. <span className="text-gray-400 dark:text-gray-500">We fix that.</span>
             </h1>
 
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-lg leading-relaxed">
-              We build systems that book calls on your calendar while you sleep. No more missed leads. No more hiring headaches.
+              We set up simple systems that capture leads, follow up automatically, and book appointments for you. So you can focus on the work you actually love.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 mb-12">
               <NavLink to="/contact">
                 <Button size="lg" className="w-full sm:w-auto group text-base px-8 py-4">
-                  Book a Strategy Call 
+                  See If We Can Help
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </NavLink>
               <NavLink to="/work">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 py-4 bg-white/50 dark:bg-white/5 backdrop-blur-sm">
-                  See Results
+                  See Real Results
                 </Button>
               </NavLink>
             </div>
@@ -95,7 +95,7 @@ export const Home: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <p>Trusted by 50+ service businesses in healthcare, legal, and real estate</p>
+              <p>Helping 50+ small businesses across North America</p>
             </div>
           </motion.div>
 
@@ -149,19 +149,19 @@ export const Home: React.FC = () => {
             <FadeIn>
               <div className="p-6">
                 <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">0</p>
-                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Leads left on read</p>
+                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Missed calls or forgotten follow-ups</p>
               </div>
             </FadeIn>
             <FadeIn delay={0.1}>
               <div className="p-6">
                 <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">2x</p>
-                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">More qualified calls booked (avg. result)</p>
+                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">More appointments booked each month</p>
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
               <div className="p-6">
                 <p className="text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">15hr+</p>
-                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Freed up weekly (that's half an employee)</p>
+                <p className="text-lg text-gray-500 dark:text-gray-400 font-medium">Saved every week on busywork</p>
               </div>
             </FadeIn>
           </div>
@@ -178,30 +178,30 @@ export const Home: React.FC = () => {
       {/* 3. Three Core Pillars */}
       <Section id="what-we-build">
         <Container size="md" className="mb-20 md:text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Three systems. <br />One revenue engine.</h2>
-          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">Most agencies give you a pretty brochure. We give you infrastructure that captures leads, qualifies them, and puts appointments on your calendar while you focus on closing.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Three ways we help your business grow.</h2>
+          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">We build the tools that let you spend less time on admin and more time doing what you're great at.</p>
         </Container>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               icon: Layers,
-              title: "Storefronts That Sell",
-              desc: "Most visitors decide in 8 seconds. Our sites close them in 5. Fast, clean, and engineered to convert strangers into booked calls.",
+              title: "A Website That Books Clients",
+              desc: "Your website should do more than look nice. We build sites that turn visitors into booked appointments, not just pageviews.",
               color: "text-blue-600 bg-blue-50 dark:bg-blue-500/10 dark:text-blue-400",
               link: "/services/websites-landing-pages"
             },
             {
               icon: Zap,
-              title: "24/7 Lead Response",
-              desc: "Never lose a lead to voicemail again. AI agents answer instantly, qualify prospects, and book meetings for you around the clock.",
+              title: "Answer Every Lead Instantly",
+              desc: "When someone calls or fills out a form, they get a response in seconds. Even at 2am. Even when you're with a client.",
               color: "text-orange-600 bg-orange-50 dark:bg-orange-500/10 dark:text-orange-400",
               link: "/services/ai-assistants"
             },
             {
               icon: BarChart3,
-              title: "Zero Manual Entry",
-              desc: "Forms sync to your CRM. Follow-ups send automatically. Nothing falls through the cracks. Reclaim 15+ hours every week.",
+              title: "Stop the Copy-Paste Busywork",
+              desc: "New leads go straight to your CRM. Follow-ups send themselves. No more sticky notes or spreadsheets. Just one organized system.",
               color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 dark:text-emerald-400",
               link: "/services/automation-systems"
             }
@@ -227,14 +227,14 @@ export const Home: React.FC = () => {
       <Section light className="border-t border-gray-100 dark:border-gray-800">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight">Live in weeks, not months.</h2>
-            <p className="text-xl text-gray-500 dark:text-gray-400 mb-12 leading-relaxed">We skip the endless meetings and focus on shipping. You get a system that starts working before you lose momentum.</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight">Up and running in 4-6 weeks.</h2>
+            <p className="text-xl text-gray-500 dark:text-gray-400 mb-12 leading-relaxed">No endless meetings. No confusing jargon. We figure out what you need, build it, and hand it over.</p>
             <div className="space-y-10 mb-12">
               {[
-                { title: "1. Audit", desc: "We look at where you're losing money and time." },
-                { title: "2. Design", desc: "We craft a clean, high-trust visual identity." },
-                { title: "3. Build", desc: "We wire up your website, AI, and automations." },
-                { title: "4. Handover", desc: "You get the keys, training videos, and full ownership." }
+                { title: "1. We Learn Your Business", desc: "A quick call to understand what's eating up your time." },
+                { title: "2. We Map Out the Fix", desc: "You'll see exactly what we're building before we start." },
+                { title: "3. We Build It For You", desc: "Website, automations, AI - whatever you need." },
+                { title: "4. It's Yours Forever", desc: "Full ownership, training, and no monthly fees to us." }
               ].map((step, i) => (
                 <div key={i} className="flex gap-6 group">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold text-sm shadow-lg group-hover:scale-110 transition-transform">
@@ -249,7 +249,7 @@ export const Home: React.FC = () => {
             </div>
             
             <NavLink to="/contact">
-                <Button variant="outline" className="border-gray-300 dark:border-gray-700">Start your audit now</Button>
+                <Button variant="outline" className="border-gray-300 dark:border-gray-700">Let's Talk</Button>
             </NavLink>
           </div>
           <div className="relative">
@@ -264,11 +264,11 @@ export const Home: React.FC = () => {
       <Section>
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">See the results.</h2>
-            <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">Real businesses. Real revenue growth. No fluff.</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Businesses like yours.</h2>
+            <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">See how other small business owners solved the same problems you're facing.</p>
           </div>
           <NavLink to="/work" className="hidden md:flex items-center text-lg font-medium text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            View all case studies <ArrowRight size={20} className="ml-2" />
+            See all stories <ArrowRight size={20} className="ml-2" />
           </NavLink>
         </div>
         
@@ -295,8 +295,8 @@ export const Home: React.FC = () => {
       {/* 6. Pricing Preview */}
       <Section light className="bg-gray-50/80 dark:bg-gray-900/30">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Clear, flat pricing.</h2>
-          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">No hourly billing surprises. You know exactly what you're paying and what you're getting.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Simple, honest pricing.</h2>
+          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">One flat price. No surprises. You'll know the cost before we start.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {PRICING_TIERS.map((tier, idx) => (
@@ -342,32 +342,32 @@ export const Home: React.FC = () => {
       {/* 7. Testimonials */}
       <Section>
         <Container size="lg" className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Real results from real businesses</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">What business owners are saying</h2>
         </Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left max-w-6xl mx-auto">
             <div className="bg-white dark:bg-gray-900/50 p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition-shadow backdrop-blur-sm">
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
-                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"We went from drowning in voicemails to fully booked 6 weeks out. Admin time? Down 50%. New patient inquiries? Up 35%."</p>
+                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"I used to spend my evenings returning calls. Now I'm booked 6 weeks out and I actually have my weekends back."</p>
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
                       <img src="https://picsum.photos/seed/face9/100/100" alt="User" className="w-full h-full object-cover" />
                     </div>
                     <div>
                         <p className="font-bold text-gray-900 dark:text-white">Dr. Sarah Jenning</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Founder, Apex Dental</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Apex Dental Studio</p>
                     </div>
                 </div>
             </div>
             <div className="bg-white dark:bg-gray-900/50 p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition-shadow backdrop-blur-sm">
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
-                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"Last month, the AI qualified 47 leads and booked 12 consultations. That's $180k in potential case value we would have missed."</p>
+                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"We were losing clients to firms that called back faster. Now leads get a response in seconds and we've signed 12 new cases this month."</p>
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
                       <img src="https://picsum.photos/seed/face10/100/100" alt="User" className="w-full h-full object-cover" />
                     </div>
                     <div>
                         <p className="font-bold text-gray-900 dark:text-white">Mark Thompson</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Partner, Harrison Law</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Harrison & Co. Law</p>
                     </div>
                 </div>
             </div>
@@ -377,13 +377,13 @@ export const Home: React.FC = () => {
       {/* 8. FAQ */}
       <Section className="pt-0">
         <Container size="md">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center tracking-tight">Frequently Asked Questions</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center tracking-tight">Common Questions</h2>
           <div className="space-y-6">
             {[
-              { q: "How fast can you deliver?", a: "Most projects launch in 4-6 weeks. We've shipped in as fast as 2 weeks when scope is tight. No endless meetings. No waiting on feedback loops. We move fast." },
-              { q: "Do I own everything when it's done?", a: "100%. You own all the code, accounts, and assets. We hand over everything with training videos. Nothing held hostage." },
-              { q: "What's the ongoing cost after launch?", a: "Typically $50-150/month total for hosting, AI credits, and CRM. You own all accounts directly. No markup." },
-              { q: "Do you work with businesses outside of North America?", a: "We focus on Canada and the US for time-zone alignment, but take select international projects if the fit is right." }
+              { q: "How long until I see results?", a: "Most projects are live in 4-6 weeks. You'll start seeing the difference as soon as everything is set up - more organized leads, automatic follow-ups, and time back in your day." },
+              { q: "Do I own what you build?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to keep things running with us. We hand everything over with training videos." },
+              { q: "What will this cost me each month after?", a: "Just the basic tools - usually $50-150/month for things like hosting and your CRM. You pay those directly, no markup from us." },
+              { q: "I'm not very tech-savvy. Will I be able to use this?", a: "Absolutely. We set everything up and train you on how to use it. Most of it runs automatically anyway - that's the whole point." }
             ].map((faq, i) => (
               <details key={i} className="group bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 open:shadow-lg transition-all duration-300">
                 <summary className="flex items-center justify-between p-8 font-semibold text-lg cursor-pointer list-none text-gray-900 dark:text-white select-none">
@@ -405,16 +405,16 @@ export const Home: React.FC = () => {
           {/* Abstract glow */}
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-800 to-black dark:from-black dark:to-gray-900 z-0"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/20 dark:bg-emerald-900/20 blur-[120px] rounded-full z-0 pointer-events-none"></div>
-          
+
           <div className="relative z-10 max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">Every hour you wait, someone else closes your prospect.</h2>
-            <p className="text-xl md:text-2xl text-gray-400 mb-12 font-light">Stop losing leads to competitors who respond faster. Let's build your unfair advantage this week.</p>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">Ready to stop doing everything yourself?</h2>
+            <p className="text-xl md:text-2xl text-gray-400 mb-12 font-light">Let's talk about what's taking up your time and figure out if we can help. No pressure, no jargon.</p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <NavLink to="/contact">
-                <Button className="bg-white text-black hover:bg-gray-100 dark:hover:bg-gray-200 hover:shadow-white/20 w-full sm:w-auto px-10 py-5 text-lg border-0">Book a Strategy Call</Button>
+                <Button className="bg-white text-black hover:bg-gray-100 dark:hover:bg-gray-200 hover:shadow-white/20 w-full sm:w-auto px-10 py-5 text-lg border-0">Let's Talk</Button>
               </NavLink>
               <NavLink to="/contact" className="text-gray-400 hover:text-white transition-colors text-base font-medium border-b border-transparent hover:border-white pb-0.5">
-                Just get a quote &rarr;
+                Or just ask a question &rarr;
               </NavLink>
             </div>
           </div>

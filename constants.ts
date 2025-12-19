@@ -7,142 +7,142 @@ export const SERVICES: Service[] = [
   {
     id: '1',
     slug: 'ai-assistants',
-    title: 'AI Sales Agents',
-    description: 'Never lose a lead to voicemail again. An AI employee that responds in seconds, qualifies prospects, and books calls directly on your calendar.',
-    outcome: 'Book 10-15 extra calls per month on autopilot.',
+    title: 'AI That Answers For You',
+    description: 'Stop missing calls when you\'re with a client. An AI assistant responds instantly, answers common questions, and books appointments right on your calendar.',
+    outcome: 'Wake up to booked appointments instead of missed calls.',
     icon: 'Bot',
     tags: ['Clinics', 'Agencies', 'Realtors'],
     features: [
-      'Trained on your actual business data',
-      'Responds in under 10 seconds, 24/7',
-      'Syncs with your calendar automatically',
-      'Matches your brand voice exactly',
-      'Handles objections and pricing questions',
-      'Escalates complex issues to humans'
+      'Learns how you talk and what you offer',
+      'Answers in seconds, day or night',
+      'Books directly into your calendar',
+      'Sounds like you, not a robot',
+      'Answers pricing and FAQ questions',
+      'Hands off tricky questions to you'
     ],
     timeline: '2 - 3 Weeks',
-    whoIsItFor: 'Service businesses losing deals because leads go to voicemail or wait hours for a reply.',
+    whoIsItFor: 'If you\'ve ever lost a client because you couldn\'t answer the phone in time.',
     faq: [
-      { q: 'Does it sound like a robot?', a: 'No. We train it on your past emails and calls so it sounds exactly like your best team member.' },
-      { q: 'Can it book appointments?', a: 'Yes. It checks your real-time availability and books directly into your calendar. No double-booking.' },
-      { q: 'What if it doesn\'t know the answer?', a: 'It takes the caller\'s info and flags it for your team. You see every interaction.' }
+      { q: 'Will it sound like a robot?', a: 'No. We train it on how you actually talk to customers, so it sounds natural and helpful.' },
+      { q: 'Can it actually book appointments?', a: 'Yes. It sees your real calendar and books slots that work for you. No double-booking.' },
+      { q: 'What if someone asks something it can\'t answer?', a: 'It takes their info and lets you know right away. You can always follow up personally.' }
     ]
   },
   {
     id: '2',
     slug: 'automation-systems',
-    title: 'Workflow Automation',
-    description: 'Stop copying data between apps. Every form, every lead, every invoice flows automatically to the right place.',
-    outcome: 'Save $1,200/month in labor costs. Zero dropped balls.',
+    title: 'Automatic Follow-Ups',
+    description: 'No more copying info from emails to spreadsheets. New leads get added to your system, follow-ups send automatically, and nothing slips through the cracks.',
+    outcome: 'Stop staying late to catch up on admin work.',
     icon: 'Workflow',
     tags: ['Service Biz', 'Contractors'],
     features: [
-      'Auto-sync leads to CRM instantly',
-      'Speed-to-lead SMS in under 60 seconds',
-      'Automated invoicing and reminders',
-      'Google Review request sequences',
-      'Team alerts in Slack/Teams',
-      'Zero manual data entry'
+      'New leads go straight to your CRM',
+      'Instant text when someone fills out your form',
+      'Invoices and payment reminders send themselves',
+      'Automatic "how was your service?" review requests',
+      'Get notified when something needs attention',
+      'No more manual data entry'
     ],
     timeline: '3 - 5 Weeks',
-    whoIsItFor: 'Teams drowning in admin work or losing deals because they follow up too slowly.',
+    whoIsItFor: 'If you\'re spending nights and weekends catching up on paperwork.',
     faq: [
-      { q: 'Do I need new software?', a: 'Usually just Zapier or Make ($20-50/mo). We optimize for the cheapest stack that works.' },
-      { q: 'Is it secure?', a: 'Yes. Enterprise-grade encryption. We never store your customer data.' },
-      { q: 'Can you automate paper forms?', a: 'Yes. We digitize intake forms that auto-fill your database. No more data entry.' }
+      { q: 'Do I need to buy new software?', a: 'Usually just a simple tool like Zapier ($20-50/month). We find the cheapest setup that works.' },
+      { q: 'Is my customer data safe?', a: 'Absolutely. Everything is encrypted and we never store your customer info.' },
+      { q: 'What about paper forms I already use?', a: 'We can turn them digital. Info goes right into your system without typing.' }
     ]
   },
   {
     id: '3',
     slug: 'websites-landing-pages',
-    title: 'High-Converting Websites',
-    description: 'Your website should book calls, not just look nice. We build sites that turn visitors into revenue.',
-    outcome: 'Turn 3% of visitors into leads. Industry average is 1.5%.',
+    title: 'A Website That Books Clients',
+    description: 'Your website should bring in business, not just look nice. We build sites that make it easy for visitors to understand what you do and book a call.',
+    outcome: 'Turn more website visitors into actual paying clients.',
     icon: 'Layout',
     tags: ['Local Biz', 'Consultants'],
     features: [
-      'Conversion copy that sells (not filler)',
-      'Mobile-perfect responsive design',
-      'SEO foundation built in',
-      'Fast loading (90+ performance score)',
-      'Easy for you to edit yourself',
-      'Integrated booking and lead forms'
+      'Clear messaging that explains what you do',
+      'Looks great on phones and computers',
+      'Shows up in Google searches',
+      'Loads fast (no one waits for slow sites)',
+      'You can update it yourself',
+      'Built-in booking and contact forms'
     ],
     timeline: '4 - 6 Weeks',
-    whoIsItFor: 'Businesses with sites that look dated, load slowly, or simply don\'t generate leads.',
+    whoIsItFor: 'If your current website looks outdated or people visit but never reach out.',
     faq: [
-      { q: 'Do I own the website?', a: '100%. You own the code, domain, and all assets. No hostage fees. No monthly ransom.' },
-      { q: 'Do you write the text?', a: 'Yes. Our conversion copywriters write every word. You just approve it.' },
-      { q: 'What platform do you use?', a: 'Webflow or WordPress for easy editing. Custom code for complex needs.' }
+      { q: 'Will I own the website?', a: 'Yes, 100%. The code, the domain, everything. No monthly fees to us to keep it online.' },
+      { q: 'Do you write all the text?', a: 'Yes. We write everything based on what makes your customers say yes. You just approve it.' },
+      { q: 'Can I update it myself?', a: 'Absolutely. We use tools that are easy to edit, no coding needed.' }
     ]
   },
   {
     id: '4',
     slug: 'app-development',
-    title: 'Client Portals & Apps',
-    description: 'Stop managing clients via email chains. Give them a professional space to check status, sign docs, and pay invoices.',
-    outcome: 'Premium client experience. 20% less churn.',
+    title: 'A Place For Your Clients',
+    description: 'Give your clients one place to check progress, sign documents, and pay invoices. No more endless email threads or "just checking in" calls.',
+    outcome: 'Happier clients who stick around longer.',
     icon: 'Smartphone',
     tags: ['Law Firms', 'Coaching'],
     features: [
-      'Secure client login area',
-      'File sharing and e-signatures',
-      'Real-time project status tracking',
-      'Subscription billing integration',
-      'Admin dashboard for your team',
-      'Automated status notifications'
+      'Private login for each client',
+      'Share files and get signatures',
+      'Clients can see project status anytime',
+      'Easy online payments',
+      'Dashboard to manage everything',
+      'Automatic updates when things change'
     ],
     timeline: '8 - 12 Weeks',
-    whoIsItFor: 'High-ticket service providers tired of "just checking in" emails and messy file sharing.',
+    whoIsItFor: 'If you spend too much time answering "what\'s the status?" emails.',
     faq: [
-      { q: 'Is this a mobile app?', a: 'We build Progressive Web Apps (PWAs). Works on phones and desktops. No app store approval needed.' },
-      { q: 'How do you handle updates?', a: 'Maintenance package available for security patches and feature additions.' }
+      { q: 'Do my clients need to download an app?', a: 'No. It works right in their browser, on any device. No app store needed.' },
+      { q: 'What if I need changes later?', a: 'We can set you up with ongoing support for updates and improvements.' }
     ]
   },
   {
     id: '5',
     slug: 'crm-setup',
-    title: 'CRM Implementation',
-    description: 'Your sales team is forgetting to follow up. We set up a system that reminds them automatically and tracks every deal.',
-    outcome: 'Close 20% more deals from your existing pipeline.',
+    title: 'Stop Forgetting to Follow Up',
+    description: 'Get all your leads and clients in one place. The system reminds you when to follow up, so no opportunity slips through the cracks.',
+    outcome: 'Close more deals without hiring more people.',
     icon: 'Database',
     tags: ['Sales Teams', 'B2B'],
     features: [
-      'Pipeline stage design',
-      'Importing messy spreadsheet data',
-      'One-click email templates',
-      'Sales performance dashboards',
-      'Team training workshops',
-      'Automated task reminders'
+      'See every deal in one clear view',
+      'Move your messy spreadsheets over',
+      'Send emails with one click',
+      'See what\'s working and what\'s not',
+      'We train your team to use it',
+      'Automatic reminders so you don\'t forget'
     ],
     timeline: '2 - 4 Weeks',
-    whoIsItFor: 'Sales teams using spreadsheets, sticky notes, or a CRM that nobody actually opens.',
+    whoIsItFor: 'If you\'re tracking leads on sticky notes, spreadsheets, or in your head.',
     faq: [
-      { q: 'Which CRM do you recommend?', a: 'HubSpot for ease of use. Pipedrive for pure sales focus. We help you decide based on your workflow.' },
-      { q: 'Will my team actually use it?', a: 'Yes. Because we set it up to save them time, not just track them. Training included.' }
+      { q: 'Which CRM should I use?', a: 'Depends on your business. We help you pick the simplest one that does what you need.' },
+      { q: 'Will my team actually use it?', a: 'Yes. We set it up to save them time, not add more work. Training included.' }
     ]
   },
   {
     id: '6',
     slug: 'analytics-optimization',
-    title: 'Analytics & Tracking',
-    description: 'Stop guessing which ads work. Know exactly which channel drives revenue and which is burning cash.',
-    outcome: 'Double down on what works. Cut what doesn\'t.',
+    title: 'See What\'s Actually Working',
+    description: 'Stop guessing which marketing brings in customers. See exactly where your leads come from and which ads are worth the money.',
+    outcome: 'Spend more on what works. Stop wasting money on what doesn\'t.',
     icon: 'BarChart',
     tags: ['E-commerce', 'SaaS'],
     features: [
-      'Google Analytics 4 configuration',
-      'Conversion event tracking',
-      'ROI dashboards (Looker Studio)',
-      'User behavior heatmaps',
-      'A/B testing setup',
-      'Attribution modeling'
+      'Set up Google Analytics properly',
+      'Track when people take action',
+      'Simple dashboard showing what matters',
+      'See where visitors get stuck',
+      'Test different approaches',
+      'Know which marketing actually pays off'
     ],
     timeline: '1 - 2 Weeks',
-    whoIsItFor: 'Businesses spending on ads with no idea which campaigns actually make money.',
+    whoIsItFor: 'If you\'re spending on ads but have no idea which ones actually bring in business.',
     faq: [
-      { q: 'Does this help with SEO?', a: 'Indirectly. Understanding user behavior helps us double down on content that resonates.' },
-      { q: 'Is this a monthly fee?', a: 'One-time setup, or monthly retainer if you want us actively optimizing your numbers.' }
+      { q: 'Will this help me get found on Google?', a: 'It helps you understand what content people like, so you can do more of that.' },
+      { q: 'Is this a one-time thing or ongoing?', a: 'One-time setup. Or we can manage it monthly if you want us to keep improving things.' }
     ]
   }
 ];
@@ -153,15 +153,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'dental-clinic-automation',
     client: 'Apex Dental Studio',
     industry: 'Healthcare',
-    title: 'How Apex Dental Recovered $32K/Month in Lost Revenue',
-    summary: '4 hours of daily confirmation calls. 15% weekly no-show rate. $8,000/week walking out the door. We fixed it in 3 weeks.',
-    problem: 'Apex Dental was bleeding $32k monthly to last-minute cancellations. Their front desk team spent 4 hours every single day manually calling patients to confirm appointments, often leaving voicemails that were ignored. When patients did cancel, there was no system to fill the slot.',
-    solution: 'We built a custom automation system using Twilio and their practice management software. Patients now receive intelligent SMS reminders 72, 24, and 2 hours before appointments, with a one-tap confirmation link. Cancellations trigger an automatic waitlist notification that fills 60% of open slots within the hour.',
-    outcome: '30% Reduction in No-Shows',
+    title: 'How a Dental Clinic Stopped Losing $32K/Month to No-Shows',
+    summary: 'The front desk spent 4 hours a day calling patients to confirm appointments. Most went to voicemail. We set up automatic reminders instead.',
+    problem: 'Apex Dental was losing money to last-minute cancellations. Their front desk spent 4 hours every day manually calling patients to confirm appointments - most calls went to voicemail. When someone did cancel, those appointment slots stayed empty.',
+    solution: 'We set up automatic text reminders that go out before appointments. Patients tap to confirm. If someone cancels, the system automatically texts people on the waitlist to fill the spot. The front desk now spends their time on patients, not phone calls.',
+    outcome: '30% fewer no-shows',
     outcomeDetails: [
-      '15+ hours of weekly admin time saved',
-      '98% patient intake form completion before arrival',
-      'Waitlist automation fills 60% of cancellations instantly'
+      '15+ hours saved on phone calls every week',
+      'Patients fill out paperwork before they arrive',
+      'Empty slots get filled automatically'
     ],
     image: 'https://picsum.photos/seed/dental/1200/800',
     tags: ['Automation', 'Website'],
@@ -172,15 +172,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'legal-firm-lead-gen',
     client: 'Harrison & Co. Law',
     industry: 'Legal',
-    title: 'From 4-Hour Response Time to 10 Seconds: $180K in New Cases',
-    summary: 'High-value personal injury leads were going to voicemail while attorneys sat in court. We deployed an AI that never sleeps.',
-    problem: 'Harrison & Co. estimated they were losing $50k/month in potential case fees because leads went cold. Attorneys were in depositions and court, unable to answer phones. By the time they called back, prospects had already hired a competitor who picked up faster.',
-    solution: 'We trained a custom AI agent on the firm\'s intake criteria and deployed it on their website and phone line. The agent qualifies potential clients in real-time, asks the right questions, and books consultations directly on the senior partner\'s calendar. Complex cases get flagged for human follow-up within 15 minutes.',
-    outcome: '2x Qualified Consultations',
+    title: 'How a Law Firm Stopped Losing Clients to Faster Competitors',
+    summary: 'Lawyers were in court when potential clients called. By the time they called back, those clients had hired someone else.',
+    problem: 'Harrison & Co. was losing potential clients because they couldn\'t answer the phone fast enough. Lawyers were in court or meetings. By the time they returned calls hours later, people had already hired another firm that picked up.',
+    solution: 'We set up an AI assistant that answers calls and website inquiries instantly. It asks the right questions, figures out if it\'s a good case, and books consultations directly on the calendar. Lawyers only talk to qualified potential clients.',
+    outcome: 'Twice as many consultations',
     outcomeDetails: [
-      'Response time: 4 hours to 10 seconds',
-      'Zero spam calls reaching the attorneys',
-      '$180k in new case value attributed to AI in Month 1'
+      'Response time went from hours to seconds',
+      'No more spam calls interrupting work',
+      '12 new cases in the first month'
     ],
     image: 'https://picsum.photos/seed/law/1200/800',
     tags: ['AI Assistant', 'CRM'],
@@ -191,15 +191,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'construction-crm',
     client: 'Urban Build Group',
     industry: 'Construction',
-    title: 'Zero Change Order Disputes: How a Client Portal Saved 12hr/Week',
-    summary: 'Managing 12 custom home builds via text messages was chaos. Disputes over "he said, she said" were costing thousands.',
-    problem: 'Urban Build was managing 12 active custom home builds via text messages and spreadsheets. Change orders were getting lost in message threads, leading to expensive disputes. Clients felt out of the loop and kept calling for updates. The owner spent 12+ hours weekly on client communication alone.',
-    solution: 'We developed a Progressive Web App (PWA) Client Portal. Site supervisors upload daily photos and progress notes from their phones in 2 minutes. Clients log in to view real-time progress, approve change orders with a digital signature, and pay invoices. Everything is timestamped and documented.',
-    outcome: '40% Higher Client Satisfaction',
+    title: 'How a Builder Stopped the "He Said, She Said" Arguments',
+    summary: 'Managing 12 home builds through text messages was chaos. Clients kept calling asking for updates. Change orders got lost.',
+    problem: 'Urban Build was managing 12 custom home builds through text messages and spreadsheets. Change orders got lost in long text threads, leading to expensive arguments. Clients called constantly asking "what\'s the status?" The owner spent 12+ hours a week just on communication.',
+    solution: 'We built a simple client portal where clients log in to see photos and updates. They can approve changes and pay invoices online. Everything is documented. No more "I never agreed to that" disputes.',
+    outcome: 'Happier clients, fewer headaches',
     outcomeDetails: [
-      'Change order disputes: near zero',
-      '12 hours of owner admin time saved per week',
-      'Invoice payment: 2 days avg (down from 14)'
+      'Almost zero disputes over change orders',
+      '12 hours saved every week',
+      'Invoices get paid in 2 days instead of 2 weeks'
     ],
     image: 'https://picsum.photos/seed/construct/1200/800',
     tags: ['App', 'Automation'],
@@ -210,15 +210,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'consultant-authority-site',
     client: 'Elena Ross Consulting',
     industry: 'Consulting',
-    title: 'How a Website Redesign Tripled Her Retainer Fees',
-    summary: 'Her DIY site screamed "cheap." Prospects haggled on price despite her 15 years of expertise. We fixed the perception problem.',
-    problem: 'Elena is a top-tier HR consultant with 15 years of experience. But her DIY website looked like a beginner\'s portfolio. She was attracting $3k clients who haggled and took forever to close, when she should have been commanding $10k+ retainers.',
-    solution: 'We executed a complete "Authority Overhaul." Premium editorial-style design. Methodology-focused positioning. Strategic case studies. We also built an "HR Audit" lead magnet funnel that pre-sells her expertise before prospects even get on a call.',
-    outcome: '3x Increase in Deal Size',
+    title: 'How a Consultant Tripled Her Prices With a New Website',
+    summary: 'Her homemade website made her look cheap. Clients haggled on price even though she had 15 years of experience.',
+    problem: 'Elena is an experienced HR consultant, but her DIY website made her look like a beginner. She kept attracting clients who wanted to negotiate down her prices, even though she knew she was worth more.',
+    solution: 'We built a professional website that shows off her expertise. Real case studies. Clear explanations of her process. A free resource that proves her knowledge before anyone even gets on a call with her.',
+    outcome: '3x higher project fees',
     outcomeDetails: [
-      'Average retainer: $3k to $9k',
-      'Email list: +400 subscribers in 2 months',
-      'Calendar: booked 6 weeks out'
+      'Average project went from $3k to $9k',
+      '400 new email subscribers in 2 months',
+      'Calendar booked 6 weeks out'
     ],
     image: 'https://picsum.photos/seed/consulting/1200/800',
     tags: ['Website', 'Automation'],
@@ -229,15 +229,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'realtor-speed-to-lead',
     client: 'Prestige Properties',
     industry: 'Real Estate',
-    title: '$2M Pipeline in 90 Days: The Speed-to-Lead System',
-    summary: 'Spending thousands on Zillow leads with under 1% conversion. The problem was not the leads. It was the follow-up.',
-    problem: 'Prestige Properties was spending $8k/month on Zillow and Facebook leads, but conversion sat below 1%. Agents were too busy showing homes to call leads within the critical 5-minute window. By the time they followed up, prospects had already talked to 3 other agents.',
-    solution: 'We implemented a "Speed-to-Lead" automation system. New leads instantly receive a personalized SMS and email within 60 seconds. If they don\'t reply, a 12-month nurture sequence kicks in automatically with market updates and check-ins. The AI qualifies hot leads and books showings directly.',
-    outcome: '$2M Pipeline Added in 90 Days',
+    title: 'How a Real Estate Team Stopped Wasting Money on Leads',
+    summary: 'They spent $8k/month on leads but hardly anyone became a client. The leads were fine - the follow-up was the problem.',
+    problem: 'Prestige Properties was spending $8k/month on leads from Zillow and Facebook, but less than 1% became clients. Agents were too busy showing houses to call leads right away. By the time they followed up, those people had already talked to 3 other agents.',
+    solution: 'We set up automatic responses. New leads get a text and email within 60 seconds. If they don\'t reply, they get helpful follow-ups over the next year. The AI figures out who\'s ready to buy and books showings.',
+    outcome: '$2M in new business in 90 days',
     outcomeDetails: [
-      'Lead response: under 60 seconds (automated)',
-      'Reactivated 15 "dead" leads from old database',
-      'Agent data entry: 0 minutes'
+      'Leads hear back in under 60 seconds',
+      '15 old leads came back and bought',
+      'Agents spend zero time on data entry'
     ],
     image: 'https://picsum.photos/seed/realty/1200/800',
     tags: ['Automation', 'AI Assistant', 'CRM'],
@@ -248,15 +248,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'ecommerce-cro',
     client: 'Lumina Home Goods',
     industry: 'Ecommerce',
-    title: '25% Revenue Lift: Fixing a 75% Cart Abandonment Problem',
-    summary: '50k Instagram followers. Great traffic. 75% cart abandonment. No system to bring buyers back. We changed that.',
-    problem: 'Lumina had a beautiful Instagram following and solid traffic, but a brutal 75% cart abandonment rate. Customers were adding products to cart and vanishing. There was zero system to bring them back, and no post-purchase follow-up to drive repeat sales.',
-    solution: 'We rebuilt the Shopify theme for speed and mobile checkout UX. Then we set up a comprehensive Klaviyo email system: Abandoned Cart (sent at 1hr, 24hr, 72hr), Browse Abandonment, and Post-Purchase upsell flows. Every abandoned cart now gets 3 chances to convert.',
-    outcome: '25% Lift in Total Revenue',
+    title: 'How a Shop Brought Back Customers Who Left Without Buying',
+    summary: 'People added items to cart but never checked out. There was no system to bring them back. We fixed that.',
+    problem: 'Lumina had great Instagram followers and website traffic, but most people who added items to cart never bought anything. Once they left the site, there was no way to remind them to come back.',
+    solution: 'We made checkout faster on phones and set up automatic emails. Now when someone leaves without buying, they get friendly reminders at 1 hour, 1 day, and 3 days. After someone buys, they get suggestions for related products.',
+    outcome: '25% more revenue',
     outcomeDetails: [
-      'Cart abandonment: 75% to 55%',
-      'Email now drives 30% of total revenue',
-      'Repeat customer rate: +15%'
+      'Way fewer abandoned carts',
+      'Email now brings in 30% of sales',
+      'More customers come back to buy again'
     ],
     image: 'https://picsum.photos/seed/decor/1200/800',
     tags: ['Website', 'Automation'],
@@ -268,81 +268,81 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'Starter',
     price: '$3,500+',
-    description: 'Your site looks like 2015. Leads bounce before they even read your name. Fix that.',
+    description: 'Perfect if your website looks outdated or doesn\'t bring in any leads.',
     features: [
-      '5-Page Conversion Website',
-      'Lead Capture Forms',
-      'Google My Business Optimization',
-      'Mobile-Perfect Responsive Design',
-      '30 Days Post-Launch Support'
+      'Professional 5-page website',
+      'Contact and booking forms',
+      'Google Business profile setup',
+      'Works great on phones',
+      '30 days of help after launch'
     ],
-    ctaText: 'Start Here',
+    ctaText: 'Get Started',
     isPopular: false
   },
   {
     name: 'Growth',
     price: '$7,500+',
-    description: 'For teams ready to stop chasing leads manually and start closing deals on autopilot.',
+    description: 'For when you\'re too busy to follow up with every lead yourself.',
     features: [
-      'Unlimited Page Web System',
-      'AI Sales Agent (24/7 Lead Response)',
-      'CRM Setup & Data Migration',
-      'Email/SMS Automation Workflows',
-      '90 Days Post-Launch Support'
+      'Full website (as many pages as you need)',
+      'AI that answers calls and messages 24/7',
+      'CRM setup with your existing contacts',
+      'Automatic follow-up emails and texts',
+      '90 days of help after launch'
     ],
-    ctaText: 'Get the System',
+    ctaText: 'This Is What I Need',
     isPopular: true
   },
   {
     name: 'Scale',
     price: 'Custom',
-    description: 'Custom portals, complex integrations, and AI operations for established businesses.',
+    description: 'For established businesses ready to run like a bigger company.',
     features: [
-      'Custom Web App / Client Portal',
-      'Advanced AI Operations Models',
-      'Enterprise API Integrations',
-      'Dedicated Success Manager',
-      'SLA & Priority Support'
+      'Custom client portal or app',
+      'AI trained specifically for your business',
+      'Connect all your existing tools',
+      'Dedicated person to help you',
+      'Priority support anytime'
     ],
-    ctaText: 'Contact Sales',
+    ctaText: 'Let\'s Talk',
     isPopular: false
   }
 ];
 
 export const PRICING_COMPARISON_DATA: PricingComparisonCategory[] = [
   {
-    category: 'Strategy & Design',
+    category: 'Design & Messaging',
     items: [
-      { label: 'Conversion Strategy Audit', tier1: true, tier2: true, tier3: true },
-      { label: 'Custom Brand Identity', tier1: 'Basic', tier2: 'Full Suite', tier3: 'Enterprise' },
-      { label: 'Copywriting', tier1: 'Home & About', tier2: 'All Pages', tier3: 'All Pages + Blog' },
-      { label: 'Asset Ownership', tier1: true, tier2: true, tier3: true },
+      { label: 'Review of what\'s not working', tier1: true, tier2: true, tier3: true },
+      { label: 'Logo and brand design', tier1: 'Basic', tier2: 'Complete', tier3: 'Premium' },
+      { label: 'Website text written for you', tier1: 'Key pages', tier2: 'All pages', tier3: 'All pages + blog' },
+      { label: 'You own everything', tier1: true, tier2: true, tier3: true },
     ]
   },
   {
-    category: 'Technical Build',
+    category: 'Website',
     items: [
-      { label: 'Number of Pages', tier1: 'Up to 5', tier2: 'Unlimited', tier3: 'Unlimited' },
-      { label: 'CMS Training', tier1: true, tier2: true, tier3: true },
-      { label: 'Advanced SEO Setup', tier1: false, tier2: true, tier3: true },
-      { label: 'Custom Web App / Portal', tier1: false, tier2: false, tier3: true },
+      { label: 'Number of pages', tier1: 'Up to 5', tier2: 'Unlimited', tier3: 'Unlimited' },
+      { label: 'Training to edit it yourself', tier1: true, tier2: true, tier3: true },
+      { label: 'Google search optimization', tier1: false, tier2: true, tier3: true },
+      { label: 'Client login area', tier1: false, tier2: false, tier3: true },
     ]
   },
   {
-    category: 'AI & Automation',
+    category: 'Automation',
     items: [
-      { label: 'Lead Capture Sync', tier1: true, tier2: true, tier3: true },
-      { label: 'CRM Integration', tier1: false, tier2: true, tier3: true },
-      { label: 'AI Sales Assistant', tier1: false, tier2: true, tier3: 'Custom Trained' },
-      { label: 'SMS/Email Workflows', tier1: false, tier2: 'Up to 5', tier3: 'Unlimited' },
+      { label: 'Lead capture forms', tier1: true, tier2: true, tier3: true },
+      { label: 'CRM setup', tier1: false, tier2: true, tier3: true },
+      { label: 'AI that responds for you', tier1: false, tier2: true, tier3: 'Fully custom' },
+      { label: 'Automatic follow-up messages', tier1: false, tier2: 'Up to 5', tier3: 'Unlimited' },
     ]
   },
   {
-    category: 'Support & Growth',
+    category: 'Support',
     items: [
-      { label: 'Post-Launch Support', tier1: '30 Days', tier2: '90 Days', tier3: 'SLA' },
-      { label: 'Analytics Dashboard', tier1: 'Basic', tier2: 'ROI Tracking', tier3: 'Custom BI' },
-      { label: 'Dedicated Account Mgr', tier1: false, tier2: false, tier3: true },
+      { label: 'Help after launch', tier1: '30 Days', tier2: '90 Days', tier3: 'Ongoing' },
+      { label: 'See your results', tier1: 'Basic', tier2: 'Detailed', tier3: 'Custom' },
+      { label: 'Your own dedicated contact', tier1: false, tier2: false, tier3: true },
     ]
   }
 ];
@@ -350,36 +350,36 @@ export const PRICING_COMPARISON_DATA: PricingComparisonCategory[] = [
 export const ENGAGEMENT_PROCESS: ProcessStep[] = [
   {
     step: "01",
-    title: "Discovery & Audit",
-    description: "We dive deep into your current bottlenecks. We don't write a line of code until we know exactly where you're losing money.",
+    title: "We Learn Your Business",
+    description: "A quick call to understand what's eating up your time and where you're losing potential customers.",
     duration: "Week 1"
   },
   {
     step: "02",
-    title: "Strategy & Design",
-    description: "We map out the user journey and design high-fidelity mockups. You approve everything before we build.",
+    title: "We Show You the Plan",
+    description: "You'll see exactly what we're building before we start. No surprises. You approve everything.",
     duration: "Week 2-3"
   },
   {
     step: "03",
-    title: "Build & Automate",
-    description: "We develop your site, train your AI agents, and connect your CRM. This is the heavy lifting phase.",
+    title: "We Build Everything",
+    description: "We create your website, set up your automations, and get everything connected. You focus on your business.",
     duration: "Week 4-5"
   },
   {
     step: "04",
-    title: "Launch & Train",
-    description: "We go live. Then, we hand over the keys and train your team on how to use the new system effectively.",
+    title: "It's Yours",
+    description: "We launch, show you how everything works, and hand over the keys. It's 100% yours.",
     duration: "Week 6"
   }
 ];
 
 export const PRICING_FAQ = [
-  { q: "Why is there a '+' sign on the price?", a: "80% of projects hit the base price. Custom integrations or massive data migrations can add 10-20%. You'll know the exact number after a 20-minute scoping call. No surprises." },
-  { q: "Do you offer payment plans?", a: "Yes. 50% upfront, 50% at launch. For Scale projects, we can do milestone-based payments. We're flexible." },
-  { q: "Are there ongoing monthly fees?", a: "Not from us. You'll pay for hosting, CRM, and AI credits directly to those vendors (usually $50-150/mo total). No middleman markup." },
-  { q: "What if I just need a small tweak?", a: "Our minimum engagement is $3,500. We build complete systems, not patch jobs. If you need hourly help, we can recommend someone." },
-  { q: "Who owns the code?", a: "You. 100%. Once the final invoice is paid, everything transfers to you. Code, domains, assets, admin access. No hostage fees. No lock-in." }
+  { q: "Why does the price say '+' after it?", a: "Most projects hit the base price. Sometimes extra work like moving lots of old data adds a bit. You'll know the exact cost after a quick call - no surprises." },
+  { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
+  { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
+  { q: "What if I just need something small?", a: "Our smallest project is $3,500. We build complete solutions, not quick fixes. If you need smaller help, we can point you to someone good." },
+  { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." }
 ];
 
 // Content Templates

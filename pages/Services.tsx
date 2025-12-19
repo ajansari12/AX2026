@@ -61,8 +61,8 @@ export const Services: React.FC = () => {
              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.05]">{service.title}</h1>
              <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed mb-12 max-w-3xl">{service.description} {service.outcome}</p>
              <div className="flex gap-4">
-               <NavLink to={`/contact?service=${encodeURIComponent(service.title)}`}><Button size="lg">Book a Call</Button></NavLink>
-               <NavLink to="/work"><Button size="lg" variant="outline">See Examples</Button></NavLink>
+               <NavLink to={`/contact?service=${encodeURIComponent(service.title)}`}><Button size="lg">Let's Talk</Button></NavLink>
+               <NavLink to="/work"><Button size="lg" variant="outline">See Real Examples</Button></NavLink>
              </div>
           </Container>
         </Section>
@@ -79,7 +79,7 @@ export const Services: React.FC = () => {
                       <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl text-emerald-600 dark:text-emerald-400">
                         <Package size={28} />
                       </div>
-                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Deliverables</h3>
+                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">What You Get</h3>
                    </div>
                    <div className="bg-white dark:bg-gray-800/50 rounded-[2.5rem] p-10 border border-gray-100 dark:border-gray-700 shadow-sm">
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
@@ -99,7 +99,7 @@ export const Services: React.FC = () => {
                       <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-2xl text-blue-600 dark:text-blue-400">
                         <Users size={28} />
                       </div>
-                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Who it's for</h3>
+                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Is This Right For You?</h3>
                    </div>
                    <div className="bg-gray-50/50 dark:bg-gray-900 rounded-[2.5rem] p-10 border border-gray-100 dark:border-gray-800">
                       <p className="text-gray-600 dark:text-gray-400 text-xl mb-8 leading-relaxed max-w-2xl">
@@ -145,15 +145,15 @@ export const Services: React.FC = () => {
                  <div className="bg-black dark:bg-white text-white dark:text-black rounded-[2.5rem] p-10 sticky top-32 shadow-2xl">
                     <div className="flex items-center gap-3 mb-6 text-gray-400 dark:text-gray-500">
                        <Clock size={22} />
-                       <span className="text-xs font-bold uppercase tracking-widest">Typical Timeline</span>
+                       <span className="text-xs font-bold uppercase tracking-widest">How Long It Takes</span>
                     </div>
                     <div className="text-5xl font-bold mb-3 tracking-tight">{service.timeline || "4 - 6 Weeks"}</div>
-                    <p className="text-gray-400 dark:text-gray-600 text-base mb-10 font-medium">From kick-off to launch.</p>
-                    
+                    <p className="text-gray-400 dark:text-gray-600 text-base mb-10 font-medium">From start to finish.</p>
+
                     <div className="border-t border-gray-800 dark:border-gray-200 pt-8 mt-4">
-                      <h4 className="font-bold text-xl mb-6">Ready to start?</h4>
+                      <h4 className="font-bold text-xl mb-6">Sound like what you need?</h4>
                       <NavLink to={`/contact?service=${encodeURIComponent(service.title)}`} className="block w-full">
-                        <Button className="w-full bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 py-4 text-base font-bold">Book Strategy Call</Button>
+                        <Button className="w-full bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 py-4 text-base font-bold">Let's Talk</Button>
                       </NavLink>
                     </div>
                  </div>
@@ -181,9 +181,9 @@ export const Services: React.FC = () => {
 
       <Section className="text-center pt-32 md:pt-48">
         <Container size="md">
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight">Our Capabilities</h1>
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight">How We Can Help</h1>
             <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed">
-            We don't just sell hours. We sell outcomes. Select a goal below to see how we can help.
+            Pick what you're trying to fix. We'll show you which service makes the most sense.
             </p>
         </Container>
       </Section>
@@ -191,14 +191,14 @@ export const Services: React.FC = () => {
       {/* Goal Selector UI */}
       <Section className="py-4">
         <div className="bg-white dark:bg-gray-900 rounded-[3rem] border border-gray-200 dark:border-gray-800 p-8 md:p-12 shadow-sm max-w-5xl mx-auto">
-          <h3 className="text-xl font-bold text-center mb-8 text-gray-400 uppercase tracking-widest text-xs">I want to...</h3>
+          <h3 className="text-xl font-bold text-center mb-8 text-gray-400 uppercase tracking-widest text-xs">What I need help with...</h3>
           <div className="flex flex-wrap justify-center gap-4">
             {[
               { label: "Show All", val: null },
-              { label: "Get More Leads", val: "lead" },
-              { label: "Save Admin Time", val: "admin" },
-              { label: "Improve Brand", val: "conversion" },
-              { label: "Organize Clients", val: "crm" }
+              { label: "Getting More Clients", val: "lead" },
+              { label: "Saving Time on Admin", val: "admin" },
+              { label: "Looking More Professional", val: "conversion" },
+              { label: "Staying Organized", val: "crm" }
             ].map((opt) => (
               <button
                 key={opt.label}
@@ -245,13 +245,13 @@ export const Services: React.FC = () => {
                     
                     {service.whoIsItFor && (
                       <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Recommended For</p>
+                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Good Fit If...</p>
                         <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium">{service.whoIsItFor}</p>
                       </div>
                     )}
 
                     <div className="bg-emerald-50/50 dark:bg-emerald-900/10 p-4 rounded-2xl -mx-2">
-                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Outcome</p>
+                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">What You'll Get</p>
                       <p className="text-base text-gray-900 dark:text-white font-bold">{service.outcome}</p>
                     </div>
                     

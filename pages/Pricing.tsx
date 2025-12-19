@@ -20,11 +20,11 @@ export const Pricing: React.FC = () => {
       {/* 1. Hero & Tiers */}
       <Section className="pt-32 md:pt-48 pb-10 text-center px-4">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest mb-8 border border-emerald-100 dark:border-emerald-800">
-          Transparent Pricing
+          Simple Pricing
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight tracking-tight">Investment, not expense.</h1>
+        <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight tracking-tight">Know what you're paying upfront.</h1>
         <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-16 leading-relaxed">
-          Clear, flat project fees. Most clients make their investment back within 90 days through time saved and new leads captured.
+          One flat price per project. No hourly billing, no surprise invoices. You'll know the cost before we start.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto items-start text-left">
@@ -82,17 +82,17 @@ export const Pricing: React.FC = () => {
         <Container size="lg">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">What affects the price?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">What might change the price?</h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
-                Our base packages cover 80% of small business needs. However, complexity adds time, and time adds cost. Here are the main factors that might move you from "Starter" to "Growth" or "Scale".
+                Most projects fit the base price. But some things add extra work. We'll tell you upfront if any of these apply to you.
               </p>
               <div className="space-y-4">
                  {[
-                   "Number of unique page designs",
-                   "Complexity of automation logic (e.g. multi-step branching)",
-                   "Volume of data migration (CRM/CMS)",
-                   "Custom API integrations beyond Zapier",
-                   "Advanced AI training requirements"
+                   "More pages on your website",
+                   "Complicated automations with lots of steps",
+                   "Moving over lots of old contacts or data",
+                   "Connecting to tools we don't normally use",
+                   "AI that needs extra training for your industry"
                  ].map((item, i) => (
                    <div key={i} className="flex items-center gap-3">
                      <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 flex-shrink-0">
@@ -104,13 +104,13 @@ export const Pricing: React.FC = () => {
               </div>
             </div>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm">
-               <h3 className="font-bold text-xl mb-4 text-gray-900 dark:text-white">Optional Add-Ons</h3>
+               <h3 className="font-bold text-xl mb-4 text-gray-900 dark:text-white">Extra Services (Optional)</h3>
                <div className="space-y-4">
                  {[
-                   { name: "Content Package", price: "$1,200/mo", desc: "4 SEO blog posts + 12 social posts per month." },
-                   { name: "Brand Visuals Kit", price: "$2,500", desc: "Logo refresh, colors, typography, and social assets." },
-                   { name: "Priority Support", price: "$500/mo", desc: "24h response time and weekly strategy check-ins." },
-                   { name: "Deep Analytics", price: "$1,500", desc: "Custom Looker Studio dashboards tracking every dollar." }
+                   { name: "Monthly Content", price: "$1,200/mo", desc: "We write blog posts and social media content for you." },
+                   { name: "Brand Refresh", price: "$2,500", desc: "New logo, colors, and design that looks professional." },
+                   { name: "Priority Help", price: "$500/mo", desc: "We respond within 24 hours and check in weekly." },
+                   { name: "Results Dashboard", price: "$1,500", desc: "See exactly where your leads come from." }
                  ].map((addon, i) => (
                    <div key={i} className="flex justify-between items-start border-b border-gray-100 dark:border-gray-800 last:border-0 pb-4 last:pb-0">
                       <div>
@@ -129,7 +129,7 @@ export const Pricing: React.FC = () => {
       {/* 3. Comparison Table */}
       <Section>
         <Container size="lg">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">Detailed Comparison</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">What's included in each package</h2>
           <div className="overflow-x-auto">
             <div 
               className="min-w-[768px] bg-white dark:bg-gray-900 rounded-[2rem] border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden"
@@ -184,7 +184,7 @@ export const Pricing: React.FC = () => {
       {/* 4. Engagement Timeline */}
       <Section light className="bg-gray-50 dark:bg-gray-900/50">
          <Container size="lg">
-           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-16 text-center">How an engagement works</h2>
+           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-16 text-center">How we work together</h2>
            <div className="relative">
              {/* Line */}
              <div className="absolute top-0 bottom-0 left-8 md:left-1/2 w-0.5 bg-gray-200 dark:bg-gray-800 -translate-x-1/2"></div>
@@ -214,7 +214,7 @@ export const Pricing: React.FC = () => {
       {/* 5. FAQ */}
       <Section>
         <Container size="md">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">Pricing FAQ</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">Common Questions About Pricing</h2>
           <div className="space-y-6">
             {PRICING_FAQ.map((faq, i) => (
               <details key={i} className="group bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 open:shadow-lg transition-all duration-300">
@@ -238,9 +238,9 @@ export const Pricing: React.FC = () => {
              <ShieldCheck size={48} />
            </div>
            <div>
-             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Our "No-Hostage" Guarantee</h2>
+             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">You Own Everything. Period.</h2>
              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-               You own everything we build. The code, the accounts, the design files. We don't charge maintenance fees just to keep your site online, and we transfer full ownership upon completion. No golden handcuffs.
+               When we're done, you get the website, the code, all the accounts - everything. No monthly fees to us just to keep things running. No asking permission to make changes to your own stuff.
              </p>
            </div>
         </div>
@@ -249,9 +249,9 @@ export const Pricing: React.FC = () => {
       {/* 7. Final CTA */}
       <Section className="pb-32 pt-0">
         <div className="text-center">
-           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Ready to start?</h2>
+           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Ready to get started?</h2>
            <NavLink to="/contact">
-              <Button size="lg" className="text-xl px-12 py-5">Book a Call</Button>
+              <Button size="lg" className="text-xl px-12 py-5">Let's Talk</Button>
            </NavLink>
         </div>
       </Section>
