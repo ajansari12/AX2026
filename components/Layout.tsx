@@ -82,12 +82,7 @@ export const Header: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between relative z-50">
-        <NavLink to="/" aria-label="Axrategy Home" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-lg">
-          <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-3 transition-transform">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-5 h-5">
-              <path d="M12 2L2 22h20L12 2z" />
-            </svg>
-          </div>
+        <NavLink to="/" aria-label="Axrategy Home" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-lg">
           <span className="group-hover:opacity-80 transition-opacity font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
         </NavLink>
 
@@ -201,12 +196,7 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
-            <div className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2 mb-6">
-              <div className="w-6 h-6 bg-red-600 rounded flex items-center justify-center text-white">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-3 h-3">
-                  <path d="M12 2L2 22h20L12 2z" />
-                </svg>
-              </div>
+            <div className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
               <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
