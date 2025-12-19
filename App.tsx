@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ExitIntentModal } from './components/UI';
+import { ChatWidget } from './components/ChatWidget';
 
 // Pages
 import { Home } from './pages/Home';
@@ -53,6 +54,7 @@ const App: React.FC = () => {
         </Routes>
       </Layout>
       <ExitIntentModal />
+      <ChatWidget />
     </HashRouter>
   );
 };

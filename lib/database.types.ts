@@ -1,8 +1,9 @@
 export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted' | 'closed';
-export type LeadSource = 'contact_form' | 'exit_modal' | 'resource_download' | 'pricing_page';
+export type LeadSource = 'contact_form' | 'exit_modal' | 'resource_download' | 'pricing_page' | 'ai_chat';
 export type BlogPostStatus = 'draft' | 'published';
 export type BlogCategory = 'Strategy' | 'Automation' | 'AI' | 'Design' | 'Growth';
 export type BookingStatus = 'scheduled' | 'completed' | 'cancelled' | 'no_show';
+export type ChatRole = 'user' | 'assistant';
 
 export interface Database {
   public: {
@@ -225,6 +226,52 @@ export interface Database {
           status?: BookingStatus;
           notes?: string | null;
           lead_id?: string | null;
+          created_at?: string;
+        };
+      };
+      chat_conversations: {
+        Row: {
+          id: string;
+          visitor_id: string;
+          email: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          visitor_id: string;
+          email?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          visitor_id?: string;
+          email?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      chat_messages: {
+        Row: {
+          id: string;
+          conversation_id: string;
+          role: ChatRole;
+          content: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          conversation_id: string;
+          role: ChatRole;
+          content: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          conversation_id?: string;
+          role?: ChatRole;
+          content?: string;
           created_at?: string;
         };
       };
