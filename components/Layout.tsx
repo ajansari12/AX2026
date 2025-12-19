@@ -88,7 +88,7 @@ export const Header: React.FC = () => {
               <path d="M12 2L2 22h20L12 2z" />
             </svg>
           </div>
-          <span className="group-hover:opacity-80 transition-opacity">Axrategy</span>
+          <span className="group-hover:opacity-80 transition-opacity font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
         </NavLink>
 
         {/* Desktop Nav */}
@@ -207,7 +207,7 @@ export const Footer: React.FC = () => {
                   <path d="M12 2L2 22h20L12 2z" />
                 </svg>
               </div>
-              Axrategy
+              <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
               Building the operating systems for modern small businesses in Canada & the US.
@@ -249,7 +249,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-gray-100 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-400 dark:text-gray-500">© 2026 Axrategy Inc. All rights reserved.</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">© 2026 <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span> Inc. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" aria-label="LinkedIn" className="text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>
             <a href="#" aria-label="Twitter/X" className="text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors">Twitter/X</a>
