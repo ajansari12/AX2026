@@ -44,20 +44,39 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
 }
 
+const useIsDarkMode = () => {
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return document.documentElement.classList.contains('dark');
+  });
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  return isDark;
+};
+
 export const Button: React.FC<ButtonProps> = ({
   children,
   variant = 'primary',
   size = 'md',
   className = '',
+  style,
   ...props
 }) => {
+  const isDark = useIsDarkMode();
   const baseStyles = "inline-flex items-center justify-center rounded-full font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white";
 
   const variants = {
-    primary: "bg-black dark:bg-white !text-white dark:!text-black hover:bg-gray-800 dark:hover:bg-gray-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
-    secondary: "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 border border-transparent",
-    outline: "border border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-white/5 text-gray-900 dark:text-white",
-    ghost: "hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+    primary: "bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
+    secondary: "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-transparent",
+    outline: "border border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-white/5",
+    ghost: "hover:bg-gray-50 dark:hover:bg-white/5"
   };
 
   const sizes = {
@@ -66,9 +85,17 @@ export const Button: React.FC<ButtonProps> = ({
     lg: "px-9 py-4 text-base"
   };
 
+  const variantColors: Record<string, string> = {
+    primary: isDark ? '#000000' : '#ffffff',
+    secondary: isDark ? '#ffffff' : '#18181b',
+    outline: isDark ? '#ffffff' : '#18181b',
+    ghost: isDark ? '#9ca3af' : '#4b5563',
+  };
+
   return (
     <button
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      style={{ color: variantColors[variant], ...style }}
       {...props}
     >
       {children}
