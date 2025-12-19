@@ -1,55 +1,86 @@
-
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Section, Button } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { Mail, MapPin, Clock, Check, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Clock, Check, Loader2, AlertCircle, Calendar } from 'lucide-react';
 import { SERVICES } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLeads } from '../hooks/useLeads';
+import { CalEmbed } from '../components/CalEmbed';
 
 export const Contact: React.FC = () => {
   const { search } = useLocation();
-  const [selectedService, setSelectedService] = useState('General Inquiry');
-  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const { submitLead, isSubmitting } = useLeads();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: 'General Inquiry',
+    message: '',
+  });
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(search);
     const serviceParam = params.get('service');
     if (serviceParam) {
-      setSelectedService(decodeURIComponent(serviceParam));
+      setFormData(prev => ({ ...prev, service: decodeURIComponent(serviceParam) }));
     }
   }, [search]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('submitting');
-    // Simulate API call
-    setTimeout(() => {
+    setErrorMessage('');
+
+    const result = await submitLead({
+      name: formData.name,
+      email: formData.email,
+      service_interest: formData.service,
+      message: formData.message,
+      source: 'contact_form',
+    });
+
+    if (result.success) {
       setFormState('success');
-    }, 1500);
+      setFormData({ name: '', email: '', service: 'General Inquiry', message: '' });
+    } else {
+      setFormState('error');
+      setErrorMessage(result.error || 'Something went wrong. Please try again.');
+    }
+  };
+
+  const resetForm = () => {
+    setFormState('idle');
+    setErrorMessage('');
   };
 
   return (
     <div className="min-h-screen pt-20">
-      <SEO 
+      <SEO
         title="Contact Us - Book a Strategy Call"
         description="Schedule a free strategy session with Axrategy. Let's discuss how we can automate your business and grow your revenue."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-80px)]">
-        
-        {/* Left Info Panel */}
+
         <div className="bg-black text-white p-12 md:p-24 flex flex-col justify-between relative overflow-hidden">
-          {/* Subtle bg gradient */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-          
+
           <div className="relative z-10">
             <h1 className="text-5xl lg:text-6xl font-bold mb-8 tracking-tight">Stop losing <br/><span className="text-gray-400">leads today.</span></h1>
             <p className="text-gray-300 text-lg mb-12 max-w-md leading-relaxed">
               Tell us where your business hurts. We'll show you the exact system to fix it on a free 20-minute strategy call.
             </p>
-            
+
             <div className="space-y-8">
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-white/5 rounded-xl border border-white/10">
@@ -80,21 +111,51 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button
+                onClick={() => setShowCalendar(true)}
+                className="flex items-center gap-3 text-emerald-400 hover:text-emerald-300 transition-colors font-semibold"
+              >
+                <Calendar size={20} />
+                <span>Skip the form - Book directly on our calendar</span>
+              </button>
+            </div>
           </div>
-          
+
           <div className="mt-12 text-sm text-gray-600 relative z-10">
             © 2026 Axrategy Inc.
           </div>
         </div>
 
-        {/* Right Form Panel */}
         <div className="bg-white dark:bg-gray-900 p-8 md:p-24 flex items-center justify-center">
-          
+
           <AnimatePresence mode="wait">
-            {formState === 'success' ? (
-              <motion.div 
+            {showCalendar ? (
+              <motion.div
+                key="calendar"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="w-full max-w-lg"
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Book a Strategy Call</h2>
+                  <button
+                    onClick={() => setShowCalendar(false)}
+                    className="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  >
+                    Use form instead
+                  </button>
+                </div>
+                <CalEmbed />
+              </motion.div>
+            ) : formState === 'success' ? (
+              <motion.div
+                key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
                 className="text-center max-w-md"
               >
                 <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -102,53 +163,91 @@ export const Contact: React.FC = () => {
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Request Received!</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-                  Thanks for reaching out. We've sent a confirmation email to you. We'll be in touch within 24 hours to schedule your call.
+                  Thanks for reaching out. We'll be in touch within 24 hours to schedule your call.
                 </p>
-                <Button onClick={() => setFormState('idle')} variant="outline">Send another message</Button>
+                <div className="space-y-4">
+                  <button
+                    onClick={() => setShowCalendar(true)}
+                    className="w-full py-4 px-6 rounded-xl bg-black dark:bg-white text-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+                  >
+                    Book Now on Calendar
+                  </button>
+                  <Button onClick={resetForm} variant="outline" className="w-full">Send another message</Button>
+                </div>
               </motion.div>
             ) : (
-              <motion.form 
+              <motion.form
+                key="form"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="w-full max-w-md space-y-6" 
+                className="w-full max-w-md space-y-6"
                 onSubmit={handleSubmit}
               >
+                {formState === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-start gap-3"
+                  >
+                    <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+                    <div>
+                      <p className="text-red-700 dark:text-red-400 font-medium">{errorMessage}</p>
+                      <button
+                        type="button"
+                        onClick={resetForm}
+                        className="text-sm text-red-600 dark:text-red-500 hover:underline mt-1"
+                      >
+                        Try again
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'name' ? 'opacity-60' : 'opacity-100'}`}>
                    <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Name</label>
-                   <input 
+                   <input
                     id="name"
-                    type="text" 
+                    name="name"
+                    type="text"
                     required
+                    value={formData.name}
+                    onChange={handleInputChange}
                     onFocus={() => setFocusedField('name')}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg" 
-                    placeholder="Jane Doe" 
+                    className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg"
+                    placeholder="Jane Doe"
                    />
                  </div>
-                 
+
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'email' ? 'opacity-60' : 'opacity-100'}`}>
                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                   <input 
+                   <input
                     id="email"
-                    type="email" 
+                    name="email"
+                    type="email"
                     required
+                    value={formData.email}
+                    onChange={handleInputChange}
                     onFocus={() => setFocusedField('email')}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg" 
-                    placeholder="jane@company.com" 
+                    className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg"
+                    placeholder="jane@company.com"
                    />
                  </div>
-                 
+
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'service' ? 'opacity-60' : 'opacity-100'}`}>
                    <label htmlFor="service" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Interested In</label>
                    <div className="relative">
-                     <select 
+                     <select
                       id="service"
-                      value={selectedService}
+                      name="service"
+                      value={formData.service}
                       onFocus={() => setFocusedField('service')}
                       onBlur={() => setFocusedField(null)}
-                      onChange={(e) => setSelectedService(e.target.value)}
+                      onChange={handleInputChange}
                       className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg appearance-none cursor-pointer"
                      >
                        <option value="General Inquiry">General Inquiry</option>
@@ -164,21 +263,24 @@ export const Contact: React.FC = () => {
                      </div>
                    </div>
                  </div>
-                 
+
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'message' ? 'opacity-60' : 'opacity-100'}`}>
                    <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Message</label>
-                   <textarea 
+                   <textarea
                     id="message"
-                    rows={4} 
+                    name="message"
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleInputChange}
                     onFocus={() => setFocusedField('message')}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg resize-none" 
+                    className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg resize-none"
                     placeholder="Tell us about your goals..."
                    ></textarea>
                  </div>
-                 
-                 <Button className="w-full py-4 text-base" disabled={formState === 'submitting'}>
-                    {formState === 'submitting' ? (
+
+                 <Button className="w-full py-4 text-base" disabled={isSubmitting || formState === 'submitting'}>
+                    {isSubmitting || formState === 'submitting' ? (
                       <span className="flex items-center gap-2">
                         <Loader2 className="animate-spin" size={20} /> Sending...
                       </span>

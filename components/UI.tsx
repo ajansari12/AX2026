@@ -1,21 +1,20 @@
-
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Check, Loader2, ArrowRight } from 'lucide-react';
+import { X, Check, Loader2, ArrowRight, AlertCircle } from 'lucide-react';
+import { useTeardownRequest } from '../hooks/useTeardownRequest';
 
-// --- Section Wrapper ---
-export const Section: React.FC<{ 
-  children: React.ReactNode; 
-  className?: string; 
+export const Section: React.FC<{
+  children: React.ReactNode;
+  className?: string;
   id?: string;
   light?: boolean;
 }> = ({ children, className = '', id, light = false }) => {
   return (
-    <section 
-      id={id} 
+    <section
+      id={id}
       className={`py-24 md:py-32 px-6 transition-colors duration-300 ${
-        light 
-          ? 'bg-white dark:bg-gray-900/50' 
+        light
+          ? 'bg-white dark:bg-gray-900/50'
           : 'bg-transparent'
       } ${className}`}
     >
@@ -26,7 +25,6 @@ export const Section: React.FC<{
   );
 };
 
-// --- Container (Constraint) ---
 export const Container: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -41,21 +39,20 @@ export const Container: React.FC<{
   return <div className={`mx-auto ${sizes[size]} ${className}`}>{children}</div>;
 };
 
-// --- Button ---
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  className = '', 
-  ...props 
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  size = 'md',
+  className = '',
+  ...props
 }) => {
   const baseStyles = "inline-flex items-center justify-center rounded-full font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white";
-  
+
   const variants = {
     primary: "bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
     secondary: "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 border border-transparent",
@@ -70,8 +67,8 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <button 
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`} 
+    <button
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {children}
@@ -79,7 +76,6 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
-// --- FadeIn Animation ---
 export const FadeIn: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
@@ -91,12 +87,13 @@ export const FadeIn: React.FC<{ children: React.ReactNode; delay?: number }> = (
   </motion.div>
 );
 
-// --- Exit Intent Modal ---
 export const ExitIntentModal: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
-  
-  // Use sessionStorage to only show once per session
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({ websiteUrl: '', email: '' });
+  const { submitRequest, isSubmitting } = useTeardownRequest();
+
   const [hasDismissed, setHasDismissed] = useState(() => {
     if (typeof window === 'undefined') return false;
     return sessionStorage.getItem('axrategy_exit_dismissed') === 'true';
@@ -106,7 +103,6 @@ export const ExitIntentModal: React.FC = () => {
     if (hasDismissed) return;
 
     const handleMouseLeave = (e: MouseEvent) => {
-      // Trigger when mouse leaves the top of the viewport
       if (e.clientY <= 0) {
         setIsVisible(true);
       }
@@ -122,49 +118,69 @@ export const ExitIntentModal: React.FC = () => {
     sessionStorage.setItem('axrategy_exit_dismissed', 'true');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('submitting');
-    // Simulate API call
-    setTimeout(() => {
+    setErrorMessage('');
+
+    let url = formData.websiteUrl;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+
+    const result = await submitRequest({
+      email: formData.email,
+      website_url: url,
+    });
+
+    if (result.success) {
       setFormState('success');
-      // Auto close after success message view
+      setFormData({ websiteUrl: '', email: '' });
       setTimeout(close, 3000);
-    }, 1500);
+    } else {
+      setFormState('error');
+      setErrorMessage(result.error || 'Something went wrong. Please try again.');
+    }
   };
 
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-          onClick={close} // Close when clicking backdrop
+          onClick={close}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
         >
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-w-lg w-full p-8 relative overflow-hidden ring-1 ring-white/10"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking content
+            onClick={(e) => e.stopPropagation()}
           >
-            <button 
-              onClick={close} 
+            <button
+              onClick={close}
               aria-label="Close modal"
               className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black dark:hover:text-white transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
             >
               <X size={20} />
             </button>
-            
+
             <AnimatePresence mode="wait">
               {formState === 'success' ? (
-                <motion.div 
+                <motion.div
+                  key="success"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center text-center py-8"
@@ -178,8 +194,9 @@ export const ExitIntentModal: React.FC = () => {
                   <p className="text-gray-600 dark:text-gray-400">The teardown details are on their way.</p>
                 </motion.div>
               ) : (
-                <motion.div 
-                  initial={{ opacity: 0 }} 
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="space-y-6"
@@ -193,31 +210,48 @@ export const ExitIntentModal: React.FC = () => {
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
                     Not sure why visitors aren't booking? Enter your email and we'll send you a personalized video review of your homepage.
                   </p>
-                  
+
+                  {formState === 'error' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-2 text-sm"
+                    >
+                      <AlertCircle className="text-red-500 flex-shrink-0" size={16} />
+                      <p className="text-red-700 dark:text-red-400">{errorMessage}</p>
+                    </motion.div>
+                  )}
+
                   <form onSubmit={handleSubmit} className="flex flex-col gap-3 pt-2">
                     <div>
                       <label htmlFor="website-url" className="sr-only">Website URL</label>
-                      <input 
+                      <input
                         id="website-url"
-                        type="url" 
-                        placeholder="Your Website URL (e.g. mybusiness.com)" 
+                        name="websiteUrl"
+                        type="text"
+                        placeholder="Your Website URL (e.g. mybusiness.com)"
                         required
+                        value={formData.websiteUrl}
+                        onChange={handleInputChange}
                         className="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/20 transition-all bg-gray-50"
                       />
                     </div>
                     <div className="flex gap-3">
                       <div className="flex-1">
                         <label htmlFor="email-address" className="sr-only">Email Address</label>
-                        <input 
+                        <input
                           id="email-address"
-                          type="email" 
-                          placeholder="Your Email" 
+                          name="email"
+                          type="email"
+                          placeholder="Your Email"
                           required
+                          value={formData.email}
+                          onChange={handleInputChange}
                           className="w-full px-5 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/20 transition-all bg-gray-50"
                         />
                       </div>
-                      <Button disabled={formState === 'submitting'} className="whitespace-nowrap">
-                        {formState === 'submitting' ? <Loader2 className="animate-spin" /> : <><ArrowRight className="mr-2" size={18}/> Get It</>}
+                      <Button disabled={isSubmitting || formState === 'submitting'} className="whitespace-nowrap">
+                        {isSubmitting || formState === 'submitting' ? <Loader2 className="animate-spin" /> : <><ArrowRight className="mr-2" size={18}/> Get It</>}
                       </Button>
                     </div>
                   </form>

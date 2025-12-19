@@ -14,6 +14,7 @@ import { Insights } from './pages/Insights';
 import { Resources } from './pages/Resources';
 import { Terms, Privacy } from './pages/Legal';
 import { NotFound } from './pages/NotFound';
+import { Admin } from './pages/Admin';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ const App: React.FC = () => {
           
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
