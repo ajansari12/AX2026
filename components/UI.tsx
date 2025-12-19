@@ -73,7 +73,7 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = "inline-flex items-center justify-center rounded-full font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white";
 
   const variants = {
-    primary: "bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
+    primary: "bg-white dark:bg-black border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
     secondary: "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-transparent",
     outline: "border border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-white/5",
     ghost: "hover:bg-gray-50 dark:hover:bg-white/5"
@@ -86,7 +86,7 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variantColors: Record<string, string> = {
-    primary: isDark ? '#000000' : '#ffffff',
+    primary: isDark ? '#ffffff' : '#000000',
     secondary: isDark ? '#ffffff' : '#18181b',
     outline: isDark ? '#ffffff' : '#18181b',
     ghost: isDark ? '#9ca3af' : '#4b5563',
