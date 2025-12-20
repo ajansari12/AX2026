@@ -1,13 +1,16 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote } from 'lucide-react';
+import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { CASE_STUDIES, PRICING_TIERS } from '../constants';
 import { motion } from 'framer-motion';
+import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 
 export const Home: React.FC = () => {
+  const bookingModal = useBookingModal();
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -410,16 +413,22 @@ export const Home: React.FC = () => {
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">Ready to stop doing everything yourself?</h2>
             <p className="text-xl md:text-2xl text-gray-400 mb-12 font-light">Let's talk about what's taking up your time and figure out if we can help. No pressure, no jargon.</p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <NavLink to="/contact">
-                <Button className="bg-white text-black hover:bg-gray-100 dark:hover:bg-gray-200 hover:shadow-white/20 w-full sm:w-auto px-10 py-5 text-lg border-0">Let's Talk</Button>
-              </NavLink>
+              <button
+                onClick={bookingModal.open}
+                className="inline-flex items-center gap-2 bg-white text-black hover:bg-gray-100 px-10 py-5 text-lg font-bold rounded-2xl transition-all"
+              >
+                <Calendar size={20} />
+                Book a Call
+              </button>
               <NavLink to="/contact" className="text-gray-400 hover:text-white transition-colors text-base font-medium border-b border-transparent hover:border-white pb-0.5">
-                Or just ask a question &rarr;
+                Or send us a message &rarr;
               </NavLink>
             </div>
           </div>
         </div>
       </Section>
+
+      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );
 };

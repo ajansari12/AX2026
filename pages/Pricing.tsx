@@ -4,11 +4,13 @@ import { NavLink } from 'react-router-dom';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { PRICING_TIERS, PRICING_COMPARISON_DATA, ENGAGEMENT_PROCESS, PRICING_FAQ } from '../constants';
-import { Check, HelpCircle, ShieldCheck, ChevronDown, Minus, Info, X } from 'lucide-react';
+import { Check, HelpCircle, ShieldCheck, ChevronDown, Minus, Info, X, Calendar } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 
 export const Pricing: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'monthly' | 'one-time'>('one-time');
+  const bookingModal = useBookingModal();
 
   return (
     <>
@@ -249,12 +251,26 @@ export const Pricing: React.FC = () => {
       {/* 7. Final CTA */}
       <Section className="pb-32 pt-0">
         <div className="text-center">
-           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Ready to get started?</h2>
-           <NavLink to="/contact">
-              <Button size="lg" className="text-xl px-12 py-5">Let's Talk</Button>
-           </NavLink>
+           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Ready to get started?</h2>
+           <p className="text-lg text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">
+             Book a quick call to discuss your project. We'll give you an honest assessment of what you need.
+           </p>
+           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+             <button
+               onClick={bookingModal.open}
+               className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg"
+             >
+               <Calendar size={20} />
+               Book a Call
+             </button>
+             <NavLink to="/contact" className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors font-medium">
+               Or send us a message
+             </NavLink>
+           </div>
         </div>
       </Section>
+
+      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );
 };
