@@ -163,7 +163,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Patients fill out paperwork before they arrive',
       'Empty slots get filled automatically'
     ],
-    image: 'https://picsum.photos/seed/dental/1200/800',
+    image: '/apex_case.png',
     tags: ['Automation', 'Website'],
     stack: ['React', 'Make.com', 'Twilio', 'HubSpot']
   },
