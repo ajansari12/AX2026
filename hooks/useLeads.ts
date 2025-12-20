@@ -51,6 +51,27 @@ export function useLeads(): UseLeadsReturn {
         return { success: false, error: error.message };
       }
 
+      const emailEndpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
+      fetch(emailEndpoint, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'new_lead',
+          lead: {
+            name: data.name,
+            email: data.email,
+            service_interest: data.service_interest,
+            message: data.message,
+            source: data.source,
+          },
+        }),
+      }).catch((err) => {
+        console.error('Failed to trigger email notification:', err);
+      });
+
       return { success: true };
     } catch (err) {
       console.error('Unexpected error:', err);
