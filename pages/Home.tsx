@@ -257,7 +257,7 @@ export const Home: React.FC = () => {
           </div>
           <div className="relative">
              <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-[3rem] overflow-hidden shadow-inner ring-1 ring-black/5 dark:ring-white/10">
-                <img src="https://picsum.photos/seed/workprocess/1000/1000" alt="Process" className="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-normal dark:opacity-60 scale-105" />
+                <img src="/untitled_design_(3).png" alt="Process" className="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-normal dark:opacity-60 scale-105" />
              </div>
           </div>
         </div>
