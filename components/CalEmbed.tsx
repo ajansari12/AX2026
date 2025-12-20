@@ -1,11 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Calendar, ExternalLink, Loader2 } from 'lucide-react';
-
-declare global {
-  interface Window {
-    Cal?: (action: string, ...args: unknown[]) => void;
-  }
-}
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 interface CalEmbedProps {
   calLink?: string;
@@ -16,53 +10,24 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
   calLink = 'axrategy/15min',
   className = '',
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const initialized = useRef(false);
-
-  useEffect(() => {
-    if (initialized.current) return;
-
-    const loadCal = () => {
-      if (window.Cal && containerRef.current) {
-        window.Cal('inline', {
-          elementOrSelector: containerRef.current,
-          calLink: calLink,
-          config: {
-            layout: 'month_view',
-            theme: 'auto',
-          },
-        });
-        initialized.current = true;
-      }
-    };
-
-    const existingScript = document.querySelector('script[src="https://app.cal.com/embed/embed.js"]');
-
-    if (existingScript && window.Cal) {
-      loadCal();
-      return;
-    }
-
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://app.cal.com/embed/embed.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.Cal) {
-          window.Cal('init', { origin: 'https://app.cal.com' });
-          loadCal();
-        }
-      };
-      document.head.appendChild(script);
-    }
-  }, [calLink]);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <div className={`relative ${className}`}>
-      <div
-        ref={containerRef}
-        className="min-h-[600px] rounded-2xl overflow-hidden"
-        style={{ width: '100%' }}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900 rounded-2xl">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-2" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">Loading calendar...</p>
+          </div>
+        </div>
+      )}
+      <iframe
+        src={`https://cal.com/${calLink}?embed=true&theme=auto&layout=month_view`}
+        className="w-full min-h-[600px] rounded-2xl border-0"
+        onLoad={() => setIsLoading(false)}
+        allow="payment"
+        title="Schedule a meeting"
       />
       <p className="text-center text-xs text-gray-400 mt-4">
         Powered by{' '}
@@ -84,33 +49,14 @@ export const CalButton: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ calLink = 'axrategy/15min', children, className = '' }) => {
-  useEffect(() => {
-    const existingScript = document.querySelector('script[src="https://app.cal.com/embed/embed.js"]');
-
-    if (existingScript && window.Cal) {
-      return;
-    }
-
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://app.cal.com/embed/embed.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.Cal) {
-          window.Cal('init', { origin: 'https://app.cal.com' });
-        }
-      };
-      document.head.appendChild(script);
-    }
-  }, []);
-
   return (
-    <button
-      data-cal-link={calLink}
-      data-cal-config='{"layout":"month_view","theme":"auto"}'
+    <a
+      href={`https://cal.com/${calLink}`}
+      target="_blank"
+      rel="noopener noreferrer"
       className={className}
     >
       {children}
-    </button>
+    </a>
   );
 };
