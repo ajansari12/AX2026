@@ -5,7 +5,7 @@ import { CalendarPicker } from './CalendarPicker';
 import { TimeSlotGrid } from './TimeSlotGrid';
 import { BookingForm } from './BookingForm';
 import { BookingConfirmation } from './BookingConfirmation';
-import { Calendar, ExternalLink } from 'lucide-react';
+import { Calendar, ExternalLink, AlertCircle } from 'lucide-react';
 
 interface CustomCalendarProps {
   eventTypeId?: number;
@@ -78,6 +78,19 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.2 }}
             >
+              {error && step === 'date' && (
+                <div className="mb-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex items-start gap-3">
+                  <AlertCircle className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" size={20} />
+                  <div className="flex-1">
+                    <p className="text-amber-800 dark:text-amber-300 text-sm font-medium">
+                      Unable to load availability data
+                    </p>
+                    <p className="text-amber-700 dark:text-amber-400 text-sm mt-1">
+                      You can still select a date to check for available times, or book directly via Cal.com below.
+                    </p>
+                  </div>
+                </div>
+              )}
               <CalendarPicker
                 onDateSelect={selectDate}
                 hasAvailability={hasAvailability}

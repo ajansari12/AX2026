@@ -153,9 +153,7 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = ({
                   aspect-square rounded-xl text-sm font-medium transition-all relative
                   ${isPast
                     ? 'text-gray-300 dark:text-gray-700 cursor-not-allowed'
-                    : hasSlots
-                      ? 'text-gray-900 dark:text-white hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:ring-2 hover:ring-emerald-500 cursor-pointer'
-                      : 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                    : 'text-gray-900 dark:text-white hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:ring-2 hover:ring-emerald-500 cursor-pointer'
                   }
                   ${isTodayDate && !isPast ? 'ring-2 ring-gray-300 dark:ring-gray-600' : ''}
                 `}

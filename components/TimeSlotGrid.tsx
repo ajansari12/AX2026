@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ChevronLeft, Clock } from 'lucide-react';
+import { ChevronLeft, Clock, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface TimeSlotGridProps {
@@ -85,15 +85,26 @@ export const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({
         </div>
       ) : !hasSlots ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400 mb-6">
             No available times for this date.
           </p>
-          <button
-            onClick={onBack}
-            className="mt-4 text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
-          >
-            Choose another date
-          </button>
+          <div className="space-y-3">
+            <button
+              onClick={onBack}
+              className="block w-full py-3 px-6 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              Choose another date
+            </button>
+            <a
+              href="https://cal.com/axrategy/15min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 px-6 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            >
+              <span>Book directly on Cal.com</span>
+              <ExternalLink size={16} />
+            </a>
+          </div>
         </div>
       ) : (
         <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
