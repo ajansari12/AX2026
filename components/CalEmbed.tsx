@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Calendar, ExternalLink, Loader2 } from 'lucide-react';
+import Cal, { getCalApi } from '@calcom/embed-react';
+import { useEffect } from 'react';
 
 interface CalEmbedProps {
   calLink?: string;
@@ -10,105 +10,28 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
   calLink = 'axrategy/15min',
   className = '',
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const embedId = useRef(`cal-embed-${Math.random().toString(36).substr(2, 9)}`);
-
   useEffect(() => {
-    const initCalendar = () => {
-      if ((window as any).Cal && containerRef.current) {
-        try {
-          (window as any).Cal('inline', {
-            elementOrSelector: `#${embedId.current}`,
-            calLink: calLink,
-            config: {
-              layout: 'month_view',
-              theme: 'auto',
-            },
-          });
-          setIsLoading(false);
-        } catch (e) {
-          setError(true);
-          setIsLoading(false);
-        }
-      }
-    };
-
-    const script = document.createElement('script');
-    script.src = 'https://app.cal.com/embed/embed.js';
-    script.async = true;
-
-    script.onload = () => {
-      if ((window as any).Cal) {
-        (window as any).Cal('init', { origin: 'https://app.cal.com' });
-        setTimeout(initCalendar, 100);
-      }
-    };
-
-    script.onerror = () => {
-      setIsLoading(false);
-      setError(true);
-    };
-
-    const existingScript = document.querySelector('script[src="https://app.cal.com/embed/embed.js"]');
-    if (!existingScript) {
-      document.head.appendChild(script);
-    } else {
-      if ((window as any).Cal) {
-        (window as any).Cal('init', { origin: 'https://app.cal.com' });
-        setTimeout(initCalendar, 100);
-      } else {
-        existingScript.addEventListener('load', () => {
-          (window as any).Cal('init', { origin: 'https://app.cal.com' });
-          setTimeout(initCalendar, 100);
-        });
-      }
-    }
-
-    return () => {};
-  }, [calLink]);
-
-  if (error) {
-    return (
-      <div className={`bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 text-center ${className}`}>
-        <Calendar className="mx-auto mb-4 text-gray-400" size={48} />
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-          Calendar temporarily unavailable
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Please use the form or book directly on Cal.com
-        </p>
-        <a
-          href={`https://cal.com/${calLink}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
-        >
-          Open Calendar <ExternalLink size={16} />
-        </a>
-      </div>
-    );
-  }
+    (async function () {
+      const cal = await getCalApi({ namespace: '15min' });
+      cal('ui', {
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+        cssVarsPerTheme: {
+          light: { 'cal-brand': '#000000' },
+          dark: { 'cal-brand': '#ffffff' },
+        },
+      });
+    })();
+  }, []);
 
   return (
     <div className={`relative ${className}`}>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-2xl z-10">
-          <div className="text-center">
-            <Loader2 className="animate-spin mx-auto mb-3 text-gray-400" size={32} />
-            <p className="text-sm text-gray-500 dark:text-gray-400">Loading calendar...</p>
-          </div>
-        </div>
-      )}
-
-      <div
-        id={embedId.current}
-        ref={containerRef}
-        className="min-h-[500px] rounded-2xl overflow-hidden"
-        style={{ width: '100%' }}
+      <Cal
+        namespace="15min"
+        calLink={calLink}
+        style={{ width: '100%', height: '100%', overflow: 'scroll' }}
+        config={{ layout: 'month_view', theme: 'auto' }}
       />
-
       <p className="text-center text-xs text-gray-400 mt-4">
         Powered by{' '}
         <a
@@ -130,26 +53,22 @@ export const CalButton: React.FC<{
   className?: string;
 }> = ({ calLink = 'axrategy/15min', children, className = '' }) => {
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://app.cal.com/embed/embed.js';
-    script.async = true;
-
-    script.onload = () => {
-      if ((window as any).Cal) {
-        (window as any).Cal('init', { origin: 'https://app.cal.com' });
-      }
-    };
-
-    const existingScript = document.querySelector('script[src="https://app.cal.com/embed/embed.js"]');
-    if (!existingScript) {
-      document.head.appendChild(script);
-    } else if ((window as any).Cal) {
-      (window as any).Cal('init', { origin: 'https://app.cal.com' });
-    }
+    (async function () {
+      const cal = await getCalApi({ namespace: 'button' });
+      cal('ui', {
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+        cssVarsPerTheme: {
+          light: { 'cal-brand': '#000000' },
+          dark: { 'cal-brand': '#ffffff' },
+        },
+      });
+    })();
   }, []);
 
   return (
     <button
+      data-cal-namespace="button"
       data-cal-link={calLink}
       data-cal-config='{"layout":"month_view","theme":"auto"}'
       className={className}
