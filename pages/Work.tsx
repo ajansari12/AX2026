@@ -183,8 +183,8 @@ export const Work: React.FC = () => {
     : CASE_STUDIES.filter(s => s.tags.includes(filter));
 
   return (
-    <>
-      <SEO 
+    <div className="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
+      <SEO
         title="Case Studies & Results"
         description="See how we've helped small businesses save time and grow revenue through automation and modern web systems."
       />
@@ -280,6 +280,6 @@ export const Work: React.FC = () => {
           ))}
         </div>
       </Section>
-    </>
+    </div>
   );
 };
