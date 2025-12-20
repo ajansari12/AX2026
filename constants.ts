@@ -201,7 +201,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       '12 hours saved every week',
       'Invoices get paid in 2 days instead of 2 weeks'
     ],
-    image: 'https://picsum.photos/seed/construct/1200/800',
+    image: '/urban_build.png',
     tags: ['App', 'Automation'],
     stack: ['Next.js', 'Supabase', 'Stripe', 'Tailwind']
   },
