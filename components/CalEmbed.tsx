@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Calendar, ExternalLink, Loader2 } from 'lucide-react';
 
 interface CalEmbedProps {
@@ -7,21 +7,42 @@ interface CalEmbedProps {
 }
 
 export const CalEmbed: React.FC<CalEmbedProps> = ({
-  calLink = 'axrategy/strategy-call',
+  calLink = 'axrategy/15min',
   className = '',
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const embedId = useRef(`cal-embed-${Math.random().toString(36).substr(2, 9)}`);
 
   useEffect(() => {
+    const initCalendar = () => {
+      if ((window as any).Cal && containerRef.current) {
+        try {
+          (window as any).Cal('inline', {
+            elementOrSelector: `#${embedId.current}`,
+            calLink: calLink,
+            config: {
+              layout: 'month_view',
+              theme: 'auto',
+            },
+          });
+          setIsLoading(false);
+        } catch (e) {
+          setError(true);
+          setIsLoading(false);
+        }
+      }
+    };
+
     const script = document.createElement('script');
     script.src = 'https://app.cal.com/embed/embed.js';
     script.async = true;
 
     script.onload = () => {
-      setIsLoading(false);
       if ((window as any).Cal) {
         (window as any).Cal('init', { origin: 'https://app.cal.com' });
+        setTimeout(initCalendar, 100);
       }
     };
 
@@ -34,16 +55,19 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
     if (!existingScript) {
       document.head.appendChild(script);
     } else {
-      setIsLoading(false);
       if ((window as any).Cal) {
         (window as any).Cal('init', { origin: 'https://app.cal.com' });
+        setTimeout(initCalendar, 100);
+      } else {
+        existingScript.addEventListener('load', () => {
+          (window as any).Cal('init', { origin: 'https://app.cal.com' });
+          setTimeout(initCalendar, 100);
+        });
       }
     }
 
-    return () => {
-      // We don't remove the script on unmount to prevent re-loading issues
-    };
-  }, []);
+    return () => {};
+  }, [calLink]);
 
   if (error) {
     return (
@@ -70,7 +94,7 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
   return (
     <div className={`relative ${className}`}>
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-2xl">
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-2xl z-10">
           <div className="text-center">
             <Loader2 className="animate-spin mx-auto mb-3 text-gray-400" size={32} />
             <p className="text-sm text-gray-500 dark:text-gray-400">Loading calendar...</p>
@@ -79,9 +103,9 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
       )}
 
       <div
-        data-cal-link={calLink}
-        data-cal-config='{"layout":"month_view","theme":"auto"}'
-        className="min-h-[500px] rounded-2xl overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+        id={embedId.current}
+        ref={containerRef}
+        className="min-h-[500px] rounded-2xl overflow-hidden"
         style={{ width: '100%' }}
       />
 
@@ -104,7 +128,7 @@ export const CalButton: React.FC<{
   calLink?: string;
   children: React.ReactNode;
   className?: string;
-}> = ({ calLink = 'axrategy/strategy-call', children, className = '' }) => {
+}> = ({ calLink = 'axrategy/15min', children, className = '' }) => {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://app.cal.com/embed/embed.js';
