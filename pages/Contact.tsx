@@ -6,7 +6,7 @@ import { Mail, MapPin, Clock, Check, Loader2, AlertCircle, Calendar } from 'luci
 import { SERVICES } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLeads } from '../hooks/useLeads';
-import { CalEmbed } from '../components/CalEmbed';
+import { CalCard } from '../components/CalEmbed';
 
 export const Contact: React.FC = () => {
   const { search } = useLocation();
@@ -149,7 +149,7 @@ export const Contact: React.FC = () => {
                     Use form instead
                   </button>
                 </div>
-                <CalEmbed />
+                <CalCard />
               </motion.div>
             ) : formState === 'success' ? (
               <motion.div
