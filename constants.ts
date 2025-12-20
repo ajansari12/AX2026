@@ -182,7 +182,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'No more spam calls interrupting work',
       '12 new cases in the first month'
     ],
-    image: 'https://picsum.photos/seed/law/1200/800',
+    image: '/law_case.png',
     tags: ['AI Assistant', 'CRM'],
     stack: ['OpenAI API', 'Vapi.ai', 'Airtable', 'Webflow']
   },
