@@ -12,7 +12,7 @@ import { PricingMode } from '../types';
 
 export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
-  const [pricingMode, setPricingMode] = useState<PricingMode>('one-time');
+  const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
 
   const schema = {
     "@context": "https://schema.org",

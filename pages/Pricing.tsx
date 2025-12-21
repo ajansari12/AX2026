@@ -19,7 +19,7 @@ import { ROICalculator } from '../components/ROICalculator';
 import { PricingMode } from '../types';
 
 export const Pricing: React.FC = () => {
-  const [pricingMode, setPricingMode] = useState<PricingMode>('one-time');
+  const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const bookingModal = useBookingModal();
 
   const currentTiers = pricingMode === 'one-time' ? PRICING_TIERS : MONTHLY_PRICING_TIERS;
