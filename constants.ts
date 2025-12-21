@@ -220,7 +220,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       '400 new email subscribers in 2 months',
       'Calendar booked 6 weeks out'
     ],
-    image: '/elena_ross_1.jpg',
+    image: '/elena_ross.png',
     tags: ['Website', 'Automation'],
     stack: ['Webflow', 'ConvertKit', 'Framer Motion']
   },
