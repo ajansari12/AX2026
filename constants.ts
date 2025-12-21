@@ -258,7 +258,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Email now brings in 30% of sales',
       'More customers come back to buy again'
     ],
-    image: 'https://picsum.photos/seed/decor/1200/800',
+    image: '/lumina_homegoods_(1).png',
     tags: ['Website', 'Automation'],
     stack: ['Shopify', 'Klaviyo', 'Liquid']
   }
