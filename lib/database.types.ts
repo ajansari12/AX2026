@@ -55,6 +55,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       newsletter_subscribers: {
         Row: {
@@ -78,6 +79,7 @@ export interface Database {
           subscribed_at?: string;
           is_active?: boolean;
         };
+        Relationships: [];
       };
       teardown_requests: {
         Row: {
@@ -101,6 +103,7 @@ export interface Database {
           status?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       resource_downloads: {
         Row: {
@@ -121,6 +124,7 @@ export interface Database {
           resource_name?: string;
           downloaded_at?: string;
         };
+        Relationships: [];
       };
       authors: {
         Row: {
@@ -147,6 +151,7 @@ export interface Database {
           bio?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       blog_posts: {
         Row: {
@@ -197,6 +202,14 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'blog_posts_author_id_fkey';
+            columns: ['author_id'];
+            referencedRelation: 'authors';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       bookings: {
         Row: {
@@ -232,6 +245,14 @@ export interface Database {
           lead_id?: string | null;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'bookings_lead_id_fkey';
+            columns: ['lead_id'];
+            referencedRelation: 'leads';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       chat_conversations: {
         Row: {
@@ -255,6 +276,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       chat_messages: {
         Row: {
@@ -278,7 +300,19 @@ export interface Database {
           content?: string;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'chat_messages_conversation_id_fkey';
+            columns: ['conversation_id'];
+            referencedRelation: 'chat_conversations';
+            referencedColumns: ['id'];
+          }
+        ];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }
