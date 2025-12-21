@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import type { LeadSource } from '../lib/database.types';
+import type { LeadSource, PricingPreferenceDB } from '../lib/database.types';
 
 interface LeadData {
   name: string;
@@ -8,6 +8,7 @@ interface LeadData {
   service_interest?: string;
   message?: string;
   source: LeadSource;
+  pricing_preference?: PricingPreferenceDB;
 }
 
 interface UseLeadsReturn {
@@ -41,6 +42,7 @@ export function useLeads(): UseLeadsReturn {
         message: data.message || null,
         source: data.source,
         status: 'new',
+        pricing_preference: data.pricing_preference || 'undecided',
         utm_source: utmParams.utm_source,
         utm_medium: utmParams.utm_medium,
         utm_campaign: utmParams.utm_campaign,

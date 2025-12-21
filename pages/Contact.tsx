@@ -7,6 +7,7 @@ import { SERVICES } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLeads } from '../hooks/useLeads';
 import { CustomCalendar } from '../components/CustomCalendar';
+import { PricingPreference } from '../types';
 
 export const Contact: React.FC = () => {
   const { search } = useLocation();
@@ -16,6 +17,7 @@ export const Contact: React.FC = () => {
     name: '',
     email: '',
     service: 'General Inquiry',
+    pricingPreference: 'undecided' as PricingPreference,
     message: '',
   });
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -47,11 +49,12 @@ export const Contact: React.FC = () => {
       service_interest: formData.service,
       message: formData.message,
       source: 'contact_form',
+      pricing_preference: formData.pricingPreference,
     });
 
     if (result.success) {
       setFormState('success');
-      setFormData({ name: '', email: '', service: 'General Inquiry', message: '' });
+      setFormData({ name: '', email: '', service: 'General Inquiry', pricingPreference: 'undecided', message: '' });
     } else {
       setFormState('error');
       setErrorMessage(result.error || 'Something went wrong. Please try again.');
@@ -256,6 +259,30 @@ export const Contact: React.FC = () => {
                          <option key={service.id} value={service.title}>{service.title}</option>
                        ))}
                        <option value="Other">Other</option>
+                     </select>
+                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'pricingPreference' ? 'opacity-60' : 'opacity-100'}`}>
+                   <label htmlFor="pricingPreference" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Pricing Preference</label>
+                   <div className="relative">
+                     <select
+                      id="pricingPreference"
+                      name="pricingPreference"
+                      value={formData.pricingPreference}
+                      onFocus={() => setFocusedField('pricingPreference')}
+                      onBlur={() => setFocusedField(null)}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg appearance-none cursor-pointer"
+                     >
+                       <option value="undecided">Not sure yet</option>
+                       <option value="one_time">Pay Once (own everything)</option>
+                       <option value="monthly">Monthly (ongoing partnership)</option>
                      </select>
                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

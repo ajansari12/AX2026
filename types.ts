@@ -84,3 +84,19 @@ export interface Testimonial {
   role: string;
   company: string;
 }
+
+export type PricingMode = 'one-time' | 'monthly';
+
+export type PricingPreference = 'one_time' | 'monthly' | 'undecided';
+
+export interface MonthlyPricingTier {
+  name: string;
+  setupFee: string;
+  monthlyPrice: string;
+  description: string;
+  features: string[];
+  ongoingBenefits: string[];
+  isPopular?: boolean;
+  ctaText: string;
+  commitment: string;
+}

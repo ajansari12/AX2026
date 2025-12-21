@@ -1,5 +1,5 @@
 
-import { Service, CaseStudy, PricingTier, BlogPost, PricingComparisonCategory, ProcessStep } from './types';
+import { Service, CaseStudy, PricingTier, BlogPost, PricingComparisonCategory, ProcessStep, MonthlyPricingTier } from './types';
 
 // ... (Existing exports for SERVICES, CASE_STUDIES, PRICING_TIERS, etc. remain unchanged. I will reproduce them to ensure file integrity, but with the new BLOG_POSTS at the end.)
 
@@ -309,6 +309,102 @@ export const PRICING_TIERS: PricingTier[] = [
   }
 ];
 
+export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
+  {
+    name: 'Starter',
+    setupFee: '$500',
+    monthlyPrice: '$149',
+    description: 'Get started with a professional website and basic automation. Lower upfront cost with ongoing support.',
+    features: [
+      'Professional 5-page website',
+      'Contact and booking forms',
+      'Google Business profile setup',
+      'Works great on phones'
+    ],
+    ongoingBenefits: [
+      'Monthly performance check-ins',
+      'Unlimited small updates and tweaks',
+      'Priority email support',
+      'Hosting and maintenance included'
+    ],
+    ctaText: 'Start Monthly Plan',
+    isPopular: false,
+    commitment: '6 months'
+  },
+  {
+    name: 'Professional',
+    setupFee: '$1,200',
+    monthlyPrice: '$349',
+    description: 'Complete website plus AI and automation. We stay invested in your results.',
+    features: [
+      'Full website (unlimited pages)',
+      'AI that answers calls and messages 24/7',
+      'CRM setup with your contacts',
+      'Automatic follow-up sequences'
+    ],
+    ongoingBenefits: [
+      'Bi-weekly strategy calls',
+      'Continuous AI training and optimization',
+      'New automation builds (2/month)',
+      'Dedicated account manager'
+    ],
+    ctaText: 'Start Professional Plan',
+    isPopular: true,
+    commitment: '6 months'
+  },
+  {
+    name: 'Growth',
+    setupFee: '$2,500',
+    monthlyPrice: '$649',
+    description: 'Enterprise-grade systems with white-glove service. We become your tech team.',
+    features: [
+      'Custom client portal or app',
+      'AI trained specifically for your business',
+      'Connect all your existing tools',
+      'Advanced reporting dashboard'
+    ],
+    ongoingBenefits: [
+      'Weekly strategy calls',
+      'Unlimited builds and updates',
+      '24/7 priority support',
+      'Quarterly roadmap planning'
+    ],
+    ctaText: 'Start Growth Plan',
+    isPopular: false,
+    commitment: '6 months'
+  }
+];
+
+export const MONTHLY_COMPARISON_DATA: PricingComparisonCategory[] = [
+  {
+    category: 'Initial Setup',
+    items: [
+      { label: 'Setup fee', tier1: '$500', tier2: '$1,200', tier3: '$2,500' },
+      { label: 'Website design & build', tier1: true, tier2: true, tier3: true },
+      { label: 'CRM setup', tier1: false, tier2: true, tier3: true },
+      { label: 'AI assistant setup', tier1: false, tier2: true, tier3: 'Fully custom' },
+    ]
+  },
+  {
+    category: 'Ongoing Support',
+    items: [
+      { label: 'Check-in calls', tier1: 'Monthly', tier2: 'Bi-weekly', tier3: 'Weekly' },
+      { label: 'Updates & tweaks', tier1: 'Unlimited small', tier2: 'Unlimited', tier3: 'Unlimited' },
+      { label: 'New automations', tier1: false, tier2: '2/month', tier3: 'Unlimited' },
+      { label: 'Support response', tier1: '24 hours', tier2: '4 hours', tier3: '1 hour' },
+    ]
+  },
+  {
+    category: 'Optimization',
+    items: [
+      { label: 'Performance reports', tier1: 'Monthly', tier2: 'Weekly', tier3: 'Real-time' },
+      { label: 'AI training updates', tier1: false, tier2: 'Continuous', tier3: 'Continuous' },
+      { label: 'Conversion optimization', tier1: false, tier2: true, tier3: true },
+      { label: 'Quarterly roadmap', tier1: false, tier2: false, tier3: true },
+    ]
+  }
+];
+
 export const PRICING_COMPARISON_DATA: PricingComparisonCategory[] = [
   {
     category: 'Design & Messaging',
@@ -372,6 +468,22 @@ export const ENGAGEMENT_PROCESS: ProcessStep[] = [
     description: "We launch, show you how everything works, and hand over the keys. It's 100% yours.",
     duration: "Week 6"
   }
+];
+
+export const PRICING_FAQ_ONE_TIME = [
+  { q: "Why does the price say '+' after it?", a: "Most projects hit the base price. Sometimes extra work like moving lots of old data adds a bit. You'll know the exact cost after a quick call - no surprises." },
+  { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
+  { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
+  { q: "What if I just need something small?", a: "Our smallest project is $3,500. We build complete solutions, not quick fixes. If you need smaller help, we can point you to someone good." },
+  { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." }
+];
+
+export const PRICING_FAQ_MONTHLY = [
+  { q: "What's the difference between Pay Once and Monthly?", a: "Pay Once means you pay upfront and own everything outright. Monthly means a smaller upfront investment plus ongoing payments, but you get continuous support, updates, and optimization from us every month." },
+  { q: "Why a 6-month minimum commitment?", a: "It takes time to build your systems properly and see real results. The 6-month minimum ensures we have enough time to set everything up and optimize it based on real data. Most clients see their investment pay for itself within 2-3 months." },
+  { q: "What happens after 6 months?", a: "You can continue month-to-month, switch to annual billing (with a discount), or transition to ownership. If you want to own everything and stop paying monthly, we'll help you migrate to a self-managed setup." },
+  { q: "What ongoing support do I get?", a: "Depending on your plan: regular check-in calls, unlimited updates and tweaks, new automation builds, AI training updates, and priority support. We actively work to improve your results, not just maintain what exists." },
+  { q: "Can I switch from monthly to one-time later?", a: "Absolutely. After your 6-month commitment, you can pay a buyout fee to own everything outright. We'll calculate the remaining value and give you full ownership plus training to manage it yourself." }
 ];
 
 export const PRICING_FAQ = [

@@ -1,5 +1,6 @@
 export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted' | 'closed';
 export type LeadSource = 'contact_form' | 'exit_modal' | 'resource_download' | 'pricing_page' | 'ai_chat';
+export type PricingPreferenceDB = 'one_time' | 'monthly' | 'undecided';
 export type BlogPostStatus = 'draft' | 'published';
 export type BlogCategory = 'Strategy' | 'Automation' | 'AI' | 'Design' | 'Growth';
 export type BookingStatus = 'scheduled' | 'completed' | 'cancelled' | 'no_show';
@@ -17,6 +18,7 @@ export interface Database {
           message: string | null;
           source: LeadSource;
           status: LeadStatus;
+          pricing_preference: PricingPreferenceDB;
           utm_source: string | null;
           utm_medium: string | null;
           utm_campaign: string | null;
@@ -31,6 +33,7 @@ export interface Database {
           message?: string | null;
           source: LeadSource;
           status?: LeadStatus;
+          pricing_preference?: PricingPreferenceDB;
           utm_source?: string | null;
           utm_medium?: string | null;
           utm_campaign?: string | null;
@@ -45,6 +48,7 @@ export interface Database {
           message?: string | null;
           source?: LeadSource;
           status?: LeadStatus;
+          pricing_preference?: PricingPreferenceDB;
           utm_source?: string | null;
           utm_medium?: string | null;
           utm_campaign?: string | null;

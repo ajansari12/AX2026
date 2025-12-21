@@ -1,15 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar } from 'lucide-react';
+import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar, RefreshCw } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { CASE_STUDIES, PRICING_TIERS } from '../constants';
-import { motion } from 'framer-motion';
+import { CASE_STUDIES, PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
+import { PricingToggle } from '../components/PricingToggle';
+import { PricingMode } from '../types';
 
 export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
+  const [pricingMode, setPricingMode] = useState<PricingMode>('one-time');
 
   const schema = {
     "@context": "https://schema.org",
@@ -297,48 +300,132 @@ export const Home: React.FC = () => {
 
       {/* 6. Pricing Preview */}
       <Section light className="bg-gray-50/80 dark:bg-gray-900/30">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Simple, honest pricing.</h2>
-          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">One flat price. No surprises. You'll know the cost before we start.</p>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+            {pricingMode === 'one-time' ? 'Simple, honest pricing.' : 'Start small. Grow together.'}
+          </h2>
+          <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed mb-10">
+            {pricingMode === 'one-time'
+              ? 'One flat price. No surprises. You\'ll know the cost before we start.'
+              : 'Lower upfront cost with ongoing partnership. We stay invested in your success.'
+            }
+          </p>
+          <PricingToggle mode={pricingMode} onChange={setPricingMode} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {PRICING_TIERS.map((tier, idx) => (
-             <FadeIn key={idx} delay={idx * 0.1}>
-               <div className={`relative p-10 rounded-[2.5rem] h-full flex flex-col transition-all duration-300 ${
-                  tier.isPopular 
-                    ? 'bg-black dark:bg-white text-white dark:text-black shadow-2xl scale-105 z-10 ring-1 ring-white/10 dark:ring-black/5' 
-                    : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 shadow-sm'
-                }`}>
-                 {tier.isPopular && (
-                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg whitespace-nowrap z-20">
-                     Most Popular
-                   </div>
-                 )}
-                 <h3 className="text-xl font-bold mb-3 opacity-90">{tier.name}</h3>
-                 <div className="text-5xl font-bold mb-6 tracking-tight">{tier.price}</div>
-                 <p className={`text-base mb-10 leading-relaxed ${tier.isPopular ? 'text-gray-300 dark:text-gray-600' : 'text-gray-500 dark:text-gray-400'}`}>{tier.description}</p>
-                 
-                 <div className="flex-grow space-y-5 mb-10">
-                   {tier.features.map((feat, fIdx) => (
-                     <div key={fIdx} className="flex items-start gap-4 text-sm font-medium">
-                       <Check size={18} className={`mt-0.5 flex-shrink-0 ${tier.isPopular ? 'text-emerald-400 dark:text-emerald-600' : 'text-emerald-500 dark:text-emerald-400'}`} />
-                       <span className={tier.isPopular ? 'text-gray-200 dark:text-gray-800' : 'text-gray-700 dark:text-gray-300'}>{feat}</span>
-                     </div>
-                   ))}
-                 </div>
-                 
-                 <NavLink to="/contact" className="w-full">
-                   <button className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
-                     tier.isPopular 
-                      ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800' 
-                      : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
-                   }`}>
-                     {tier.ctaText}
-                   </button>
-                 </NavLink>
-               </div>
-             </FadeIn>
-          ))}
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pricingMode}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto mt-12"
+          >
+            {pricingMode === 'one-time' ? (
+              PRICING_TIERS.map((tier, idx) => (
+                <FadeIn key={idx} delay={idx * 0.1}>
+                  <div className={`relative p-10 rounded-[2.5rem] h-full flex flex-col transition-all duration-300 ${
+                    tier.isPopular
+                      ? 'bg-black dark:bg-white text-white dark:text-black shadow-2xl scale-105 z-10 ring-1 ring-white/10 dark:ring-black/5'
+                      : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 shadow-sm'
+                  }`}>
+                    {tier.isPopular && (
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg whitespace-nowrap z-20">
+                        Most Popular
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold mb-3 opacity-90">{tier.name}</h3>
+                    <div className="text-5xl font-bold mb-6 tracking-tight">{tier.price}</div>
+                    <p className={`text-base mb-10 leading-relaxed ${tier.isPopular ? 'text-gray-300 dark:text-gray-600' : 'text-gray-500 dark:text-gray-400'}`}>{tier.description}</p>
+
+                    <div className="flex-grow space-y-5 mb-10">
+                      {tier.features.map((feat, fIdx) => (
+                        <div key={fIdx} className="flex items-start gap-4 text-sm font-medium">
+                          <Check size={18} className={`mt-0.5 flex-shrink-0 ${tier.isPopular ? 'text-emerald-400 dark:text-emerald-600' : 'text-emerald-500 dark:text-emerald-400'}`} />
+                          <span className={tier.isPopular ? 'text-gray-200 dark:text-gray-800' : 'text-gray-700 dark:text-gray-300'}>{feat}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <NavLink to="/contact" className="w-full">
+                      <button className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
+                        tier.isPopular
+                          ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                          : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
+                      }`}>
+                        {tier.ctaText}
+                      </button>
+                    </NavLink>
+                  </div>
+                </FadeIn>
+              ))
+            ) : (
+              MONTHLY_PRICING_TIERS.map((tier, idx) => (
+                <FadeIn key={idx} delay={idx * 0.1}>
+                  <div className={`relative p-10 rounded-[2.5rem] h-full flex flex-col transition-all duration-300 ${
+                    tier.isPopular
+                      ? 'bg-black dark:bg-white text-white dark:text-black shadow-2xl scale-105 z-10 ring-1 ring-white/10 dark:ring-black/5'
+                      : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 shadow-sm'
+                  }`}>
+                    {tier.isPopular && (
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg whitespace-nowrap z-20">
+                        Most Popular
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold mb-3 opacity-90">{tier.name}</h3>
+                    <div className="flex items-baseline gap-1 mb-2">
+                      <span className="text-5xl font-bold tracking-tight">{tier.monthlyPrice}</span>
+                      <span className={`text-sm font-medium ${tier.isPopular ? 'text-gray-400 dark:text-gray-600' : 'text-gray-400'}`}>/month</span>
+                    </div>
+                    <div className={`text-sm mb-4 ${tier.isPopular ? 'text-gray-400 dark:text-gray-600' : 'text-gray-500'}`}>
+                      + {tier.setupFee} setup fee
+                    </div>
+                    <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold mb-6 w-fit ${
+                      tier.isPopular
+                        ? 'bg-emerald-500/20 text-emerald-300 dark:text-emerald-700'
+                        : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400'
+                    }`}>
+                      <RefreshCw size={12} />
+                      {tier.commitment} minimum
+                    </div>
+                    <p className={`text-base mb-8 leading-relaxed ${tier.isPopular ? 'text-gray-300 dark:text-gray-600' : 'text-gray-500 dark:text-gray-400'}`}>{tier.description}</p>
+
+                    <div className="flex-grow space-y-4 mb-10">
+                      {tier.features.slice(0, 3).map((feat, fIdx) => (
+                        <div key={fIdx} className="flex items-start gap-4 text-sm font-medium">
+                          <Check size={18} className={`mt-0.5 flex-shrink-0 ${tier.isPopular ? 'text-emerald-400 dark:text-emerald-600' : 'text-emerald-500 dark:text-emerald-400'}`} />
+                          <span className={tier.isPopular ? 'text-gray-200 dark:text-gray-800' : 'text-gray-700 dark:text-gray-300'}>{feat}</span>
+                        </div>
+                      ))}
+                      {tier.ongoingBenefits.slice(0, 2).map((benefit, bIdx) => (
+                        <div key={bIdx} className="flex items-start gap-4 text-sm font-medium">
+                          <Zap size={18} className={`mt-0.5 flex-shrink-0 ${tier.isPopular ? 'text-blue-400 dark:text-blue-600' : 'text-blue-500 dark:text-blue-400'}`} />
+                          <span className={tier.isPopular ? 'text-gray-200 dark:text-gray-800' : 'text-gray-700 dark:text-gray-300'}>{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <NavLink to="/contact" className="w-full">
+                      <button className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
+                        tier.isPopular
+                          ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                          : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
+                      }`}>
+                        {tier.ctaText}
+                      </button>
+                    </NavLink>
+                  </div>
+                </FadeIn>
+              ))
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="text-center mt-12">
+          <NavLink to="/pricing" className="text-sm font-semibold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
+            See full pricing details and comparison &rarr;
+          </NavLink>
         </div>
       </Section>
 
