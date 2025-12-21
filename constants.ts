@@ -239,7 +239,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       '15 old leads came back and bought',
       'Agents spend zero time on data entry'
     ],
-    image: 'https://picsum.photos/seed/realty/1200/800',
+    image: '/prestige_crm.png',
     tags: ['Automation', 'AI Assistant', 'CRM'],
     stack: ['GoHighLevel', 'Zapier', 'OpenAI']
   },
