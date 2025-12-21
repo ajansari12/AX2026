@@ -41,6 +41,36 @@ interface DashboardStats {
   totalSubscribers: number;
   totalDownloads: number;
   totalTeardowns: number;
+  totalConversations: number;
+}
+
+interface ChatConversation {
+  id: string;
+  visitor_id: string;
+  email: string | null;
+  created_at: string;
+  updated_at: string;
+  message_count?: number;
+}
+
+interface ChatMessageItem {
+  id: string;
+  conversation_id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  created_at: string;
+}
+
+interface Booking {
+  id: string;
+  cal_booking_id: string | null;
+  name: string;
+  email: string;
+  scheduled_time: string;
+  status: 'scheduled' | 'completed' | 'cancelled' | 'no_show';
+  notes: string | null;
+  lead_id: string | null;
+  created_at: string;
 }
 
 export function useAdminLeads() {
@@ -174,12 +204,13 @@ export function useAdminStats() {
         const oneWeekAgo = new Date();
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-        const [leadsRes, newLeadsRes, subscribersRes, downloadsRes, teardownsRes] = await Promise.all([
+        const [leadsRes, newLeadsRes, subscribersRes, downloadsRes, teardownsRes, conversationsRes] = await Promise.all([
           supabase.from('leads').select('id', { count: 'exact', head: true }),
           supabase.from('leads').select('id', { count: 'exact', head: true }).gte('created_at', oneWeekAgo.toISOString()),
           supabase.from('newsletter_subscribers').select('id', { count: 'exact', head: true }),
           supabase.from('resource_downloads').select('id', { count: 'exact', head: true }),
           supabase.from('teardown_requests').select('id', { count: 'exact', head: true }),
+          supabase.from('chat_conversations').select('id', { count: 'exact', head: true }),
         ]);
 
         setStats({
@@ -188,6 +219,7 @@ export function useAdminStats() {
           totalSubscribers: subscribersRes.count || 0,
           totalDownloads: downloadsRes.count || 0,
           totalTeardowns: teardownsRes.count || 0,
+          totalConversations: conversationsRes.count || 0,
         });
       } finally {
         setIsLoading(false);
@@ -197,4 +229,113 @@ export function useAdminStats() {
   }, []);
 
   return { stats, isLoading };
+}
+
+export function useAdminConversations() {
+  const [conversations, setConversations] = useState<ChatConversation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchConversations = async () => {
+    setIsLoading(true);
+    try {
+      const { data: convData } = await supabase
+        .from('chat_conversations')
+        .select('*')
+        .order('updated_at', { ascending: false })
+        .limit(100);
+
+      if (convData) {
+        const conversationsWithCount = await Promise.all(
+          convData.map(async (conv) => {
+            const { count } = await supabase
+              .from('chat_messages')
+              .select('id', { count: 'exact', head: true })
+              .eq('conversation_id', conv.id);
+            return { ...conv, message_count: count || 0 };
+          })
+        );
+        setConversations(conversationsWithCount);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchConversations();
+  }, []);
+
+  return { conversations, isLoading, refetch: fetchConversations };
+}
+
+export function useConversationMessages(conversationId: string | null) {
+  const [messages, setMessages] = useState<ChatMessageItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!conversationId) {
+      setMessages([]);
+      return;
+    }
+
+    const fetchMessages = async () => {
+      setIsLoading(true);
+      try {
+        const { data } = await supabase
+          .from('chat_messages')
+          .select('*')
+          .eq('conversation_id', conversationId)
+          .order('created_at', { ascending: true });
+
+        setMessages(data || []);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMessages();
+  }, [conversationId]);
+
+  return { messages, isLoading };
+}
+
+export function useAdminBookings() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchBookings = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('scheduled_time', { ascending: false })
+        .limit(100);
+
+      setBookings(data || []);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateBookingStatus = async (id: string, status: Booking['status']) => {
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .update({ status })
+        .eq('id', id);
+
+      if (error) throw error;
+      await fetchBookings();
+      return { success: true };
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  return { bookings, isLoading, refetch: fetchBookings, updateBookingStatus };
 }

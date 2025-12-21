@@ -86,12 +86,21 @@ You own everything - no monthly fees to us.
 - If the conversation gets complex, suggest booking a call
 - When capturing interest, mention they can book a free consultation
 
-## Lead Capture
-If someone seems interested, encourage them to:
-1. Book a call: "You can schedule a free 15-minute call to discuss your specific situation"
-2. Or share their email: "I can have someone reach out with more details - what's the best email?"
+## IMPORTANT: Lead Capture Behavior
+When someone shows buying signals (asks about pricing for their specific case, mentions their business type, asks about timelines, or expresses clear interest), you should:
+1. Answer their question helpfully first
+2. Then naturally suggest: "I'd be happy to have someone reach out with more specific details. What's the best email to reach you?"
+3. If they provide an email, confirm you got it and mention someone will be in touch soon
 
-Never be pushy. Be genuinely helpful first.`;
+Buying signals include:
+- Asking about specific pricing for their business
+- Mentioning their industry or business type
+- Asking "how do we get started" or "what's the next step"
+- Comparing services or asking which is right for them
+- Asking about timelines with urgency
+- Expressing pain points or current challenges
+
+Never be pushy. Be genuinely helpful first. If they don't want to share their email, that's fine - suggest they can book a call instead.`;
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -102,6 +111,72 @@ interface RequestBody {
   messages: ChatMessage[];
   conversationId?: string;
   visitorId: string;
+}
+
+const EMAIL_REGEX = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+
+function extractEmail(text: string): string | null {
+  const matches = text.match(EMAIL_REGEX);
+  return matches ? matches[0].toLowerCase() : null;
+}
+
+function detectBuyingIntent(messages: ChatMessage[]): boolean {
+  const buyingKeywords = [
+    'how much', 'price', 'pricing', 'cost', 'quote', 'estimate',
+    'get started', 'next step', 'timeline', 'how long', 'when can',
+    'my business', 'my company', 'we need', 'i need', 'looking for',
+    'interested in', 'want to', 'right for', 'best option',
+    'budget', 'afford', 'payment', 'hire', 'work with you'
+  ];
+  
+  const recentMessages = messages.slice(-4);
+  const userMessages = recentMessages.filter(m => m.role === 'user');
+  const text = userMessages.map(m => m.content.toLowerCase()).join(' ');
+  
+  return buyingKeywords.some(keyword => text.includes(keyword));
+}
+
+async function createLead(
+  supabase: ReturnType<typeof createClient>,
+  email: string,
+  conversationId: string | null,
+  messages: ChatMessage[]
+): Promise<void> {
+  const { data: existingLead } = await supabase
+    .from('leads')
+    .select('id')
+    .eq('email', email)
+    .maybeSingle();
+
+  if (existingLead) {
+    return;
+  }
+
+  const userMessages = messages.filter(m => m.role === 'user');
+  const context = userMessages.slice(-3).map(m => m.content).join(' | ');
+  
+  let serviceInterest = 'General Inquiry';
+  const lowerContext = context.toLowerCase();
+  if (lowerContext.includes('ai') || lowerContext.includes('assistant') || lowerContext.includes('chatbot')) {
+    serviceInterest = 'AI Assistant';
+  } else if (lowerContext.includes('website') || lowerContext.includes('site')) {
+    serviceInterest = 'Website';
+  } else if (lowerContext.includes('automation') || lowerContext.includes('follow-up') || lowerContext.includes('crm')) {
+    serviceInterest = 'Automation & CRM';
+  } else if (lowerContext.includes('portal') || lowerContext.includes('app')) {
+    serviceInterest = 'Client Portal';
+  } else if (lowerContext.includes('analytics') || lowerContext.includes('tracking')) {
+    serviceInterest = 'Analytics';
+  }
+
+  await supabase.from('leads').insert({
+    name: 'Chat Lead',
+    email,
+    service_interest: serviceInterest,
+    message: context.slice(0, 500),
+    source: 'ai_chat',
+    status: 'new',
+  });
 }
 
 Deno.serve(async (req: Request) => {
@@ -157,6 +232,24 @@ Deno.serve(async (req: Request) => {
         role: 'user',
         content: lastUserMessage.content,
       });
+
+      const capturedEmail = extractEmail(lastUserMessage.content);
+      if (capturedEmail) {
+        await supabase
+          .from('chat_conversations')
+          .update({ email: capturedEmail })
+          .eq('id', convId);
+
+        await createLead(supabase, capturedEmail, convId, messages);
+      }
+    }
+
+    const hasBuyingIntent = detectBuyingIntent(messages);
+    const hasProvidedEmail = messages.some(m => extractEmail(m.content));
+    
+    let enhancedSystemPrompt = SYSTEM_PROMPT;
+    if (hasBuyingIntent && !hasProvidedEmail && messages.length >= 4) {
+      enhancedSystemPrompt += `\n\n## CURRENT CONTEXT\nThis visitor is showing buying interest. After answering their current question, naturally ask for their email so someone can reach out with more details. Keep it casual and helpful, not pushy.`;
     }
 
     const anthropic = new Anthropic({ apiKey: anthropicApiKey });
@@ -164,7 +257,7 @@ Deno.serve(async (req: Request) => {
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: enhancedSystemPrompt,
       messages: messages.map(m => ({
         role: m.role,
         content: m.content,
@@ -192,6 +285,7 @@ Deno.serve(async (req: Request) => {
       JSON.stringify({
         message: assistantMessage,
         conversationId: convId,
+        emailCaptured: hasProvidedEmail,
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

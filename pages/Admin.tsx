@@ -7,7 +7,11 @@ import {
   useAdminDownloads,
   useAdminSubscribers,
   useAdminStats,
+  useAdminConversations,
+  useConversationMessages,
+  useAdminBookings,
 } from '../hooks/useAdmin';
+import { useAdminAuth } from '../hooks/useAdminAuth';
 import {
   Users,
   Mail,
@@ -20,9 +24,113 @@ import {
   XCircle,
   TrendingUp,
   BarChart3,
+  MessageCircle,
+  ChevronRight,
+  ArrowLeft,
+  User,
+  Bot,
+  Calendar,
+  Lock,
+  LogOut,
+  AlertCircle,
 } from 'lucide-react';
 
-type TabType = 'overview' | 'leads' | 'teardowns' | 'downloads' | 'subscribers';
+type TabType = 'overview' | 'leads' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers';
+
+const AdminLoginForm: React.FC<{
+  onLogin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+}> = ({ onLogin }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    const result = await onLogin(email, password);
+
+    if (!result.success) {
+      setError(result.error || 'Login failed');
+    }
+    setIsSubmitting(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
+      <SEO title="Admin Login" description="Login to access the admin dashboard." />
+      <div className="w-full max-w-md">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 shadow-xl">
+          <div className="flex items-center justify-center mb-8">
+            <div className="w-16 h-16 rounded-2xl bg-gray-900 dark:bg-white flex items-center justify-center">
+              <Lock className="w-8 h-8 text-white dark:text-gray-900" />
+            </div>
+          </div>
+
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-2">
+            Admin Access
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-8">
+            Sign in to access the dashboard
+          </p>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl flex items-center gap-3 text-red-700 dark:text-red-400">
+              <AlertCircle size={20} />
+              <span className="text-sm">{error}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white transition-all"
+                placeholder="admin@axrategy.com"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white transition-all"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loader2 className="animate-spin" size={20} />
+              ) : (
+                'Sign In'
+              )}
+            </Button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const styles: Record<string, string> = {
@@ -79,7 +187,7 @@ const OverviewTab: React.FC = () => {
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <StatCard
           label="Total Leads"
           value={stats.totalLeads}
@@ -90,6 +198,11 @@ const OverviewTab: React.FC = () => {
           value={stats.newLeadsThisWeek}
           icon={<TrendingUp size={24} />}
           trend={stats.newLeadsThisWeek > 0 ? '+' + stats.newLeadsThisWeek : undefined}
+        />
+        <StatCard
+          label="Chat Conversations"
+          value={stats.totalConversations}
+          icon={<MessageCircle size={24} />}
         />
         <StatCard
           label="Email Subscribers"
@@ -425,16 +538,370 @@ const SubscribersTab: React.FC = () => {
   );
 };
 
+const ConversationDetail: React.FC<{
+  conversationId: string;
+  email: string | null;
+  onBack: () => void;
+}> = ({ conversationId, email, onBack }) => {
+  const { messages, isLoading } = useConversationMessages(conversationId);
+
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <Loader2 className="animate-spin text-gray-400" size={32} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-4">
+        <button
+          onClick={onBack}
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+        >
+          <ArrowLeft size={20} className="text-gray-600 dark:text-gray-400" />
+        </button>
+        <div>
+          <h3 className="font-bold text-gray-900 dark:text-white">Conversation</h3>
+          {email && (
+            <p className="text-sm text-emerald-600 dark:text-emerald-400">{email}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 space-y-4 max-h-[600px] overflow-y-auto">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            {message.role === 'assistant' && (
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                <Bot size={16} className="text-gray-600 dark:text-gray-400" />
+              </div>
+            )}
+            <div
+              className={`max-w-[70%] rounded-2xl px-4 py-3 ${
+                message.role === 'user'
+                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+              <p className={`text-xs mt-1 ${
+                message.role === 'user'
+                  ? 'text-gray-400 dark:text-gray-500'
+                  : 'text-gray-400'
+              }`}>
+                {formatTime(message.created_at)}
+              </p>
+            </div>
+            {message.role === 'user' && (
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <User size={16} className="text-emerald-600 dark:text-emerald-400" />
+              </div>
+            )}
+          </div>
+        ))}
+
+        {messages.length === 0 && (
+          <div className="text-center py-8">
+            <MessageCircle className="mx-auto mb-4 text-gray-300 dark:text-gray-600" size={48} />
+            <p className="text-gray-500 dark:text-gray-400">No messages in this conversation</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const BookingsTab: React.FC = () => {
+  const { bookings, isLoading, refetch, updateBookingStatus } = useAdminBookings();
+  const [updating, setUpdating] = useState<string | null>(null);
+
+  const handleStatusChange = async (id: string, status: string) => {
+    setUpdating(id);
+    await updateBookingStatus(id, status as 'scheduled' | 'completed' | 'cancelled' | 'no_show');
+    setUpdating(null);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  const isUpcoming = (dateString: string) => {
+    return new Date(dateString) > new Date();
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <Loader2 className="animate-spin text-gray-400" size={32} />
+      </div>
+    );
+  }
+
+  const upcomingBookings = bookings.filter(b => b.status === 'scheduled' && isUpcoming(b.scheduled_time));
+  const pastBookings = bookings.filter(b => b.status !== 'scheduled' || !isUpcoming(b.scheduled_time));
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400">{bookings.length} bookings total</p>
+        <Button variant="outline" size="sm" onClick={refetch}>
+          <RefreshCw size={14} className="mr-2" /> Refresh
+        </Button>
+      </div>
+
+      {upcomingBookings.length > 0 && (
+        <div>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <Calendar size={20} className="text-emerald-600 dark:text-emerald-400" />
+            Upcoming ({upcomingBookings.length})
+          </h3>
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-emerald-100 dark:border-emerald-800 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-emerald-50 dark:bg-emerald-900/20 border-b border-emerald-100 dark:border-emerald-800">
+                  <tr>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Name</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Email</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Scheduled</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Notes</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-emerald-50 dark:divide-emerald-900/20">
+                  {upcomingBookings.map((booking) => (
+                    <tr key={booking.id} className="hover:bg-emerald-50/50 dark:hover:bg-emerald-900/10 transition-colors">
+                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{booking.name}</td>
+                      <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{booking.email}</td>
+                      <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{formatDate(booking.scheduled_time)}</td>
+                      <td className="px-6 py-4 text-gray-500 dark:text-gray-400 max-w-[200px] truncate">
+                        {booking.notes || '-'}
+                      </td>
+                      <td className="px-6 py-4">
+                        {updating === booking.id ? (
+                          <Loader2 className="animate-spin text-gray-400" size={16} />
+                        ) : (
+                          <select
+                            value={booking.status}
+                            onChange={(e) => handleStatusChange(booking.id, e.target.value)}
+                            className="text-xs font-bold uppercase bg-transparent border-none cursor-pointer focus:outline-none"
+                          >
+                            <option value="scheduled">Scheduled</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="no_show">No Show</option>
+                          </select>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <Clock size={20} className="text-gray-400" />
+          Past Bookings ({pastBookings.length})
+        </h3>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+                <tr>
+                  <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Name</th>
+                  <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Email</th>
+                  <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Date</th>
+                  <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                {pastBookings.map((booking) => (
+                  <tr key={booking.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{booking.name}</td>
+                    <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{booking.email}</td>
+                    <td className="px-6 py-4 text-gray-500 dark:text-gray-400">{formatDate(booking.scheduled_time)}</td>
+                    <td className="px-6 py-4">
+                      {updating === booking.id ? (
+                        <Loader2 className="animate-spin text-gray-400" size={16} />
+                      ) : (
+                        <select
+                          value={booking.status}
+                          onChange={(e) => handleStatusChange(booking.id, e.target.value)}
+                          className="text-xs font-bold uppercase bg-transparent border-none cursor-pointer focus:outline-none"
+                        >
+                          <option value="scheduled">Scheduled</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                          <option value="no_show">No Show</option>
+                        </select>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {pastBookings.length === 0 && (
+            <div className="text-center py-12">
+              <Calendar className="mx-auto mb-4 text-gray-300 dark:text-gray-600" size={48} />
+              <p className="text-gray-500 dark:text-gray-400">No past bookings yet</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {bookings.length === 0 && (
+        <div className="text-center py-12 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
+          <Calendar className="mx-auto mb-4 text-gray-300 dark:text-gray-600" size={48} />
+          <p className="text-gray-500 dark:text-gray-400">No bookings yet</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ConversationsTab: React.FC = () => {
+  const { conversations, isLoading, refetch } = useAdminConversations();
+  const [selectedConversation, setSelectedConversation] = useState<{
+    id: string;
+    email: string | null;
+  } | null>(null);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <Loader2 className="animate-spin text-gray-400" size={32} />
+      </div>
+    );
+  }
+
+  if (selectedConversation) {
+    return (
+      <ConversationDetail
+        conversationId={selectedConversation.id}
+        email={selectedConversation.email}
+        onBack={() => setSelectedConversation(null)}
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400">{conversations.length} conversations</p>
+        <Button variant="outline" size="sm" onClick={refetch}>
+          <RefreshCw size={14} className="mr-2" /> Refresh
+        </Button>
+      </div>
+
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+        <div className="divide-y divide-gray-100 dark:divide-gray-800">
+          {conversations.map((conv) => (
+            <button
+              key={conv.id}
+              onClick={() => setSelectedConversation({ id: conv.id, email: conv.email })}
+              className="w-full p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-left flex items-center justify-between"
+            >
+              <div className="flex items-center gap-4">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                  conv.email
+                    ? 'bg-emerald-50 dark:bg-emerald-900/20'
+                    : 'bg-gray-100 dark:bg-gray-800'
+                }`}>
+                  <MessageCircle size={20} className={
+                    conv.email
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : 'text-gray-400'
+                  } />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {conv.email || `Visitor ${conv.visitor_id.slice(0, 8)}`}
+                    </p>
+                    {conv.email && (
+                      <span className="px-2 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold rounded-full">
+                        Lead
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {conv.message_count} messages - {formatDate(conv.updated_at)}
+                  </p>
+                </div>
+              </div>
+              <ChevronRight size={20} className="text-gray-400" />
+            </button>
+          ))}
+        </div>
+
+        {conversations.length === 0 && (
+          <div className="text-center py-12">
+            <MessageCircle className="mx-auto mb-4 text-gray-300 dark:text-gray-600" size={48} />
+            <p className="text-gray-500 dark:text-gray-400">No conversations yet</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const Admin: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const { isLoading, isAuthenticated, signIn, signOut, session } = useAdminAuth();
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: 'Overview', icon: <BarChart3 size={18} /> },
     { id: 'leads', label: 'Leads', icon: <Users size={18} /> },
+    { id: 'conversations', label: 'Chats', icon: <MessageCircle size={18} /> },
+    { id: 'bookings', label: 'Bookings', icon: <Calendar size={18} /> },
     { id: 'teardowns', label: 'Teardowns', icon: <Globe size={18} /> },
     { id: 'downloads', label: 'Downloads', icon: <Download size={18} /> },
     { id: 'subscribers', label: 'Subscribers', icon: <Mail size={18} /> },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <Loader2 className="animate-spin text-gray-400" size={48} />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLoginForm onLogin={signIn} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -450,9 +917,19 @@ export const Admin: React.FC = () => {
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Dashboard</h1>
               <p className="text-gray-500 dark:text-gray-400">Manage your leads and content</p>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-              <Clock size={16} />
-              Last updated: {new Date().toLocaleTimeString()}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <Clock size={16} />
+                Last updated: {new Date().toLocaleTimeString()}
+              </div>
+              <button
+                onClick={signOut}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                title={session?.user?.email || 'Sign out'}
+              >
+                <LogOut size={16} />
+                Sign Out
+              </button>
             </div>
           </div>
 
@@ -475,6 +952,8 @@ export const Admin: React.FC = () => {
 
           {activeTab === 'overview' && <OverviewTab />}
           {activeTab === 'leads' && <LeadsTab />}
+          {activeTab === 'conversations' && <ConversationsTab />}
+          {activeTab === 'bookings' && <BookingsTab />}
           {activeTab === 'teardowns' && <TeardownsTab />}
           {activeTab === 'downloads' && <DownloadsTab />}
           {activeTab === 'subscribers' && <SubscribersTab />}
