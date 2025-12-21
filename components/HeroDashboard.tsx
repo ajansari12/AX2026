@@ -116,19 +116,18 @@ export const HeroDashboard: React.FC = () => {
       transition={{ duration: 0.8, delay: 0.2 }}
       className="relative hidden lg:block h-[640px]"
     >
-      <motion.div
-        animate={{
-          y: [0, -6, 0],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 2.5,
-        }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
-      >
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/60 to-white/30 dark:from-white/10 dark:to-white/5 backdrop-blur-xl rounded-[48px] border border-white/60 dark:border-white/10 shadow-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/5">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <motion.div
+          animate={{
+            y: [0, -6, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 2.5,
+          }}
+          className="w-full h-full bg-gradient-to-tr from-white/60 to-white/30 dark:from-white/10 dark:to-white/5 backdrop-blur-xl rounded-[48px] border border-white/60 dark:border-white/10 shadow-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/5">
           <div className="p-10 space-y-8">
             <div className="flex justify-between items-center mb-8">
               <AnimatedLogo />
@@ -226,8 +225,8 @@ export const HeroDashboard: React.FC = () => {
               </div>
             </motion.div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
