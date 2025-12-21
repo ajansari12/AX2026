@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 import { PricingToggle } from '../components/PricingToggle';
 import { PricingMode } from '../types';
+import { HeroDashboard } from '../components/HeroDashboard';
 
 export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
@@ -105,46 +106,7 @@ export const Home: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right Side Visual */}
-          <motion.div
-             initial={{ opacity: 0, scale: 0.95 }}
-             animate={{ opacity: 1, scale: 1 }}
-             transition={{ duration: 1, delay: 0.2 }}
-             className="relative hidden lg:block h-[640px]"
-          >
-             {/* Abstract Glass UI Representation */}
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/60 to-white/30 dark:from-white/10 dark:to-white/5 backdrop-blur-xl rounded-[48px] border border-white/60 dark:border-white/10 shadow-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/5">
-                  <div className="p-10 space-y-8">
-                    {/* Mock Dashboard UI */}
-                    <div className="flex justify-between items-center mb-8">
-                      <div className="h-5 w-40 bg-gray-100/80 dark:bg-white/10 rounded-full"></div>
-                      <div className="h-10 w-10 bg-gray-100/80 dark:bg-white/10 rounded-full"></div>
-                    </div>
-                    <div className="flex gap-6">
-                      <div className="w-2/3 h-56 bg-blue-50/80 dark:bg-blue-500/10 rounded-3xl border border-blue-100 dark:border-blue-500/20 p-8 flex flex-col justify-between shadow-sm">
-                         <div className="h-10 w-10 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30"><Zap size={20}/></div>
-                         <div>
-                           <div className="h-10 w-32 bg-gray-900/5 dark:bg-white/10 rounded-xl mb-3"></div>
-                           <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">Leads Automated</div>
-                         </div>
-                      </div>
-                      <div className="w-1/3 space-y-4">
-                        <div className="h-24 bg-white/70 dark:bg-white/5 rounded-3xl border border-white/60 dark:border-white/10 shadow-sm"></div>
-                        <div className="h-24 bg-white/70 dark:bg-white/5 rounded-3xl border border-white/60 dark:border-white/10 shadow-sm"></div>
-                      </div>
-                    </div>
-                    <div className="h-72 bg-gray-50/80 dark:bg-gray-800/50 rounded-3xl border border-gray-100 dark:border-white/5 p-8 shadow-inner">
-                       <div className="flex items-end gap-3 h-full pb-4 px-2">
-                         {[40, 60, 45, 70, 85, 60, 75].map((h, i) => (
-                           <div key={i} style={{ height: `${h}%` }} className="flex-1 bg-gray-900 dark:bg-white/80 rounded-md opacity-5 hover:opacity-20 transition-all duration-500"></div>
-                         ))}
-                       </div>
-                    </div>
-                  </div>
-                </div>
-             </div>
-          </motion.div>
+          <HeroDashboard />
         </div>
       </section>
 
