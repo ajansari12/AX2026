@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Section, Button } from '../components/UI';
 import { SEO } from '../components/SEO';
@@ -8,10 +8,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLeads } from '../hooks/useLeads';
 import { CustomCalendar } from '../components/CustomCalendar';
 import { PricingPreference } from '../types';
+import { Turnstile, useTurnstile, isTurnstileEnabled } from '../components/Turnstile';
 
 export const Contact: React.FC = () => {
   const { search } = useLocation();
-  const { submitLead, isSubmitting } = useLeads();
+  const { submitLead, isSubmitting, resetFormTimer } = useLeads();
+  const turnstile = useTurnstile();
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -24,6 +27,11 @@ export const Contact: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
+
+  // Reset form timer when component mounts
+  useEffect(() => {
+    resetFormTimer();
+  }, [resetFormTimer]);
 
   useEffect(() => {
     const params = new URLSearchParams(search);
@@ -50,11 +58,14 @@ export const Contact: React.FC = () => {
       message: formData.message,
       source: 'contact_form',
       pricing_preference: formData.pricingPreference,
+      honeypot: honeypotRef.current?.value || '',
+      captchaToken: turnstile.token,
     });
 
     if (result.success) {
       setFormState('success');
       setFormData({ name: '', email: '', service: 'General Inquiry', pricingPreference: 'undecided', message: '' });
+      turnstile.reset();
     } else {
       setFormState('error');
       setErrorMessage(result.error || 'Something went wrong. Please try again.');
@@ -208,7 +219,16 @@ export const Contact: React.FC = () => {
                   </motion.div>
                 )}
 
-                <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+                {/* Honeypot field - hidden from users, bots will fill it */}
+                <div className="absolute -left-[9999px]" aria-hidden="true">
+                  <input
+                    ref={honeypotRef}
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
                  <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'name' ? 'opacity-60' : 'opacity-100'}`}>
                    <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">Name</label>
@@ -306,6 +326,18 @@ export const Contact: React.FC = () => {
                     placeholder="e.g., I'm spending too much time on follow-ups and paperwork..."
                    ></textarea>
                  </div>
+
+                 {/* Turnstile CAPTCHA - only shows if configured */}
+                 {isTurnstileEnabled() && (
+                   <div className="flex justify-center">
+                     <Turnstile
+                       onVerify={turnstile.handleVerify}
+                       onError={turnstile.handleError}
+                       onExpire={turnstile.handleExpire}
+                       theme="auto"
+                     />
+                   </div>
+                 )}
 
                  <Button className="w-full py-4 text-base" disabled={isSubmitting || formState === 'submitting'}>
                     {isSubmitting || formState === 'submitting' ? (

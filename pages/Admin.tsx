@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Section, Container, Button } from '../components/UI';
 import { SEO } from '../components/SEO';
 import {
-  useAdminLeads,
   useAdminTeardowns,
   useAdminDownloads,
   useAdminSubscribers,
@@ -12,6 +11,10 @@ import {
   useAdminBookings,
 } from '../hooks/useAdmin';
 import { useAdminAuth } from '../hooks/useAdminAuth';
+import { useAdminSearch } from '../hooks/useAdminSearch';
+import { AdminSearchFilters, Pagination } from '../components/AdminSearchFilters';
+import { LeadDetailModal } from '../components/LeadDetailModal';
+import { AnalyticsDashboard } from '../components/AnalyticsDashboard';
 import {
   Users,
   Mail,
@@ -34,6 +37,7 @@ import {
   LogOut,
   AlertCircle,
 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 type TabType = 'overview' | 'leads' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers';
 
@@ -172,87 +176,75 @@ const StatCard: React.FC<{ label: string; value: number; icon: React.ReactNode; 
   </div>
 );
 
-const OverviewTab: React.FC = () => {
-  const { stats, isLoading } = useAdminStats();
+interface OverviewTabProps {
+  onNavigate: (tab: TabType) => void;
+}
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <Loader2 className="animate-spin text-gray-400" size={32} />
-      </div>
-    );
-  }
-
-  if (!stats) return null;
-
-  return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        <StatCard
-          label="Total Leads"
-          value={stats.totalLeads}
-          icon={<Users size={24} />}
-        />
-        <StatCard
-          label="New This Week"
-          value={stats.newLeadsThisWeek}
-          icon={<TrendingUp size={24} />}
-          trend={stats.newLeadsThisWeek > 0 ? '+' + stats.newLeadsThisWeek : undefined}
-        />
-        <StatCard
-          label="Chat Conversations"
-          value={stats.totalConversations}
-          icon={<MessageCircle size={24} />}
-        />
-        <StatCard
-          label="Email Subscribers"
-          value={stats.totalSubscribers}
-          icon={<Mail size={24} />}
-        />
-        <StatCard
-          label="Resource Downloads"
-          value={stats.totalDownloads}
-          icon={<Download size={24} />}
-        />
-      </div>
-
-      <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
-        <div className="flex items-center gap-3 mb-6">
-          <BarChart3 className="text-gray-400" size={24} />
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Quick Actions</h3>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <a
-            href="https://cal.com/axrategy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center"
-          >
-            <p className="font-bold text-gray-900 dark:text-white">View Calendar</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Manage bookings</p>
-          </a>
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl text-center">
-            <p className="font-bold text-gray-900 dark:text-white">{stats.totalTeardowns}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Teardown Requests</p>
-          </div>
-          <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-center">
-            <p className="font-bold text-emerald-700 dark:text-emerald-400">Active</p>
-            <p className="text-sm text-emerald-600 dark:text-emerald-500">System Status</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigate }) => {
+  return <AnalyticsDashboard onNavigate={onNavigate} />;
 };
 
+interface Lead {
+  id: string;
+  name: string;
+  email: string;
+  service_interest: string | null;
+  message: string | null;
+  source: string;
+  status: string;
+  created_at: string;
+}
+
+const LEAD_STATUS_OPTIONS = [
+  { value: 'new', label: 'New' },
+  { value: 'contacted', label: 'Contacted' },
+  { value: 'qualified', label: 'Qualified' },
+  { value: 'converted', label: 'Converted' },
+  { value: 'closed', label: 'Closed' },
+];
+
+const LEAD_SOURCE_OPTIONS = [
+  { value: 'contact_form', label: 'Contact Form' },
+  { value: 'chat', label: 'Chat' },
+  { value: 'booking', label: 'Booking' },
+  { value: 'teardown', label: 'Teardown' },
+  { value: 'newsletter', label: 'Newsletter' },
+  { value: 'referral', label: 'Referral' },
+];
+
 const LeadsTab: React.FC = () => {
-  const { leads, isLoading, refetch, updateLeadStatus } = useAdminLeads();
+  const {
+    results: leads,
+    isLoading,
+    filters,
+    setFilters,
+    resetFilters,
+    totalCount,
+    page,
+    setPage,
+    totalPages,
+    hasActiveFilters,
+  } = useAdminSearch<Lead>('leads', 25);
+
   const [updating, setUpdating] = useState<string | null>(null);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   const handleStatusChange = async (id: string, status: string) => {
     setUpdating(id);
-    await updateLeadStatus(id, status);
-    setUpdating(null);
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id);
+
+      if (error) throw error;
+      // Refresh the search results
+      setFilters({});
+    } catch (err) {
+      console.error('Failed to update status:', err);
+    } finally {
+      setUpdating(null);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -264,82 +256,116 @@ const LeadsTab: React.FC = () => {
     });
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <Loader2 className="animate-spin text-gray-400" size={32} />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <p className="text-sm text-gray-500 dark:text-gray-400">{leads.length} leads found</p>
-        <Button variant="outline" size="sm" onClick={refetch}>
-          <RefreshCw size={14} className="mr-2" /> Refresh
-        </Button>
-      </div>
+      <AdminSearchFilters
+        filters={filters}
+        onFilterChange={setFilters}
+        onReset={resetFilters}
+        hasActiveFilters={hasActiveFilters}
+        statusOptions={LEAD_STATUS_OPTIONS}
+        sourceOptions={LEAD_SOURCE_OPTIONS}
+        totalCount={totalCount}
+        tableName="leads"
+        showExport={true}
+      />
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-              <tr>
-                <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Name</th>
-                <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Email</th>
-                <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Interest</th>
-                <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Source</th>
-                <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
-                <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Date</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-              {leads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{lead.name}</td>
-                  <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{lead.email}</td>
-                  <td className="px-6 py-4 text-gray-600 dark:text-gray-400 max-w-[200px] truncate">
-                    {lead.service_interest || '-'}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
-                      {lead.source.replace('_', ' ')}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    {updating === lead.id ? (
-                      <Loader2 className="animate-spin text-gray-400" size={16} />
-                    ) : (
-                      <select
-                        value={lead.status}
-                        onChange={(e) => handleStatusChange(lead.id, e.target.value)}
-                        className="text-xs font-bold uppercase bg-transparent border-none cursor-pointer focus:outline-none"
-                      >
-                        <option value="new">New</option>
-                        <option value="contacted">Contacted</option>
-                        <option value="qualified">Qualified</option>
-                        <option value="converted">Converted</option>
-                        <option value="closed">Closed</option>
-                      </select>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                    {formatDate(lead.created_at)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {isLoading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 className="animate-spin text-gray-400" size={32} />
         </div>
+      ) : (
+        <>
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+                  <tr>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Name</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Email</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Interest</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Source</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
+                    <th className="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                  {leads.map((lead) => (
+                    <tr
+                      key={lead.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
+                      onClick={() => setSelectedLead(lead)}
+                    >
+                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{lead.name}</td>
+                      <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{lead.email}</td>
+                      <td className="px-6 py-4 text-gray-600 dark:text-gray-400 max-w-[200px] truncate">
+                        {lead.service_interest || '-'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                          {lead.source.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+                        {updating === lead.id ? (
+                          <Loader2 className="animate-spin text-gray-400" size={16} />
+                        ) : (
+                          <select
+                            value={lead.status}
+                            onChange={(e) => handleStatusChange(lead.id, e.target.value)}
+                            className="text-xs font-bold uppercase bg-transparent border-none cursor-pointer focus:outline-none"
+                          >
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="qualified">Qualified</option>
+                            <option value="converted">Converted</option>
+                            <option value="closed">Closed</option>
+                          </select>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        {formatDate(lead.created_at)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-        {leads.length === 0 && (
-          <div className="text-center py-12">
-            <Users className="mx-auto mb-4 text-gray-300 dark:text-gray-600" size={48} />
-            <p className="text-gray-500 dark:text-gray-400">No leads yet</p>
+            {leads.length === 0 && (
+              <div className="text-center py-12">
+                <Users className="mx-auto mb-4 text-gray-300 dark:text-gray-600" size={48} />
+                <p className="text-gray-500 dark:text-gray-400">
+                  {hasActiveFilters ? 'No leads match your filters' : 'No leads yet'}
+                </p>
+                {hasActiveFilters && (
+                  <button
+                    onClick={resetFilters}
+                    className="mt-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white underline"
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </>
+      )}
+
+      {/* Lead Detail Modal */}
+      {selectedLead && (
+        <LeadDetailModal
+          lead={selectedLead}
+          onClose={() => setSelectedLead(null)}
+          onStatusChange={handleStatusChange}
+        />
+      )}
     </div>
   );
 };
@@ -950,7 +976,7 @@ export const Admin: React.FC = () => {
             ))}
           </div>
 
-          {activeTab === 'overview' && <OverviewTab />}
+          {activeTab === 'overview' && <OverviewTab onNavigate={setActiveTab} />}
           {activeTab === 'leads' && <LeadsTab />}
           {activeTab === 'conversations' && <ConversationsTab />}
           {activeTab === 'bookings' && <BookingsTab />}

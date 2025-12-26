@@ -1,6 +1,12 @@
-import { useState } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import type { LeadSource, PricingPreferenceDB } from '../lib/database.types';
+import {
+  performSpamCheck,
+  incrementRateLimit,
+  checkRateLimit,
+  SpamCheckResult,
+} from '../lib/spamProtection';
 
 interface LeadData {
   name: string;
@@ -9,15 +15,25 @@ interface LeadData {
   message?: string;
   source: LeadSource;
   pricing_preference?: PricingPreferenceDB;
+  honeypot?: string;
+  captchaToken?: string | null;
 }
 
 interface UseLeadsReturn {
   submitLead: (data: LeadData) => Promise<{ success: boolean; error?: string }>;
   isSubmitting: boolean;
+  formStartTime: number;
+  resetFormTimer: () => void;
+  getRateLimitStatus: () => { allowed: boolean; remaining: number; resetIn: number };
 }
 
 export function useLeads(): UseLeadsReturn {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formStartTimeRef = useRef<number>(Date.now());
+
+  const resetFormTimer = useCallback(() => {
+    formStartTimeRef.current = Date.now();
+  }, []);
 
   const getUTMParams = () => {
     if (typeof window === 'undefined') return {};
@@ -33,6 +49,18 @@ export function useLeads(): UseLeadsReturn {
     setIsSubmitting(true);
 
     try {
+      // Perform spam check
+      const spamCheck: SpamCheckResult = performSpamCheck(
+        data.email,
+        data.honeypot || '',
+        formStartTimeRef.current,
+        data.captchaToken
+      );
+
+      if (spamCheck.isSpam) {
+        return { success: false, error: spamCheck.reason || 'Submission blocked' };
+      }
+
       const utmParams = getUTMParams();
 
       const { error } = await supabase.from('leads').insert({
@@ -53,6 +81,10 @@ export function useLeads(): UseLeadsReturn {
         return { success: false, error: error.message };
       }
 
+      // Increment rate limit counter on successful submission
+      incrementRateLimit();
+
+      // Trigger email notification (fire and forget)
       const emailEndpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
       fetch(emailEndpoint, {
         method: 'POST',
@@ -74,6 +106,9 @@ export function useLeads(): UseLeadsReturn {
         console.error('Failed to trigger email notification:', err);
       });
 
+      // Reset form timer for next submission
+      resetFormTimer();
+
       return { success: true };
     } catch (err) {
       console.error('Unexpected error:', err);
@@ -83,5 +118,11 @@ export function useLeads(): UseLeadsReturn {
     }
   };
 
-  return { submitLead, isSubmitting };
+  return {
+    submitLead,
+    isSubmitting,
+    formStartTime: formStartTimeRef.current,
+    resetFormTimer,
+    getRateLimitStatus: checkRateLimit,
+  };
 }
