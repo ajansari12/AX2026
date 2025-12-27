@@ -101,5 +101,83 @@ VALUES
     'a1000000-0000-0000-0000-000000000001',
     false,
     'published'
+  ),
+  (
+    'automating-boring-stuff',
+    'The "Self-Driving" Back Office: Automate Invoices, Onboarding, Reviews',
+    'Still sending invoices manually? Here''s the exact stack to automate your entire back office.',
+    '<p class="lead">If you find yourself copying and pasting data from an email into a spreadsheet more than once a day, you are burning money.</p><p>Automation isn''t about building robots; it''s about building pipelines for data. When data flows automatically, your business speeds up and errors go down.</p><h2>The 5-Minute Rule</h2><p>The "5-Minute Rule" states that any task taking less than 5 minutes but performed more than 5 times a day should be automated. Why? Because the context switching costs you more than the time itself.</p><h2>Top 3 Workflows to Automate</h2><h3>1. The "New Lead" Sequence</h3><p>When a form is filled on your site, three things should happen instantly:</p><ol><li>Lead added to CRM (HubSpot/Pipedrive).</li><li>SMS confirmation sent to the lead ("Hey, we got your info!").</li><li>Slack notification sent to your sales team.</li></ol><h3>2. The "Review Request" Loop</h3><p>Stop manually asking for Google Reviews. Set up a trigger: When a project is marked "Complete" in your CRM, wait 2 days, then send a polite email asking for feedback with a direct link.</p><h3>3. Invoicing Chasers</h3><p>Nobody likes asking for money. Let the system do it. Set up automated reminders for unpaid invoices at 3 days, 7 days, and 14 days overdue.</p><h2>Tools of the Trade</h2><p>You don''t need custom code for this. Tools like <strong>Zapier</strong> and <strong>Make.com</strong> act as the "glue" between your apps. They are low-code, reliable, and cheap.</p>',
+    'Automation',
+    '6 min read',
+    '2025-08-30',
+    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
+    'a1000000-0000-0000-0000-000000000002',
+    false,
+    'published'
+  ),
+  (
+    'client-portal-reduces-churn',
+    'Why Clients Cancel (And How a Portal Fixes It)',
+    'Clients don''t cancel because of price. They cancel because they feel ignored. Here''s the fix.',
+    '<p class="lead">Your website is not a digital brochure. It is a 24/7 salesperson. If it isn''t putting appointments on your calendar, it is failing.</p><p>We audit hundreds of small business websites every year. The vast majority make the same three mistakes that kill conversion rates instantly.</p><h2>Mistake 1: "We" vs. "You"</h2><p>Count how many times your homepage says "We" (We are the best, We have 50 years exp) vs "You" (You will save time, You will get paid). Flip the script. The customer is the hero of the story, not you.</p><h2>Mistake 2: Hidden Calls to Action</h2><p>Don''t make people hunt for the "Book Now" button. It should be in the top right corner (sticky) and repeated in every section. Decision fatigue is real; make the next step obvious.</p><h2>Mistake 3: The Wall of Text</h2><p>Nobody reads on the internet; they scan. If your paragraphs are longer than 3 lines, they are being skipped. Use bullet points, bold text, and icons to break up the flow.</p><h2>The "Trust Battery" Concept</h2><p>Every visitor starts with a "Trust Battery" at 0%. You charge it up with social proof.</p>',
+    'Strategy',
+    '5 min read',
+    '2025-08-24',
+    'https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&q=80&w=1200',
+    'a1000000-0000-0000-0000-000000000003',
+    false,
+    'published'
+  ),
+  (
+    'mobile-nav-best-practices',
+    '70% of Your Traffic is Mobile. Can They Book in One Thumb Tap?',
+    'If your "Book Now" button isn''t reachable with a thumb, you''re losing money. Here''s how to fix it.',
+    '<p class="lead">In the fast-paced world of digital business, agility is the ultimate competitive advantage. This article explores key strategies to stay ahead.</p><p>Implementing systematic changes can seem daunting, but the long-term ROI is undeniable. Let''s break down the core components of a successful modern operation.</p><h2>Understanding the Baseline</h2><p>Before you build, you must measure. What is your current cost of acquisition? How many hours are spent on admin? Without these numbers, improvement is just guessing.</p><h2>The Implementation Phase</h2><p>Execution eats strategy for breakfast. Start small. Pick one bottleneck in your business—be it lead intake, invoicing, or project management—and solve it completely before moving to the next.</p><h2>Conclusion</h2><p>The businesses that win in 2026 won''t necessarily be the ones with the best product, but the ones with the best systems to deliver that product efficiently.</p>',
+    'Design',
+    '4 min read',
+    '2025-08-15',
+    'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&q=80&w=1200',
+    'a1000000-0000-0000-0000-000000000003',
+    false,
+    'published'
+  ),
+  (
+    'seo-is-dead-for-local',
+    'Skip SEO. Run Local Service Ads + Automation Instead.',
+    'Waiting 6 months for rankings? Here''s how to get leads this week with paid + automation.',
+    '<p class="lead">In the fast-paced world of digital business, agility is the ultimate competitive advantage. This article explores key strategies to stay ahead.</p><p>Implementing systematic changes can seem daunting, but the long-term ROI is undeniable. Let''s break down the core components of a successful modern operation.</p><h2>Understanding the Baseline</h2><p>Before you build, you must measure. What is your current cost of acquisition? How many hours are spent on admin? Without these numbers, improvement is just guessing.</p><h2>The Implementation Phase</h2><p>Execution eats strategy for breakfast. Start small. Pick one bottleneck in your business—be it lead intake, invoicing, or project management—and solve it completely before moving to the next.</p><h2>Conclusion</h2><p>The businesses that win in 2026 won''t necessarily be the ones with the best product, but the ones with the best systems to deliver that product efficiently.</p>',
+    'Growth',
+    '6 min read',
+    '2025-08-10',
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
+    'a1000000-0000-0000-0000-000000000001',
+    false,
+    'published'
+  ),
+  (
+    'building-second-brain',
+    'Document Your SOPs With AI (So You Can Finally Delegate)',
+    'Your business knowledge is stuck in your head. Here''s how to extract it in a weekend.',
+    '<p class="lead">In the fast-paced world of digital business, agility is the ultimate competitive advantage. This article explores key strategies to stay ahead.</p><p>Implementing systematic changes can seem daunting, but the long-term ROI is undeniable. Let''s break down the core components of a successful modern operation.</p><h2>Understanding the Baseline</h2><p>Before you build, you must measure. What is your current cost of acquisition? How many hours are spent on admin? Without these numbers, improvement is just guessing.</p><h2>The Implementation Phase</h2><p>Execution eats strategy for breakfast. Start small. Pick one bottleneck in your business—be it lead intake, invoicing, or project management—and solve it completely before moving to the next.</p><h2>Conclusion</h2><p>The businesses that win in 2026 won''t necessarily be the ones with the best product, but the ones with the best systems to deliver that product efficiently.</p>',
+    'AI',
+    '9 min read',
+    '2025-08-02',
+    'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=80&w=1200',
+    'a1000000-0000-0000-0000-000000000002',
+    false,
+    'published'
+  ),
+  (
+    'chaos-to-crm',
+    'Spreadsheet to HubSpot in 4 Weeks: The Migration Checklist',
+    'Moving to a CRM feels overwhelming. Here''s the exact 4-week plan we use with clients.',
+    '<p class="lead">If you find yourself copying and pasting data from an email into a spreadsheet more than once a day, you are burning money.</p><p>Automation isn''t about building robots; it''s about building pipelines for data. When data flows automatically, your business speeds up and errors go down.</p><h2>The 5-Minute Rule</h2><p>The "5-Minute Rule" states that any task taking less than 5 minutes but performed more than 5 times a day should be automated. Why? Because the context switching costs you more than the time itself.</p><h2>Top 3 Workflows to Automate</h2><h3>1. The "New Lead" Sequence</h3><p>When a form is filled on your site, three things should happen instantly:</p><ol><li>Lead added to CRM (HubSpot/Pipedrive).</li><li>SMS confirmation sent to the lead ("Hey, we got your info!").</li><li>Slack notification sent to your sales team.</li></ol><h3>2. The "Review Request" Loop</h3><p>Stop manually asking for Google Reviews. Set up a trigger: When a project is marked "Complete" in your CRM, wait 2 days, then send a polite email asking for feedback with a direct link.</p><h3>3. Invoicing Chasers</h3><p>Nobody likes asking for money. Let the system do it. Set up automated reminders for unpaid invoices at 3 days, 7 days, and 14 days overdue.</p><h2>Tools of the Trade</h2><p>You don''t need custom code for this. Tools like <strong>Zapier</strong> and <strong>Make.com</strong> act as the "glue" between your apps. They are low-code, reliable, and cheap.</p>',
+    'Automation',
+    '7 min read',
+    '2025-07-28',
+    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
+    'a1000000-0000-0000-0000-000000000002',
+    false,
+    'published'
   )
 ON CONFLICT (slug) DO NOTHING;
