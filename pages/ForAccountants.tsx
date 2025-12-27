@@ -60,7 +60,7 @@ export const ForAccountants: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-bold text-gray-900 dark:text-white">Documents Received</p>
-                      <p className="text-sm text-gray-500">W-2s uploaded by client</p>
+                      <p className="text-sm text-gray-500">T4s / W-2s uploaded by client</p>
                     </div>
                   </div>
                   <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Auto-reminder sent yesterday</p>
@@ -100,7 +100,7 @@ export const ForAccountants: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
-              "You send 5 emails asking for the same W-2",
+              "You send 5 emails asking for the same T4 or W-2",
               "Tax season scheduling is a nightmare of back-and-forth",
               "New client intake takes 3 phone calls to complete",
               "Documents get lost in email threads"
