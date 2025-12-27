@@ -14,6 +14,7 @@ export const Services: React.FC = () => {
   const bookingModal = useBookingModal();
   const { services, isLoading } = useServices();
   const { service: singleService } = useService(slug || '');
+  const [quizFilter, setQuizFilter] = useState<string | null>(null);
 
   if (slug) {
     if (isLoading) {
@@ -189,9 +190,6 @@ export const Services: React.FC = () => {
       </div>
     );
   }
-
-  // Services Overview with Goal Selector
-  const [quizFilter, setQuizFilter] = useState<string | null>(null);
 
   if (isLoading) {
     return (
