@@ -15,6 +15,7 @@ interface SlotsRequest {
   eventTypeSlug?: string;
   eventTypeId?: number;
   duration?: number;
+  username?: string;
 }
 
 interface BookingRequest {
@@ -43,8 +44,12 @@ async function getAvailableSlots(apiKey: string, params: SlotsRequest): Promise<
   if (params.duration) {
     searchParams.set("duration", params.duration.toString());
   }
+  let queryString = searchParams.toString();
+  if (params.username) {
+    queryString += `&usernameList[]=${encodeURIComponent(params.username)}`;
+  }
 
-  const response = await fetch(`${CAL_API_BASE}/slots/available?${searchParams}`, {
+  const response = await fetch(`${CAL_API_BASE}/slots/available?${queryString}`, {
     method: "GET",
     headers: {
       "cal-api-version": "2024-08-13",
@@ -167,6 +172,7 @@ Deno.serve(async (req: Request) => {
         const eventTypeSlug = url.searchParams.get("eventTypeSlug") || undefined;
         const eventTypeId = url.searchParams.get("eventTypeId");
         const duration = url.searchParams.get("duration");
+        const username = url.searchParams.get("username") || Deno.env.get("CAL_USERNAME") || undefined;
 
         if (!startTime || !endTime) {
           return new Response(
@@ -181,6 +187,7 @@ Deno.serve(async (req: Request) => {
           eventTypeSlug,
           eventTypeId: eventTypeId ? parseInt(eventTypeId) : undefined,
           duration: duration ? parseInt(duration) : undefined,
+          username,
         });
       }
 

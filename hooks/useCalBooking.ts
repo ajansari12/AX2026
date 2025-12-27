@@ -81,6 +81,7 @@ export function useCalBooking(eventTypeId: number = 0) {
         startTime: startDate.toISOString(),
         endTime: endDate.toISOString(),
         eventTypeSlug: '15min',
+        username: 'axrategy',
       });
 
       const response = await fetch(`${CAL_PROXY_URL}?${params}`, { headers });
