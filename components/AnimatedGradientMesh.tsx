@@ -9,11 +9,11 @@ export const AnimatedGradientMesh: React.FC<AnimatedGradientMeshProps> = ({ clas
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {/* Base gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-800" />
 
       {/* Animated mesh blobs */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-r from-rose-200/40 to-pink-300/40 dark:from-rose-900/20 dark:to-pink-900/20 blur-[80px]"
+        className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-r from-rose-200/40 to-pink-300/40 dark:from-rose-500/30 dark:to-pink-500/30 blur-[80px]"
         animate={{
           x: [0, 100, 50, 0],
           y: [0, 50, 100, 0],
@@ -28,7 +28,7 @@ export const AnimatedGradientMesh: React.FC<AnimatedGradientMeshProps> = ({ clas
       />
 
       <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-r from-blue-200/40 to-indigo-300/40 dark:from-blue-900/20 dark:to-indigo-900/20 blur-[80px]"
+        className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-r from-blue-200/40 to-cyan-300/40 dark:from-blue-500/30 dark:to-cyan-500/30 blur-[80px]"
         animate={{
           x: [0, -80, -40, 0],
           y: [0, 80, 40, 0],
@@ -43,7 +43,7 @@ export const AnimatedGradientMesh: React.FC<AnimatedGradientMeshProps> = ({ clas
       />
 
       <motion.div
-        className="absolute w-[450px] h-[450px] rounded-full bg-gradient-to-r from-emerald-200/40 to-teal-300/40 dark:from-emerald-900/20 dark:to-teal-900/20 blur-[80px]"
+        className="absolute w-[450px] h-[450px] rounded-full bg-gradient-to-r from-emerald-200/40 to-teal-300/40 dark:from-emerald-500/30 dark:to-teal-500/30 blur-[80px]"
         animate={{
           x: [0, 60, -30, 0],
           y: [0, -60, 30, 0],
@@ -58,7 +58,7 @@ export const AnimatedGradientMesh: React.FC<AnimatedGradientMeshProps> = ({ clas
       />
 
       <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-amber-200/30 to-orange-300/30 dark:from-amber-900/15 dark:to-orange-900/15 blur-[80px]"
+        className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-amber-200/30 to-orange-300/30 dark:from-amber-500/25 dark:to-orange-500/25 blur-[80px]"
         animate={{
           x: [0, -40, 60, 0],
           y: [0, 40, -20, 0],
