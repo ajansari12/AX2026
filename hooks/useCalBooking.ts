@@ -24,7 +24,11 @@ interface BookingResponse {
     end: string;
     meetingUrl?: string;
   };
-  error?: string;
+  error?: string | {
+    code: string;
+    message: string;
+    details?: unknown;
+  };
 }
 
 interface Attendee {
@@ -153,7 +157,10 @@ export function useCalBooking(eventTypeId: number = 0) {
 
         return true;
       } else {
-        setError(data.error || 'Failed to create booking');
+        const errorMessage = typeof data.error === 'string'
+          ? data.error
+          : data.error?.message || 'Failed to create booking';
+        setError(errorMessage);
         return false;
       }
     } catch (err) {
