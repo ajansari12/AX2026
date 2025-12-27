@@ -88,6 +88,8 @@ async function createBooking(
 
   const cleanPayload: CalComBookingPayload = calComPayload;
 
+  console.log('[Cal.com Booking] Request payload:', JSON.stringify(cleanPayload, null, 2));
+
   const response = await fetch(`${CAL_API_BASE}/bookings`, {
     method: "POST",
     headers: {
@@ -99,6 +101,17 @@ async function createBooking(
   });
 
   const data = await response.json();
+
+  console.log('[Cal.com Booking] Response status:', response.status);
+  console.log('[Cal.com Booking] Response data:', JSON.stringify(data, null, 2));
+
+  if (!response.ok) {
+    console.error('[Cal.com Booking] Error response:', {
+      status: response.status,
+      statusText: response.statusText,
+      data: data,
+    });
+  }
 
   if (response.ok && data.data) {
     try {

@@ -130,6 +130,8 @@ export function useCalBooking(eventTypeId: number = 0) {
 
       const data: BookingResponse = await response.json();
 
+      console.log('[Frontend] Booking response:', { status: response.status, data });
+
       if (data.status === 'success' && data.data) {
         setBookingState(prev => ({
           ...prev,
@@ -157,15 +159,28 @@ export function useCalBooking(eventTypeId: number = 0) {
 
         return true;
       } else {
-        const errorMessage = typeof data.error === 'string'
-          ? data.error
-          : data.error?.message || 'Failed to create booking';
+        console.error('[Frontend] Booking failed:', { response: data });
+
+        let errorMessage = 'Failed to create booking';
+
+        if (typeof data.error === 'string') {
+          errorMessage = data.error;
+        } else if (data.error?.message) {
+          errorMessage = data.error.message;
+          if (data.error.details) {
+            console.error('[Frontend] Error details:', data.error.details);
+          }
+        } else if (data.message) {
+          errorMessage = data.message;
+        }
+
         setError(errorMessage);
         return false;
       }
     } catch (err) {
-      console.error('Error creating booking:', err);
-      setError('Failed to book appointment');
+      console.error('[Frontend] Error creating booking:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Failed to book appointment. Please try again.';
+      setError(errorMessage);
       return false;
     } finally {
       setIsBooking(false);
