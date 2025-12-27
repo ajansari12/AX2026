@@ -27,6 +27,12 @@ const ProposalView = lazy(() => import('./pages/ProposalView').then(m => ({ defa
 const ForDentists = lazy(() => import('./pages/ForDentists').then(m => ({ default: m.ForDentists })));
 const ForLawyers = lazy(() => import('./pages/ForLawyers').then(m => ({ default: m.ForLawyers })));
 const ForContractors = lazy(() => import('./pages/ForContractors').then(m => ({ default: m.ForContractors })));
+const ForRealEstateAgents = lazy(() => import('./pages/ForRealEstateAgents').then(m => ({ default: m.ForRealEstateAgents })));
+const ForAccountants = lazy(() => import('./pages/ForAccountants').then(m => ({ default: m.ForAccountants })));
+const ForChiropractors = lazy(() => import('./pages/ForChiropractors').then(m => ({ default: m.ForChiropractors })));
+const ForInsuranceAgents = lazy(() => import('./pages/ForInsuranceAgents').then(m => ({ default: m.ForInsuranceAgents })));
+const ForFinancialAdvisors = lazy(() => import('./pages/ForFinancialAdvisors').then(m => ({ default: m.ForFinancialAdvisors })));
+const ForVeterinarians = lazy(() => import('./pages/ForVeterinarians').then(m => ({ default: m.ForVeterinarians })));
 
 const PortalLogin = lazy(() => import('./pages/PortalLogin').then(m => ({ default: m.PortalLogin })));
 const Portal = lazy(() => import('./pages/Portal').then(m => ({ default: m.Portal })));
@@ -118,6 +124,12 @@ const App: React.FC = () => {
                       <Route path="/for-dentists" element={<ForDentists />} />
                       <Route path="/for-lawyers" element={<ForLawyers />} />
                       <Route path="/for-contractors" element={<ForContractors />} />
+                      <Route path="/for-real-estate-agents" element={<ForRealEstateAgents />} />
+                      <Route path="/for-accountants" element={<ForAccountants />} />
+                      <Route path="/for-chiropractors" element={<ForChiropractors />} />
+                      <Route path="/for-insurance-agents" element={<ForInsuranceAgents />} />
+                      <Route path="/for-financial-advisors" element={<ForFinancialAdvisors />} />
+                      <Route path="/for-veterinarians" element={<ForVeterinarians />} />
 
                       <Route path="*" element={<NotFound />} />
                     </Routes>

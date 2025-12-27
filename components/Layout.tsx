@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ArrowRight, CheckCircle2, Moon, Sun, Calendar, ChevronDown, Stethoscope, Scale, HardHat } from 'lucide-react';
+import { Menu, X, ArrowRight, CheckCircle2, Moon, Sun, Calendar, ChevronDown, Stethoscope, Scale, HardHat, Home, Calculator, Activity, Shield, TrendingUp, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 
@@ -17,6 +17,12 @@ const INDUSTRY_LINKS = [
   { name: 'For Dentists', path: '/for-dentists', icon: Stethoscope, description: 'AI scheduling & patient management' },
   { name: 'For Lawyers', path: '/for-lawyers', icon: Scale, description: 'Client intake & case automation' },
   { name: 'For Contractors', path: '/for-contractors', icon: HardHat, description: 'Lead capture & job tracking' },
+  { name: 'For Real Estate', path: '/for-real-estate-agents', icon: Home, description: 'Lead response & showing automation' },
+  { name: 'For Accountants', path: '/for-accountants', icon: Calculator, description: 'Document collection & scheduling' },
+  { name: 'For Chiropractors', path: '/for-chiropractors', icon: Activity, description: 'Patient reminders & recall' },
+  { name: 'For Insurance', path: '/for-insurance-agents', icon: Shield, description: 'Renewals & lead follow-up' },
+  { name: 'For Advisors', path: '/for-financial-advisors', icon: TrendingUp, description: 'Reviews & prospect nurturing' },
+  { name: 'For Veterinarians', path: '/for-veterinarians', icon: Heart, description: 'Vaccines & pet owner care' },
 ];
 
 export const Header: React.FC = () => {
@@ -312,6 +318,12 @@ export const Footer: React.FC = () => {
               <li><NavLink to="/for-dentists" className="hover:text-black dark:hover:text-white">For Dentists</NavLink></li>
               <li><NavLink to="/for-lawyers" className="hover:text-black dark:hover:text-white">For Lawyers</NavLink></li>
               <li><NavLink to="/for-contractors" className="hover:text-black dark:hover:text-white">For Contractors</NavLink></li>
+              <li><NavLink to="/for-real-estate-agents" className="hover:text-black dark:hover:text-white">For Real Estate</NavLink></li>
+              <li><NavLink to="/for-accountants" className="hover:text-black dark:hover:text-white">For Accountants</NavLink></li>
+              <li><NavLink to="/for-chiropractors" className="hover:text-black dark:hover:text-white">For Chiropractors</NavLink></li>
+              <li><NavLink to="/for-insurance-agents" className="hover:text-black dark:hover:text-white">For Insurance</NavLink></li>
+              <li><NavLink to="/for-financial-advisors" className="hover:text-black dark:hover:text-white">For Advisors</NavLink></li>
+              <li><NavLink to="/for-veterinarians" className="hover:text-black dark:hover:text-white">For Veterinarians</NavLink></li>
             </ul>
           </div>
 
