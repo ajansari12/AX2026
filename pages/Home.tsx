@@ -10,6 +10,7 @@ import { CalBookingModal, useBookingModal } from '../components/CalBookingModal'
 import { PricingToggle } from '../components/PricingToggle';
 import { PricingMode } from '../types';
 import { HeroDashboard } from '../components/HeroDashboard';
+import { IllustratedAvatar, AnonymousAvatar } from '../components/IllustratedAvatar';
 
 export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
@@ -32,7 +33,7 @@ export const Home: React.FC = () => {
       {
         "@type": "LocalBusiness",
         "name": "Axrategy",
-        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
+        "image": "https://axrategy.com/og-image.svg",
         "telephone": "+1-416-555-0199",
         "address": {
           "@type": "PostalAddress",
@@ -81,12 +82,14 @@ export const Home: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 mb-12">
-              <NavLink to="/contact">
-                <Button size="lg" className="w-full sm:w-auto group text-base px-8 py-4">
-                  See If We Can Help
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </NavLink>
+              <Button
+                size="lg"
+                className="w-full sm:w-auto group text-base px-8 py-4"
+                onClick={() => bookingModal.open()}
+              >
+                <Calendar className="mr-2 w-4 h-4" />
+                Book a Free Call
+              </Button>
               <NavLink to="/work">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 py-4 bg-white/50 dark:bg-white/5 backdrop-blur-sm">
                   See Real Results
@@ -96,10 +99,13 @@ export const Home: React.FC = () => {
 
             <div className="flex items-center gap-4 text-sm font-medium text-gray-500 dark:text-gray-400">
               <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-[3px] border-white dark:border-gray-900 bg-gray-200 overflow-hidden ring-1 ring-gray-900/5 dark:ring-white/10">
-                    <img src={`https://picsum.photos/seed/face${i}/100/100`} alt="User" className="w-full h-full object-cover" />
-                  </div>
+                {[0, 1, 2, 3].map((i) => (
+                  <AnonymousAvatar
+                    key={i}
+                    index={i}
+                    size="md"
+                    className="border-[3px] border-white dark:border-gray-900"
+                  />
                 ))}
               </div>
               <p>Helping 50+ small businesses across North America</p>
@@ -216,9 +222,14 @@ export const Home: React.FC = () => {
               ))}
             </div>
             
-            <NavLink to="/contact">
-                <Button variant="outline" className="border-gray-300 dark:border-gray-700">Let's Talk</Button>
-            </NavLink>
+            <Button
+              variant="outline"
+              className="border-gray-300 dark:border-gray-700"
+              onClick={() => bookingModal.open()}
+            >
+              <Calendar className="mr-2 w-4 h-4" />
+              Let's Talk
+            </Button>
           </div>
           <div className="relative">
              <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-[3rem] overflow-hidden shadow-inner ring-1 ring-black/5 dark:ring-white/10">
@@ -310,15 +321,16 @@ export const Home: React.FC = () => {
                       ))}
                     </div>
 
-                    <NavLink to="/contact" className="w-full">
-                      <button className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
+                    <button
+                      onClick={() => bookingModal.open()}
+                      className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
                         tier.isPopular
                           ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                           : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
-                      }`}>
-                        {tier.ctaText}
-                      </button>
-                    </NavLink>
+                      }`}
+                    >
+                      {tier.ctaText}
+                    </button>
                   </div>
                 </FadeIn>
               ))
@@ -368,15 +380,16 @@ export const Home: React.FC = () => {
                       ))}
                     </div>
 
-                    <NavLink to="/contact" className="w-full">
-                      <button className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
+                    <button
+                      onClick={() => bookingModal.open()}
+                      className={`w-full py-4 px-6 rounded-2xl font-bold tracking-wide transition-all ${
                         tier.isPopular
                           ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                           : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
-                      }`}>
-                        {tier.ctaText}
-                      </button>
-                    </NavLink>
+                      }`}
+                    >
+                      {tier.ctaText}
+                    </button>
                   </div>
                 </FadeIn>
               ))
@@ -401,9 +414,7 @@ export const Home: React.FC = () => {
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
                 <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"I used to spend my evenings returning calls. Now I'm booked 6 weeks out and I actually have my weekends back."</p>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-                      <img src="https://picsum.photos/seed/face9/100/100" alt="User" className="w-full h-full object-cover" />
-                    </div>
+                    <IllustratedAvatar name="Sarah Jenning" size="lg" />
                     <div>
                         <p className="font-bold text-gray-900 dark:text-white">Dr. Sarah Jenning</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Apex Dental Studio</p>
@@ -414,9 +425,7 @@ export const Home: React.FC = () => {
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
                 <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"We were losing clients to firms that called back faster. Now leads get a response in seconds and we've signed 12 new cases this month."</p>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-                      <img src="https://picsum.photos/seed/face10/100/100" alt="User" className="w-full h-full object-cover" />
-                    </div>
+                    <IllustratedAvatar name="Mark Thompson" size="lg" />
                     <div>
                         <p className="font-bold text-gray-900 dark:text-white">Mark Thompson</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Harrison & Co. Law</p>
@@ -477,7 +486,11 @@ export const Home: React.FC = () => {
         </div>
       </Section>
 
-      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
+      <CalBookingModal
+        isOpen={bookingModal.isOpen}
+        onClose={bookingModal.close}
+        serviceInterest={bookingModal.serviceInterest}
+      />
     </>
   );
 };

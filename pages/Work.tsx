@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { CASE_STUDIES } from '../constants';
-import { ArrowUpRight, ArrowLeft, CheckCircle2, Layers, Cpu, Code2, LineChart } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, CheckCircle2, Layers, Cpu, Code2, LineChart, Calendar } from 'lucide-react';
 import { NavLink, useParams } from 'react-router-dom';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 
 export const Work: React.FC = () => {
   const { slug } = useParams();
   const [filter, setFilter] = useState<string>('All');
+  const triggerBookingModal = useTriggerBookingModal();
 
   // --- DETAIL VIEW ---
   if (slug) {
@@ -106,27 +108,37 @@ export const Work: React.FC = () => {
                       {study.solution}
                     </p>
                     
-                    {/* Gallery Grid (Placeholders) */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                        <img
-                          src={`https://picsum.photos/seed/${study.slug}1/1600/1200`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                          style={{ imageRendering: '-webkit-optimize-contrast' }}
-                          alt="Detail 1"
-                          loading="lazy"
-                        />
+                    {/* Gallery Grid */}
+                    {study.gallery && study.gallery.length >= 2 ? (
+                      <div className="grid grid-cols-2 gap-4">
+                        {study.gallery.slice(0, 2).map((img, idx) => (
+                          <div key={idx} className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <img
+                              src={img}
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                              style={{ imageRendering: '-webkit-optimize-contrast' }}
+                              alt={`${study.client} project detail ${idx + 1}`}
+                              loading="lazy"
+                            />
+                          </div>
+                        ))}
                       </div>
-                      <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                        <img
-                          src={`https://picsum.photos/seed/${study.slug}2/1600/1200`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                          style={{ imageRendering: '-webkit-optimize-contrast' }}
-                          alt="Detail 2"
-                          loading="lazy"
-                        />
+                    ) : (
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                          <div className="text-center p-6">
+                            <Cpu className="w-10 h-10 text-blue-400 dark:text-blue-500 mx-auto mb-3" />
+                            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">System Architecture</p>
+                          </div>
+                        </div>
+                        <div className="aspect-video bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                          <div className="text-center p-6">
+                            <LineChart className="w-10 h-10 text-emerald-400 dark:text-emerald-500 mx-auto mb-3" />
+                            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Results Dashboard</p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   {/* The Outcome */}
@@ -180,9 +192,10 @@ export const Work: React.FC = () => {
                        
                        <div className="border-t border-gray-100 dark:border-gray-800 mt-8 pt-8">
                           <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">Want results like this?</p>
-                          <NavLink to="/contact" className="block w-full">
-                             <Button className="w-full">Get a Quote</Button>
-                          </NavLink>
+                          <Button className="w-full" onClick={() => triggerBookingModal()}>
+                            <Calendar className="mr-2 w-4 h-4" />
+                            Book a Call
+                          </Button>
                        </div>
                     </div>
                  </div>

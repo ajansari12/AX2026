@@ -109,15 +109,16 @@ export const Pricing: React.FC = () => {
                       ))}
                     </div>
 
-                    <NavLink to="/contact" className="w-full mt-auto">
-                      <button className={`w-full py-4 px-6 rounded-xl font-bold text-sm transition-all active:scale-95 ${
+                    <button
+                      onClick={() => bookingModal.open()}
+                      className={`w-full py-4 px-6 rounded-xl font-bold text-sm transition-all active:scale-95 mt-auto ${
                         tier.isPopular
                           ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800'
                           : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 shadow-md hover:shadow-lg'
-                      }`}>
-                        {tier.ctaText}
-                      </button>
-                    </NavLink>
+                      }`}
+                    >
+                      {tier.ctaText}
+                    </button>
                   </div>
                 </FadeIn>
               ))
@@ -183,15 +184,16 @@ export const Pricing: React.FC = () => {
                       ))}
                     </div>
 
-                    <NavLink to="/contact" className="w-full mt-auto">
-                      <button className={`w-full py-4 px-6 rounded-xl font-bold text-sm transition-all active:scale-95 ${
+                    <button
+                      onClick={() => bookingModal.open()}
+                      className={`w-full py-4 px-6 rounded-xl font-bold text-sm transition-all active:scale-95 mt-auto ${
                         tier.isPopular
                           ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800'
                           : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 shadow-md hover:shadow-lg'
-                      }`}>
-                        {tier.ctaText}
-                      </button>
-                    </NavLink>
+                      }`}
+                    >
+                      {tier.ctaText}
+                    </button>
                   </div>
                 </FadeIn>
               ))

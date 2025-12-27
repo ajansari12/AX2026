@@ -1,0 +1,65 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <circle cx="100" cy="100" r="100" fill="url(#sarah-bg)"/>
+
+  <!-- Face base -->
+  <ellipse cx="100" cy="108" rx="40" ry="46" fill="#F8E0D8"/>
+
+  <!-- Hair - long dark hair -->
+  <path d="M50 90C50 90 48 55 100 50C152 55 150 90 150 90" fill="#1A1A2E"/>
+  <path d="M50 90C50 90 45 120 48 160C50 170 55 180 60 190C60 190 65 140 70 120C72 110 75 100 80 95C82 100 85 105 85 115C85 125 80 150 80 160C80 160 90 130 95 110C97 102 100 95 100 95C100 95 103 102 105 110C110 130 120 160 120 160C120 150 115 125 115 115C115 105 118 100 120 95C125 100 128 110 130 120C135 140 140 190 140 190C145 180 150 170 152 160C155 120 150 90 150 90" fill="#1A1A2E"/>
+
+  <!-- Side hair strands -->
+  <path d="M50 90C50 95 52 100 55 105" stroke="#1A1A2E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M150 90C150 95 148 100 145 105" stroke="#1A1A2E" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Ears (partially hidden by hair) -->
+  <ellipse cx="60" cy="108" rx="6" ry="10" fill="#F8E0D8"/>
+  <ellipse cx="140" cy="108" rx="6" ry="10" fill="#F8E0D8"/>
+
+  <!-- Earrings -->
+  <circle cx="60" cy="118" r="3" fill="#FFD700"/>
+  <circle cx="140" cy="118" r="3" fill="#FFD700"/>
+
+  <!-- Eyes -->
+  <ellipse cx="82" cy="105" rx="9" ry="7" fill="white"/>
+  <ellipse cx="118" cy="105" rx="9" ry="7" fill="white"/>
+  <circle cx="83" cy="106" r="5" fill="#2D1B0E"/>
+  <circle cx="119" cy="106" r="5" fill="#2D1B0E"/>
+  <circle cx="84" cy="104" r="2" fill="white"/>
+  <circle cx="120" cy="104" r="2" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M73 96C76 94 82 93 90 95" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+  <path d="M127 96C124 94 118 93 110 95" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Eyelashes -->
+  <path d="M73 102L71 100" stroke="#1A1A2E" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M127 102L129 100" stroke="#1A1A2E" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M100 108C100 108 97 116 100 120C103 116 100 108 100 108Z" fill="#EACFC4"/>
+
+  <!-- Smile with dimples -->
+  <path d="M86 130C90 137 110 137 114 130" stroke="#B8755A" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="82" cy="128" r="2" fill="#FFB8B8" opacity="0.5"/>
+  <circle cx="118" cy="128" r="2" fill="#FFB8B8" opacity="0.5"/>
+
+  <!-- Blush -->
+  <ellipse cx="72" cy="118" rx="8" ry="4" fill="#FFB8B8" opacity="0.3"/>
+  <ellipse cx="128" cy="118" rx="8" ry="4" fill="#FFB8B8" opacity="0.3"/>
+
+  <!-- Neck -->
+  <rect x="88" y="150" width="24" height="18" fill="#F8E0D8"/>
+
+  <!-- Blouse -->
+  <path d="M68 168C68 168 82 158 100 162C118 158 132 168 132 168L142 200H58L68 168Z" fill="#8B5CF6"/>
+  <path d="M92 162C92 162 100 170 108 162" stroke="white" stroke-width="1.5"/>
+
+  <defs>
+    <linearGradient id="sarah-bg" x1="0" y1="0" x2="200" y2="200">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+  </defs>
+</svg>

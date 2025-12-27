@@ -1,0 +1,98 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Gradient blobs -->
+  <ellipse cx="200" cy="350" rx="200" ry="220" fill="url(#grad1)" opacity="0.2"/>
+  <ellipse cx="1000" cy="200" rx="180" ry="200" fill="url(#grad2)" opacity="0.15"/>
+
+  <!-- Retention Chart -->
+  <g transform="translate(550, 80)">
+    <!-- Chart background -->
+    <rect x="0" y="0" width="500" height="350" rx="20" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+
+    <!-- Chart title -->
+    <text x="30" y="40" fill="white" font-family="system-ui" font-size="18" font-weight="600">Client Retention Rate</text>
+
+    <!-- Y-axis labels -->
+    <text x="30" y="80" fill="#64748b" font-family="system-ui" font-size="12">100%</text>
+    <text x="30" y="150" fill="#64748b" font-family="system-ui" font-size="12">75%</text>
+    <text x="30" y="220" fill="#64748b" font-family="system-ui" font-size="12">50%</text>
+    <text x="30" y="290" fill="#64748b" font-family="system-ui" font-size="12">25%</text>
+
+    <!-- Grid lines -->
+    <line x1="70" y1="75" x2="470" y2="75" stroke="#334155" stroke-width="1"/>
+    <line x1="70" y1="145" x2="470" y2="145" stroke="#334155" stroke-width="1"/>
+    <line x1="70" y1="215" x2="470" y2="215" stroke="#334155" stroke-width="1"/>
+    <line x1="70" y1="285" x2="470" y2="285" stroke="#334155" stroke-width="1"/>
+
+    <!-- X-axis labels -->
+    <text x="100" y="320" fill="#64748b" font-family="system-ui" font-size="11">Month 1</text>
+    <text x="200" y="320" fill="#64748b" font-family="system-ui" font-size="11">Month 3</text>
+    <text x="300" y="320" fill="#64748b" font-family="system-ui" font-size="11">Month 6</text>
+    <text x="400" y="320" fill="#64748b" font-family="system-ui" font-size="11">Month 12</text>
+
+    <!-- Declining line (without fixes) -->
+    <path d="M 100 85 L 200 140 L 300 200 L 400 270" stroke="#ef4444" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="100" cy="85" r="6" fill="#ef4444"/>
+    <circle cx="200" cy="140" r="6" fill="#ef4444"/>
+    <circle cx="300" cy="200" r="6" fill="#ef4444"/>
+    <circle cx="400" cy="270" r="6" fill="#ef4444"/>
+
+    <!-- Growing line (with fixes) -->
+    <path d="M 100 85 L 200 90 L 300 85 L 400 80" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="100" cy="85" r="6" fill="#10b981"/>
+    <circle cx="200" cy="90" r="6" fill="#10b981"/>
+    <circle cx="300" cy="85" r="6" fill="#10b981"/>
+    <circle cx="400" cy="80" r="6" fill="#10b981"/>
+
+    <!-- Legend -->
+    <circle cx="320" y="45" r="5" fill="#ef4444"/>
+    <text x="330" y="48" fill="#94a3b8" font-family="system-ui" font-size="11">Without fixes</text>
+    <circle cx="420" y="45" r="5" fill="#10b981"/>
+    <text x="430" y="48" fill="#94a3b8" font-family="system-ui" font-size="11">With fixes</text>
+  </g>
+
+  <!-- Warning Signs Section -->
+  <g transform="translate(100, 100)">
+    <text x="0" y="0" fill="white" font-family="system-ui" font-size="24" font-weight="700">⚠️ Warning Signs</text>
+
+    <g transform="translate(0, 40)">
+      <rect x="0" y="0" width="350" height="60" rx="12" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+      <text x="20" y="25" fill="#ef4444" font-family="system-ui" font-size="14" font-weight="600">❌ Poor Communication</text>
+      <text x="20" y="45" fill="#64748b" font-family="system-ui" font-size="12">Slow response times, missed updates</text>
+    </g>
+
+    <g transform="translate(0, 120)">
+      <rect x="0" y="0" width="350" height="60" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+      <text x="20" y="25" fill="#f59e0b" font-family="system-ui" font-size="14" font-weight="600">⚡ Scope Creep</text>
+      <text x="20" y="45" fill="#64748b" font-family="system-ui" font-size="12">Unclear boundaries, feature bloat</text>
+    </g>
+
+    <g transform="translate(0, 200)">
+      <rect x="0" y="0" width="350" height="60" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+      <text x="20" y="25" fill="#8b5cf6" font-family="system-ui" font-size="14" font-weight="600">📉 No Visible ROI</text>
+      <text x="20" y="45" fill="#64748b" font-family="system-ui" font-size="12">Missing metrics, unclear value</text>
+    </g>
+
+    <g transform="translate(0, 280)">
+      <rect x="0" y="0" width="350" height="60" rx="12" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
+      <text x="20" y="25" fill="#06b6d4" font-family="system-ui" font-size="14" font-weight="600">🔄 Onboarding Friction</text>
+      <text x="20" y="45" fill="#64748b" font-family="system-ui" font-size="12">Confusing setup, no quick wins</text>
+    </g>
+  </g>
+
+  <!-- Title -->
+  <text x="100" y="520" fill="white" font-family="system-ui" font-size="36" font-weight="700">Why Clients Cancel</text>
+  <text x="100" y="560" fill="#94a3b8" font-family="system-ui" font-size="20">And how to prevent 90% of churn</text>
+
+  <defs>
+    <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="grad2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

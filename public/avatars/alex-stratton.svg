@@ -1,0 +1,48 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <circle cx="100" cy="100" r="100" fill="url(#alex-bg)"/>
+
+  <!-- Face base -->
+  <ellipse cx="100" cy="108" rx="42" ry="48" fill="#F5D0C5"/>
+
+  <!-- Hair -->
+  <path d="M58 85C58 85 60 55 100 52C140 49 142 85 142 85C142 85 145 70 140 60C135 50 125 42 100 42C75 42 65 50 60 60C55 70 58 85 58 85Z" fill="#3D2314"/>
+  <path d="M58 85C58 85 55 75 60 68C62 72 65 78 70 82C68 84 62 86 58 85Z" fill="#3D2314"/>
+  <path d="M142 85C142 85 145 75 140 68C138 72 135 78 130 82C132 84 138 86 142 85Z" fill="#3D2314"/>
+
+  <!-- Ears -->
+  <ellipse cx="58" cy="105" rx="8" ry="12" fill="#F5D0C5"/>
+  <ellipse cx="142" cy="105" rx="8" ry="12" fill="#F5D0C5"/>
+
+  <!-- Eyes -->
+  <ellipse cx="82" cy="105" rx="8" ry="6" fill="white"/>
+  <ellipse cx="118" cy="105" rx="8" ry="6" fill="white"/>
+  <circle cx="83" cy="105" r="4" fill="#3D2314"/>
+  <circle cx="119" cy="105" r="4" fill="#3D2314"/>
+  <circle cx="84" cy="104" r="1.5" fill="white"/>
+  <circle cx="120" cy="104" r="1.5" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M74 95C76 93 80 92 88 94" stroke="#3D2314" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M126 95C124 93 120 92 112 94" stroke="#3D2314" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M100 108C100 108 97 118 100 122C103 118 100 108 100 108Z" fill="#E5B8A8"/>
+
+  <!-- Smile -->
+  <path d="M88 132C92 138 108 138 112 132" stroke="#3D2314" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Neck -->
+  <rect x="88" y="150" width="24" height="20" fill="#F5D0C5"/>
+
+  <!-- Shirt collar -->
+  <path d="M70 170C70 170 85 160 100 165C115 160 130 170 130 170L140 200H60L70 170Z" fill="#10B981"/>
+  <path d="M88 165L100 175L112 165" stroke="white" stroke-width="2"/>
+
+  <defs>
+    <linearGradient id="alex-bg" x1="0" y1="0" x2="200" y2="200">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+</svg>

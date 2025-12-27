@@ -11,12 +11,14 @@ interface CustomCalendarProps {
   eventTypeId?: number;
   onBookingComplete?: () => void;
   className?: string;
+  serviceInterest?: string;
 }
 
 export const CustomCalendar: React.FC<CustomCalendarProps> = ({
   eventTypeId = 0,
   onBookingComplete,
   className = '',
+  serviceInterest,
 }) => {
   const {
     step,
@@ -43,7 +45,7 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
     fetchSlots(start, end);
   }, [fetchSlots]);
 
-  const handleFormSubmit = useCallback(async (data: { name: string; email: string; notes?: string }) => {
+  const handleFormSubmit = useCallback(async (data: { name: string; email: string; notes?: string; serviceInterest?: string }) => {
     if (!bookingState.selectedTime) return;
 
     const success = await createBooking({
@@ -55,6 +57,7 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
         timeZone: timezone,
       },
       notes: data.notes,
+      serviceInterest: data.serviceInterest,
     });
 
     if (success && onBookingComplete) {
@@ -133,6 +136,7 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
                 onBack={goBack}
                 isSubmitting={isBooking}
                 error={error}
+                initialServiceInterest={serviceInterest}
               />
             </motion.div>
           )}

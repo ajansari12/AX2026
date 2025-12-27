@@ -6,6 +6,8 @@ import { ChatWidget } from './components/ChatWidget';
 import { SkipLinks } from './components/a11y/SkipLinks';
 import { I18nProvider } from './lib/i18n';
 import { initMonitoring } from './lib/monitoring';
+import { CalBookingModal } from './components/CalBookingModal';
+import { useGlobalBookingModal } from './hooks/useGlobalBookingModal';
 
 // Pages
 import { Home } from './pages/Home';
@@ -42,6 +44,18 @@ const ScrollToTop = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+};
+
+// Global booking modal wrapper component
+const GlobalBookingModal: React.FC = () => {
+  const bookingModal = useGlobalBookingModal();
+  return (
+    <CalBookingModal
+      isOpen={bookingModal.isOpen}
+      onClose={bookingModal.close}
+      serviceInterest={bookingModal.serviceInterest}
+    />
+  );
 };
 
 const App: React.FC = () => {
@@ -101,6 +115,7 @@ const App: React.FC = () => {
             }
           />
         </Routes>
+        <GlobalBookingModal />
       </HashRouter>
     </I18nProvider>
   );

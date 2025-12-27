@@ -202,6 +202,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Invoices get paid in 2 days instead of 2 weeks'
     ],
     image: '/urban_build_(1).png',
+    gallery: ['/urban_build.png', '/urban_build_(1).png'],
     tags: ['App', 'Automation'],
     stack: ['Next.js', 'Supabase', 'Stripe', 'Tailwind']
   },
@@ -221,6 +222,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Calendar booked 6 weeks out'
     ],
     image: '/elena_ross.png',
+    gallery: ['/elena_ross_(1).png', '/elena_ross_(2).png'],
     tags: ['Website', 'Automation'],
     stack: ['Webflow', 'ConvertKit', 'Framer Motion']
   },
@@ -259,6 +261,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'More customers come back to buy again'
     ],
     image: '/lumina_homegoods_(1).png',
+    gallery: ['/lumina_homegoods.png', '/lumina_homegoods_(1).png'],
     tags: ['Website', 'Automation'],
     stack: ['Shopify', 'Klaviyo', 'Liquid']
   }
@@ -602,7 +605,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: 'Oct 12, 2025',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
     featured: true,
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' }
+    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
   {
     id: '2',
@@ -614,7 +617,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '5 min read',
     date: 'Oct 08, 2025',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' }
+    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
   {
     id: '3',
@@ -626,7 +629,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '4 min read',
     date: 'Sep 28, 2025',
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' }
+    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
   {
     id: '4',
@@ -637,8 +640,8 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Design',
     readTime: '7 min read',
     date: 'Sep 22, 2025',
-    image: 'https://images.unsplash.com/photo-1509395062558-41c63a66956e?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Marcus Cole', role: 'Design Lead', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200' }
+    image: '/blog-covers/conversion-design.svg',
+    author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
   {
     id: '5',
@@ -649,8 +652,8 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Growth',
     readTime: '4 min read',
     date: 'Sep 15, 2025',
-    image: 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' }
+    image: '/blog-covers/sms-sequence.svg',
+    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
   {
     id: '6',
@@ -662,7 +665,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '8 min read',
     date: 'Sep 10, 2025',
     image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' }
+    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
   {
     id: '7',
@@ -673,8 +676,8 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Automation',
     readTime: '6 min read',
     date: 'Aug 30, 2025',
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' }
+    image: '/blog-covers/automation-backoffice.svg',
+    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
   {
     id: '8',
@@ -685,8 +688,8 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Strategy',
     readTime: '5 min read',
     date: 'Aug 24, 2025',
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Marcus Cole', role: 'Design Lead', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200' }
+    image: '/blog-covers/client-retention.svg',
+    author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
   {
     id: '9',
@@ -698,7 +701,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '4 min read',
     date: 'Aug 15, 2025',
     image: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Marcus Cole', role: 'Design Lead', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200' }
+    author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
   {
     id: '10',
@@ -709,8 +712,8 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Growth',
     readTime: '6 min read',
     date: 'Aug 10, 2025',
-    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' }
+    image: '/blog-covers/local-service-ads.svg',
+    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
   {
     id: '11',
@@ -722,7 +725,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '9 min read',
     date: 'Aug 02, 2025',
     image: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' }
+    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
   {
     id: '12',
@@ -733,7 +736,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Automation',
     readTime: '7 min read',
     date: 'Jul 28, 2025',
-    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200',
-    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' }
+    image: '/blog-covers/crm-migration.svg',
+    author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   }
 ];

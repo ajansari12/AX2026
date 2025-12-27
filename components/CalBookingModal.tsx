@@ -7,12 +7,14 @@ interface CalBookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   eventTypeId?: number;
+  serviceInterest?: string;
 }
 
 export const CalBookingModal: React.FC<CalBookingModalProps> = ({
   isOpen,
   onClose,
   eventTypeId = 0,
+  serviceInterest,
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -82,7 +84,7 @@ export const CalBookingModal: React.FC<CalBookingModalProps> = ({
                 </p>
               </div>
 
-              <CustomCalendar eventTypeId={eventTypeId} />
+              <CustomCalendar eventTypeId={eventTypeId} serviceInterest={serviceInterest} />
             </div>
           </motion.div>
         </>
@@ -93,10 +95,17 @@ export const CalBookingModal: React.FC<CalBookingModalProps> = ({
 
 export const useBookingModal = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [serviceInterest, setServiceInterest] = React.useState<string | undefined>(undefined);
 
-  const open = React.useCallback(() => setIsOpen(true), []);
-  const close = React.useCallback(() => setIsOpen(false), []);
+  const open = React.useCallback((service?: string) => {
+    setServiceInterest(service);
+    setIsOpen(true);
+  }, []);
+  const close = React.useCallback(() => {
+    setIsOpen(false);
+    setServiceInterest(undefined);
+  }, []);
   const toggle = React.useCallback(() => setIsOpen(prev => !prev), []);
 
-  return { isOpen, open, close, toggle };
+  return { isOpen, open, close, toggle, serviceInterest };
 };

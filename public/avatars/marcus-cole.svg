@@ -1,0 +1,60 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <circle cx="100" cy="100" r="100" fill="url(#marcus-bg)"/>
+
+  <!-- Face base -->
+  <ellipse cx="100" cy="110" rx="44" ry="50" fill="#8D5524"/>
+
+  <!-- Hair - short textured -->
+  <path d="M56 88C56 88 58 52 100 48C142 52 144 88 144 88" fill="#1A1A1A"/>
+  <circle cx="65" cy="72" r="8" fill="#1A1A1A"/>
+  <circle cx="80" cy="65" r="9" fill="#1A1A1A"/>
+  <circle cx="100" cy="62" r="10" fill="#1A1A1A"/>
+  <circle cx="120" cy="65" r="9" fill="#1A1A1A"/>
+  <circle cx="135" cy="72" r="8" fill="#1A1A1A"/>
+  <circle cx="70" cy="82" r="7" fill="#1A1A1A"/>
+  <circle cx="90" cy="75" r="8" fill="#1A1A1A"/>
+  <circle cx="110" cy="75" r="8" fill="#1A1A1A"/>
+  <circle cx="130" cy="82" r="7" fill="#1A1A1A"/>
+
+  <!-- Ears -->
+  <ellipse cx="56" cy="110" rx="8" ry="14" fill="#8D5524"/>
+  <ellipse cx="144" cy="110" rx="8" ry="14" fill="#8D5524"/>
+
+  <!-- Eyes -->
+  <ellipse cx="80" cy="108" rx="10" ry="8" fill="white"/>
+  <ellipse cx="120" cy="108" rx="10" ry="8" fill="white"/>
+  <circle cx="81" cy="109" r="5" fill="#2D1B0E"/>
+  <circle cx="121" cy="109" r="5" fill="#2D1B0E"/>
+  <circle cx="83" cy="107" r="2" fill="white"/>
+  <circle cx="123" cy="107" r="2" fill="white"/>
+
+  <!-- Eyebrows - thicker -->
+  <path d="M68 96C72 92 78 91 92 94" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
+  <path d="M132 96C128 92 122 91 108 94" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M100 110C100 110 94 122 100 128C106 122 100 110 100 110Z" fill="#7A4A1E"/>
+  <path d="M94 128C96 130 104 130 106 128" stroke="#7A4A1E" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Smile -->
+  <path d="M82 142C88 150 112 150 118 142" stroke="#5C3D1E" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Beard/stubble effect -->
+  <path d="M70 145C75 155 85 162 100 164C115 162 125 155 130 145" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="2 3" opacity="0.3"/>
+  <path d="M75 150C80 158 90 163 100 164C110 163 120 158 125 150" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="2 3" opacity="0.3"/>
+
+  <!-- Neck -->
+  <rect x="86" y="158" width="28" height="18" fill="#8D5524"/>
+
+  <!-- T-shirt/collar -->
+  <path d="M65 175C65 175 80 165 100 168C120 165 135 175 135 175L145 200H55L65 175Z" fill="#3B82F6"/>
+  <path d="M85 168C85 172 100 178 115 168" stroke="#2563EB" stroke-width="2"/>
+
+  <defs>
+    <linearGradient id="marcus-bg" x1="0" y1="0" x2="200" y2="200">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+</svg>

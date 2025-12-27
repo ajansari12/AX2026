@@ -3,9 +3,14 @@ import React from 'react';
 import { Section, FadeIn, Button } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { NavLink } from 'react-router-dom';
-import { Database, Globe, Cpu, Workflow } from 'lucide-react';
+import { Database, Globe, Cpu, Workflow, Calendar } from 'lucide-react';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { AnimatedGradientMesh } from '../components/AnimatedGradientMesh';
+import { IllustratedAvatar } from '../components/IllustratedAvatar';
 
 export const About: React.FC = () => {
+  const triggerBookingModal = useTriggerBookingModal();
+
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -39,21 +44,22 @@ export const About: React.FC = () => {
               You shouldn't have to work nights and weekends just to keep up. We build simple tools that handle the repetitive stuff, so you can focus on the parts of your business you actually enjoy.
             </p>
             <div className="flex gap-4">
-              <NavLink to="/contact">
-                <Button>Let's Talk</Button>
-              </NavLink>
+              <Button onClick={() => triggerBookingModal()}>
+                <Calendar className="mr-2 w-4 h-4" />
+                Let's Talk
+              </Button>
               <NavLink to="/work">
                 <Button variant="outline">See Our Work</Button>
               </NavLink>
             </div>
           </div>
           <div className="relative">
-             <div className="aspect-[4/5] bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] overflow-hidden relative shadow-2xl">
-               <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200" alt="Office minimalist" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-10">
-                 <div className="text-white">
-                   <p className="font-bold text-lg">Toronto, Canada</p>
-                   <p className="text-white/80 text-sm">Working with businesses across North America</p>
+             <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden relative shadow-2xl">
+               <AnimatedGradientMesh className="absolute inset-0" />
+               <div className="absolute inset-0 flex items-end p-10">
+                 <div className="relative z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-800">
+                   <p className="font-bold text-lg text-gray-900 dark:text-white">Toronto, Canada</p>
+                   <p className="text-gray-600 dark:text-gray-400 text-sm">Working with businesses across North America</p>
                  </div>
                </div>
              </div>
@@ -87,8 +93,8 @@ export const About: React.FC = () => {
       {/* Founder Note */}
       <Section>
         <div className="bg-black dark:bg-white text-white dark:text-black rounded-[3rem] p-10 md:p-20 flex flex-col md:flex-row gap-12 items-center shadow-2xl">
-           <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-gray-800 dark:bg-gray-200 overflow-hidden flex-shrink-0 border-4 border-white/10 dark:border-black/10">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Founder" className="w-full h-full object-cover" />
+           <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center flex-shrink-0 border-4 border-white/10 dark:border-black/10 shadow-xl">
+              <span className="text-white font-bold text-4xl md:text-6xl">AS</span>
            </div>
            <div className="flex-1">
               <div className="mb-6 text-emerald-400 dark:text-emerald-600 font-bold uppercase tracking-widest text-sm">Why I Started This</div>

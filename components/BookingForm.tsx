@@ -2,13 +2,24 @@ import React, { useState, useMemo } from 'react';
 import { ChevronLeft, Calendar, Clock, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const SERVICE_OPTIONS = [
+  { value: '', label: 'Not sure yet' },
+  { value: 'ai-assistants', label: 'AI That Answers For You' },
+  { value: 'automation-systems', label: 'Automatic Follow-Ups' },
+  { value: 'websites-landing-pages', label: 'A Website That Books Clients' },
+  { value: 'app-development', label: 'Client Portal / App' },
+  { value: 'crm-setup', label: 'CRM Setup' },
+  { value: 'analytics-optimization', label: 'Analytics Setup' },
+];
+
 interface BookingFormProps {
   selectedDate: Date;
   selectedTime: string;
-  onSubmit: (data: { name: string; email: string; notes?: string }) => void;
+  onSubmit: (data: { name: string; email: string; notes?: string; serviceInterest?: string }) => void;
   onBack: () => void;
   isSubmitting?: boolean;
   error?: string | null;
+  initialServiceInterest?: string;
 }
 
 const formatTime = (isoString: string): string => {
@@ -36,11 +47,13 @@ export const BookingForm: React.FC<BookingFormProps> = ({
   onBack,
   isSubmitting = false,
   error,
+  initialServiceInterest = '',
 }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     notes: '',
+    serviceInterest: initialServiceInterest,
   });
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
@@ -54,6 +67,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
       name: formData.name,
       email: formData.email,
       notes: formData.notes || undefined,
+      serviceInterest: formData.serviceInterest || undefined,
     });
   };
 
@@ -126,6 +140,26 @@ export const BookingForm: React.FC<BookingFormProps> = ({
             className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
             placeholder="jane@company.com"
           />
+        </div>
+
+        <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'service' ? 'opacity-60' : 'opacity-100'}`}>
+          <label htmlFor="booking-service" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+            What are you interested in? <span className="text-gray-400">(optional)</span>
+          </label>
+          <select
+            id="booking-service"
+            value={formData.serviceInterest}
+            onChange={(e) => setFormData(prev => ({ ...prev, serviceInterest: e.target.value }))}
+            onFocus={() => setFocusedField('service')}
+            onBlur={() => setFocusedField(null)}
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+          >
+            {SERVICE_OPTIONS.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={`transition-opacity duration-300 ${focusedField && focusedField !== 'notes' ? 'opacity-60' : 'opacity-100'}`}>

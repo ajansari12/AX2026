@@ -5,6 +5,8 @@ import { SEO } from '../components/SEO';
 import { BLOG_POSTS } from '../constants';
 import { useBlogPosts, useBlogPost, BlogPost as DBBlogPost } from '../hooks/useBlogPosts';
 import { ArrowLeft, Clock, Calendar, Search, Twitter, Linkedin, Link2, Loader2 } from 'lucide-react';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { IllustratedAvatar } from '../components/IllustratedAvatar';
 
 interface DisplayPost {
   id: string;
@@ -62,6 +64,7 @@ const mapConstantToDisplay = (post: typeof BLOG_POSTS[0]): DisplayPost => ({
 
 const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
   const { post: dbPost, isLoading, error } = useBlogPost(slug);
+  const triggerBookingModal = useTriggerBookingModal();
 
   const post = useMemo(() => {
     if (dbPost) {
@@ -146,7 +149,7 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-8 leading-[1.1] tracking-tight">{post.title}</h1>
             <div className="flex items-center justify-center gap-8 text-gray-500 dark:text-gray-400 text-sm font-medium">
               <div className="flex items-center gap-3">
-                <img src={post.author.avatar} alt={post.author.name} className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700" />
+                <IllustratedAvatar name={post.author.name} size="md" />
                 <div className="text-left">
                   <p className="text-gray-900 dark:text-white font-bold leading-none">{post.author.name}</p>
                   <p className="text-xs mt-1">{post.author.role}</p>
@@ -202,11 +205,14 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
                         <div className="relative z-10">
                           <h3 className="text-2xl font-bold mb-3">Want to build this system?</h3>
                           <p className="text-gray-300 dark:text-gray-600 mb-6 max-w-md mx-auto">Get the exact blueprint we used to {post.excerpt.toLowerCase().includes('automate') ? 'automate workflows' : 'boost conversions'} for our clients.</p>
-                          <NavLink to="/contact">
-                            <Button variant="secondary" className="bg-white text-black hover:bg-gray-200 dark:bg-black dark:text-white dark:hover:bg-gray-800 border-0">
-                              Book a Strategy Call
-                            </Button>
-                          </NavLink>
+                          <Button
+                            variant="secondary"
+                            className="bg-white text-black hover:bg-gray-200 dark:bg-black dark:text-white dark:hover:bg-gray-800 border-0"
+                            onClick={() => triggerBookingModal()}
+                          >
+                            <Calendar className="mr-2 w-4 h-4" />
+                            Book a Strategy Call
+                          </Button>
                         </div>
                         <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-[60px] translate-x-1/3 -translate-y-1/3 group-hover:bg-emerald-500/30 transition-colors"></div>
                       </div>
@@ -361,7 +367,7 @@ export const Insights: React.FC = () => {
                         <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-3 leading-relaxed mb-6">{post.excerpt}</p>
 
                         <div className="mt-auto flex items-center gap-3">
-                          <img src={post.author.avatar} alt={post.author.name} className="w-8 h-8 rounded-full" />
+                          <IllustratedAvatar name={post.author.name} size="sm" />
                           <span className="text-xs font-bold text-gray-900 dark:text-white">{post.author.name}</span>
                         </div>
                       </div>

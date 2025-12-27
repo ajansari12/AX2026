@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 const CAL_PROXY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cal-proxy`;
 
@@ -37,6 +38,7 @@ interface BookingData {
   eventTypeId: number;
   attendee: Attendee;
   notes?: string;
+  serviceInterest?: string;
 }
 
 export type BookingStep = 'date' | 'time' | 'form' | 'confirm';
@@ -115,6 +117,24 @@ export function useCalBooking(eventTypeId: number = 0) {
           attendee: bookingData.attendee,
         }));
         setStep('confirm');
+
+        // Create lead record from calendar booking
+        if (isSupabaseConfigured) {
+          try {
+            await supabase.from('leads').insert({
+              name: bookingData.attendee.name,
+              email: bookingData.attendee.email,
+              service_interest: bookingData.serviceInterest || null,
+              message: bookingData.notes || 'Booked via calendar',
+              source: 'calendar_booking',
+              status: 'new',
+            });
+          } catch (leadErr) {
+            // Silent fail - don't block booking success for lead creation failure
+            console.error('Error creating lead from booking:', leadErr);
+          }
+        }
+
         return true;
       } else {
         setError(data.error || 'Failed to create booking');

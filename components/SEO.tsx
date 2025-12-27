@@ -10,12 +10,12 @@ interface SEOProps {
   schema?: Record<string, any>;
 }
 
-export const SEO: React.FC<SEOProps> = ({ 
-  title, 
-  description, 
-  image = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200', // Default office image
+export const SEO: React.FC<SEOProps> = ({
+  title,
+  description,
+  image = 'https://axrategy.com/og-image.svg', // Branded social preview
   type = 'website',
-  schema 
+  schema
 }) => {
   const location = useLocation();
   const domain = 'https://axrategy.com'; // In production, use env var

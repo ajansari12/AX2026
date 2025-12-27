@@ -1,0 +1,66 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Gradient blobs -->
+  <ellipse cx="200" cy="300" rx="200" ry="250" fill="url(#grad1)" opacity="0.25"/>
+  <ellipse cx="1000" cy="400" rx="250" ry="200" fill="url(#grad2)" opacity="0.2"/>
+
+  <!-- Phone mockup -->
+  <g transform="translate(400, 80)">
+    <rect x="0" y="0" width="320" height="480" rx="40" fill="#1e293b" stroke="#334155" stroke-width="3"/>
+    <rect x="15" y="50" width="290" height="380" rx="8" fill="#0f172a"/>
+
+    <!-- SMS bubbles -->
+    <g transform="translate(30, 70)">
+      <!-- Outgoing message 1 -->
+      <rect x="60" y="0" width="200" height="60" rx="16" fill="#10b981"/>
+      <text x="80" y="25" fill="white" font-family="system-ui" font-size="14" font-weight="500">Hey! Just checking in</text>
+      <text x="80" y="45" fill="white" font-family="system-ui" font-size="14" font-weight="500">about your quote...</text>
+
+      <!-- Time indicator -->
+      <text x="220" y="80" fill="#64748b" font-family="system-ui" font-size="11">Day 1</text>
+
+      <!-- Outgoing message 2 -->
+      <rect x="40" y="100" width="220" height="60" rx="16" fill="#10b981"/>
+      <text x="60" y="125" fill="white" font-family="system-ui" font-size="14" font-weight="500">Quick reminder - your</text>
+      <text x="60" y="145" fill="white" font-family="system-ui" font-size="14" font-weight="500">discount expires Friday</text>
+
+      <text x="220" y="180" fill="#64748b" font-family="system-ui" font-size="11">Day 3</text>
+
+      <!-- Outgoing message 3 -->
+      <rect x="20" y="200" width="240" height="60" rx="16" fill="#10b981"/>
+      <text x="40" y="225" fill="white" font-family="system-ui" font-size="14" font-weight="500">Last chance! Ready to</text>
+      <text x="40" y="245" fill="white" font-family="system-ui" font-size="14" font-weight="500">book when you are</text>
+
+      <text x="220" y="280" fill="#64748b" font-family="system-ui" font-size="11">Day 7</text>
+
+      <!-- Reply -->
+      <rect x="0" y="300" width="180" height="40" rx="16" fill="#3b82f6"/>
+      <text x="20" y="325" fill="white" font-family="system-ui" font-size="14" font-weight="600">Yes! Let's do it</text>
+    </g>
+
+    <!-- Notch -->
+    <rect x="110" y="10" width="100" height="25" rx="12" fill="#0f172a"/>
+  </g>
+
+  <!-- Title -->
+  <text x="100" y="520" fill="white" font-family="system-ui" font-size="36" font-weight="700">The 3-Text Sequence</text>
+  <text x="100" y="560" fill="#94a3b8" font-family="system-ui" font-size="20">Revive dead leads with automated follow-ups</text>
+
+  <!-- Stats -->
+  <g transform="translate(800, 200)">
+    <text x="0" y="0" fill="#10b981" font-family="system-ui" font-size="64" font-weight="700">3x</text>
+    <text x="0" y="30" fill="#94a3b8" font-family="system-ui" font-size="16">Response Rate</text>
+  </g>
+
+  <defs>
+    <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="grad2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

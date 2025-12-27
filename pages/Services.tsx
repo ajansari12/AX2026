@@ -5,11 +5,13 @@ import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { SERVICES } from '../constants';
 import * as Icons from 'lucide-react';
-import { ArrowRight, CheckCircle2, ChevronDown, Clock, Users, Package, HelpCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronDown, Clock, Users, Package, HelpCircle, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 
 export const Services: React.FC = () => {
   const { slug } = useParams();
+  const bookingModal = useBookingModal();
 
   if (slug) {
     const service = SERVICES.find(s => s.slug === slug);
@@ -61,7 +63,10 @@ export const Services: React.FC = () => {
              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.05]">{service.title}</h1>
              <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed mb-12 max-w-3xl">{service.description} {service.outcome}</p>
              <div className="flex gap-4">
-               <NavLink to={`/contact?service=${encodeURIComponent(service.title)}`}><Button size="lg">Let's Talk</Button></NavLink>
+               <Button size="lg" onClick={() => bookingModal.open(service.slug)}>
+                 <Calendar className="mr-2 w-4 h-4" />
+                 Let's Talk
+               </Button>
                <NavLink to="/work"><Button size="lg" variant="outline">See Real Examples</Button></NavLink>
              </div>
           </Container>
@@ -152,15 +157,25 @@ export const Services: React.FC = () => {
 
                     <div className="border-t border-gray-800 dark:border-gray-200 pt-8 mt-4">
                       <h4 className="font-bold text-xl mb-6">Sound like what you need?</h4>
-                      <NavLink to={`/contact?service=${encodeURIComponent(service.title)}`} className="block w-full">
-                        <Button className="w-full bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 py-4 text-base font-bold">Let's Talk</Button>
-                      </NavLink>
+                      <Button
+                        className="w-full bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 py-4 text-base font-bold"
+                        onClick={() => bookingModal.open(service.slug)}
+                      >
+                        <Calendar className="mr-2 w-4 h-4" />
+                        Let's Talk
+                      </Button>
                     </div>
                  </div>
               </div>
 
            </div>
         </Section>
+
+        <CalBookingModal
+          isOpen={bookingModal.isOpen}
+          onClose={bookingModal.close}
+          serviceInterest={bookingModal.serviceInterest}
+        />
       </div>
     );
   }
@@ -256,13 +271,14 @@ export const Services: React.FC = () => {
                     </div>
                     
                     <div className="flex items-center gap-4 pt-2">
-                      <NavLink 
-                        to={`/contact?service=${encodeURIComponent(service.title)}`}
+                      <button
+                        onClick={() => bookingModal.open(service.slug)}
                         className="pointer-events-auto flex-1 text-center py-4 rounded-xl text-sm font-bold text-white dark:text-black bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 shadow-lg"
                         aria-label={`Book a call for ${service.title}`}
                       >
-                        Book Now <ArrowRight size={16} />
-                      </NavLink>
+                        <Calendar size={16} />
+                        Book Now
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -272,6 +288,12 @@ export const Services: React.FC = () => {
         </div>
         </AnimatePresence>
       </Section>
+
+      <CalBookingModal
+        isOpen={bookingModal.isOpen}
+        onClose={bookingModal.close}
+        serviceInterest={bookingModal.serviceInterest}
+      />
     </>
   );
 };
