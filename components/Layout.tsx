@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ArrowRight, CheckCircle2, Moon, Sun, Calendar } from 'lucide-react';
+import { Menu, X, ArrowRight, CheckCircle2, Moon, Sun, Calendar, ChevronDown, Stethoscope, Scale, HardHat } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 
@@ -13,9 +13,16 @@ const NAV_LINKS = [
   { name: 'Resources', path: '/resources' },
 ];
 
+const INDUSTRY_LINKS = [
+  { name: 'For Dentists', path: '/for-dentists', icon: Stethoscope, description: 'AI scheduling & patient management' },
+  { name: 'For Lawyers', path: '/for-lawyers', icon: Scale, description: 'Client intake & case automation' },
+  { name: 'For Contractors', path: '/for-contractors', icon: HardHat, description: 'Lead capture & job tracking' },
+];
+
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [industriesOpen, setIndustriesOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -103,6 +110,54 @@ export const Header: React.FC = () => {
               {link.name}
             </NavLink>
           ))}
+
+          {/* Industries Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setIndustriesOpen(true)}
+            onMouseLeave={() => setIndustriesOpen(false)}
+          >
+            <button
+              className="text-sm font-medium transition-colors hover:text-black dark:hover:text-white text-gray-500 dark:text-gray-400 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-md"
+              onClick={() => setIndustriesOpen(!industriesOpen)}
+              aria-expanded={industriesOpen}
+              aria-haspopup="true"
+            >
+              Industries
+              <ChevronDown size={14} className={`transition-transform ${industriesOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {industriesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden"
+                >
+                  <div className="p-2">
+                    {INDUSTRY_LINKS.map((industry) => (
+                      <NavLink
+                        key={industry.path}
+                        to={industry.path}
+                        onClick={() => setIndustriesOpen(false)}
+                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
+                      >
+                        <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors">
+                          <industry.icon size={18} className="text-gray-600 dark:text-gray-400" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{industry.name}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{industry.description}</div>
+                        </div>
+                      </NavLink>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
         {/* Desktop CTAs & Theme Toggle */}
@@ -158,7 +213,7 @@ export const Header: React.FC = () => {
             className="fixed inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl z-40 flex flex-col pt-32 px-6 h-screen md:hidden"
             aria-hidden={!isOpen}
           >
-            <nav className="flex flex-col gap-6">
+            <nav className="flex flex-col gap-6 overflow-y-auto">
               {NAV_LINKS.map((link, i) => (
                 <motion.div key={link.path} custom={i} variants={linkVariants}>
                   <NavLink
@@ -170,14 +225,35 @@ export const Header: React.FC = () => {
                   </NavLink>
                 </motion.div>
               ))}
-              
-              <motion.div 
-                variants={linkVariants} 
+
+              <motion.div
+                variants={linkVariants}
                 custom={NAV_LINKS.length}
+                className="pt-2"
+              >
+                <div className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 font-semibold">Industries</div>
+                <div className="flex flex-col gap-3">
+                  {INDUSTRY_LINKS.map((industry, i) => (
+                    <NavLink
+                      key={industry.path}
+                      to={industry.path}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-lg font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                    >
+                      <industry.icon size={20} />
+                      {industry.name}
+                    </NavLink>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                variants={linkVariants}
+                custom={NAV_LINKS.length + 1}
                 className="h-px w-full bg-gray-100 dark:bg-gray-800 my-4"
               />
 
-              <motion.div variants={linkVariants} custom={NAV_LINKS.length + 1} className="flex flex-col gap-4">
+              <motion.div variants={linkVariants} custom={NAV_LINKS.length + 2} className="flex flex-col gap-4">
                 <button
                   onClick={() => {
                     setIsOpen(false);
@@ -204,8 +280,8 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pt-20 pb-28 md:pb-10 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-1">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 mb-16">
+          <div className="col-span-2 md:col-span-1">
             <div className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
               <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
             </div>
@@ -219,7 +295,7 @@ export const Footer: React.FC = () => {
               <p>Toronto, Canada</p>
             </div>
           </div>
-          
+
           <div>
             <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Services</h4>
             <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
@@ -227,6 +303,15 @@ export const Footer: React.FC = () => {
               <li><NavLink to="/services/ai-assistants" className="hover:text-black dark:hover:text-white">AI Assistants</NavLink></li>
               <li><NavLink to="/services/automation-systems" className="hover:text-black dark:hover:text-white">Automation</NavLink></li>
               <li><NavLink to="/services/crm-setup" className="hover:text-black dark:hover:text-white">CRM Setup</NavLink></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Industries</h4>
+            <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
+              <li><NavLink to="/for-dentists" className="hover:text-black dark:hover:text-white">For Dentists</NavLink></li>
+              <li><NavLink to="/for-lawyers" className="hover:text-black dark:hover:text-white">For Lawyers</NavLink></li>
+              <li><NavLink to="/for-contractors" className="hover:text-black dark:hover:text-white">For Contractors</NavLink></li>
             </ul>
           </div>
 
