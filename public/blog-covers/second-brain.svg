@@ -1,0 +1,64 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <ellipse cx="400" cy="280" rx="300" ry="250" fill="url(#grad1)" opacity="0.2"/>
+  <ellipse cx="850" cy="380" rx="280" ry="220" fill="url(#grad2)" opacity="0.15"/>
+
+  <g transform="translate(150, 100)">
+    <circle cx="200" cy="180" r="140" fill="#1e293b" stroke="#8b5cf6" stroke-width="3"/>
+
+    <circle cx="200" cy="180" r="100" fill="#334155"/>
+
+    <path d="M150 160 Q200 120 250 160" stroke="#8b5cf6" stroke-width="3" fill="none"/>
+    <path d="M150 180 Q200 220 250 180" stroke="#10b981" stroke-width="3" fill="none"/>
+    <path d="M170 140 Q200 180 230 140" stroke="#3b82f6" stroke-width="3" fill="none"/>
+    <path d="M170 220 Q200 180 230 220" stroke="#f59e0b" stroke-width="3" fill="none"/>
+
+    <circle cx="200" cy="180" r="25" fill="#8b5cf6"/>
+    <text x="200" y="186" text-anchor="middle" fill="white" font-family="system-ui" font-size="14" font-weight="700">AI</text>
+
+    <text x="200" y="360" text-anchor="middle" fill="#94a3b8" font-family="system-ui" font-size="16">Your Knowledge</text>
+    <text x="200" y="385" text-anchor="middle" fill="white" font-family="system-ui" font-size="20" font-weight="700">Extracted &amp; Organized</text>
+  </g>
+
+  <g transform="translate(580, 80)">
+    <rect x="0" y="0" width="500" height="380" rx="20" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+
+    <text x="30" y="45" fill="#8b5cf6" font-family="system-ui" font-size="14" font-weight="700">SOP LIBRARY</text>
+
+    <rect x="30" y="70" width="440" height="60" rx="8" fill="#334155"/>
+    <circle cx="60" cy="100" r="15" fill="#10b981"/>
+    <path d="M52 100 L58 106 L68 94" stroke="white" stroke-width="2" fill="none"/>
+    <text x="90" y="95" fill="white" font-family="system-ui" font-size="14" font-weight="600">Client Onboarding Process</text>
+    <text x="90" y="115" fill="#64748b" font-family="system-ui" font-size="12">12 steps documented</text>
+
+    <rect x="30" y="145" width="440" height="60" rx="8" fill="#334155"/>
+    <circle cx="60" cy="175" r="15" fill="#10b981"/>
+    <path d="M52 175 L58 181 L68 169" stroke="white" stroke-width="2" fill="none"/>
+    <text x="90" y="170" fill="white" font-family="system-ui" font-size="14" font-weight="600">Project Delivery Workflow</text>
+    <text x="90" y="190" fill="#64748b" font-family="system-ui" font-size="12">8 steps documented</text>
+
+    <rect x="30" y="220" width="440" height="60" rx="8" fill="#334155"/>
+    <circle cx="60" cy="250" r="15" fill="#10b981"/>
+    <path d="M52 250 L58 256 L68 244" stroke="white" stroke-width="2" fill="none"/>
+    <text x="90" y="245" fill="white" font-family="system-ui" font-size="14" font-weight="600">Invoice &amp; Payment Handling</text>
+    <text x="90" y="265" fill="#64748b" font-family="system-ui" font-size="12">5 steps documented</text>
+
+    <rect x="30" y="295" width="440" height="60" rx="8" fill="#8b5cf6" opacity="0.2" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="4 2"/>
+    <text x="250" y="332" text-anchor="middle" fill="#8b5cf6" font-family="system-ui" font-size="14">+ Generate New SOP with AI</text>
+  </g>
+
+  <text x="100" y="520" fill="white" font-family="system-ui" font-size="36" font-weight="700">Build Your Second Brain with AI</text>
+  <text x="100" y="560" fill="#94a3b8" font-family="system-ui" font-size="20">Extract your knowledge so you can finally delegate</text>
+
+  <defs>
+    <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="grad2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

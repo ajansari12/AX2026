@@ -310,7 +310,7 @@ export const PRICING_TIERS: PricingTier[] = [
       'Dedicated person to help you',
       'Priority support anytime'
     ],
-    ctaText: 'Let\'s Talk',
+    ctaText: 'Book a Free Call',
     isPopular: false
   }
 ];
@@ -512,11 +512,11 @@ export const PRICING_FAQ = [
 // Content Templates
 const CONTENT_TEMPLATE_AI = `
 <p class="lead">For decades, small businesses have faced a dilemma: hire expensive staff to answer phones 24/7, or let leads go to voicemail and die. In 2026, there is a third option.</p>
-<p>Artificial Intelligence has graduated from a buzzword to a utility. Specifically, <strong>AI Voice Agents</strong> and <strong>Chatbots</strong> trained on your specific business data are now capable of handling 80% of front-line interactions with zero fatigue.</p>
+<p>Artificial Intelligence has graduated from a buzzword to a utility. Specifically, <strong>AI Voice Agents</strong> and <strong>Chatbots</strong> trained on your specific business data are now capable of handling 80% of front-line interactions with zero fatigue. Learn more about our <a href="/services/ai-assistants" class="text-emerald-600 hover:underline">AI Assistant services</a>.</p>
 
 <h2>The "Speed-to-Lead" Crisis</h2>
 <p>Harvard Business Review published a study showing that businesses who respond to leads within 5 minutes are <strong>100x more likely</strong> to connect and qualify them than those who wait 30 minutes. 100x. Not 10%.</p>
-<p>Yet, most service businesses (clinics, contractors, law firms) take hours to reply. Why? Because you are busy working.</p>
+<p>Yet, most service businesses (clinics, contractors, law firms) take hours to reply. Why? Because you are busy working. See how <a href="/work/legal-firm-lead-gen" class="text-emerald-600 hover:underline">Harrison & Co. Law</a> solved this problem.</p>
 
 <!-- CTA -->
 
@@ -538,11 +538,19 @@ const CONTENT_TEMPLATE_AI = `
 
 <h2>Implementation Strategy</h2>
 <p>Don't try to automate everything at once. Start with "After Hours" handling. Let the AI take messages and book appointments when you are closed. Once you trust it, let it handle overflow during the day.</p>
+
+<div class="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
+  <h3 class="font-bold text-lg mb-2">Related Services</h3>
+  <ul class="space-y-2">
+    <li><a href="/services/ai-assistants" class="text-emerald-600 hover:underline">AI Assistants</a> - 24/7 response to calls and messages</li>
+    <li><a href="/services/automation-systems" class="text-emerald-600 hover:underline">Automation Systems</a> - Connect your tools automatically</li>
+  </ul>
+</div>
 `;
 
 const CONTENT_TEMPLATE_AUTOMATION = `
 <p class="lead">If you find yourself copying and pasting data from an email into a spreadsheet more than once a day, you are burning money.</p>
-<p>Automation isn't about building robots; it's about building pipelines for data. When data flows automatically, your business speeds up and errors go down.</p>
+<p>Automation isn't about building robots; it's about building pipelines for data. When data flows automatically, your business speeds up and errors go down. Our <a href="/services/automation-systems" class="text-emerald-600 hover:underline">automation systems</a> can save you 10+ hours per week.</p>
 
 <h2>The 5-Minute Rule</h2>
 <p>The "5-Minute Rule" states that any task taking less than 5 minutes but performed more than 5 times a day should be automated. Why? Because the context switching costs you more than the time itself.</p>
@@ -551,7 +559,7 @@ const CONTENT_TEMPLATE_AUTOMATION = `
 <h3>1. The "New Lead" Sequence</h3>
 <p>When a form is filled on your site, three things should happen instantly:</p>
 <ol>
-  <li>Lead added to CRM (HubSpot/Pipedrive).</li>
+  <li>Lead added to CRM (HubSpot/Pipedrive). Need help? See our <a href="/services/crm-setup" class="text-emerald-600 hover:underline">CRM setup service</a>.</li>
   <li>SMS confirmation sent to the lead ("Hey, we got your info!").</li>
   <li>Slack notification sent to your sales team.</li>
 </ol>
@@ -559,18 +567,26 @@ const CONTENT_TEMPLATE_AUTOMATION = `
 <!-- CTA -->
 
 <h3>2. The "Review Request" Loop</h3>
-<p>Stop manually asking for Google Reviews. Set up a trigger: When a project is marked "Complete" in your CRM, wait 2 days, then send a polite email asking for feedback with a direct link.</p>
+<p>Stop manually asking for Google Reviews. Set up a trigger: When a project is marked "Complete" in your CRM, wait 2 days, then send a polite email asking for feedback with a direct link. See how <a href="/work/dental-clinic-automation" class="text-emerald-600 hover:underline">Apex Dental</a> automated their patient communications.</p>
 
 <h3>3. Invoicing Chasers</h3>
 <p>Nobody likes asking for money. Let the system do it. Set up automated reminders for unpaid invoices at 3 days, 7 days, and 14 days overdue.</p>
 
 <h2>Tools of the Trade</h2>
 <p>You don't need custom code for this. Tools like <strong>Zapier</strong> and <strong>Make.com</strong> act as the "glue" between your apps. They are low-code, reliable, and cheap.</p>
+
+<div class="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
+  <h3 class="font-bold text-lg mb-2">Related Services</h3>
+  <ul class="space-y-2">
+    <li><a href="/services/automation-systems" class="text-emerald-600 hover:underline">Automation Systems</a> - End-to-end workflow automation</li>
+    <li><a href="/services/crm-setup" class="text-emerald-600 hover:underline">CRM Setup</a> - Get all your leads in one place</li>
+  </ul>
+</div>
 `;
 
 const CONTENT_TEMPLATE_STRATEGY = `
 <p class="lead">Your website is not a digital brochure. It is a 24/7 salesperson. If it isn't putting appointments on your calendar, it is failing.</p>
-<p>We audit hundreds of small business websites every year. The vast majority make the same three mistakes that kill conversion rates instantly.</p>
+<p>We audit hundreds of small business websites every year. The vast majority make the same three mistakes that kill conversion rates instantly. Our <a href="/services/websites-landing-pages" class="text-emerald-600 hover:underline">website service</a> fixes all of them.</p>
 
 <h2>Mistake 1: "We" vs. "You"</h2>
 <p>Count how many times your homepage says "We" (We are the best, We have 50 years exp) vs "You" (You will save time, You will get paid). Flip the script. The customer is the hero of the story, not you.</p>
@@ -590,18 +606,36 @@ const CONTENT_TEMPLATE_STRATEGY = `
   <li><strong>Logos:</strong> Show who you've worked with.</li>
   <li><strong>Faces:</strong> Show real photos of your team, not stock photos of people shaking hands.</li>
 </ul>
+<p>See how <a href="/work/consultant-authority-site" class="text-emerald-600 hover:underline">Elena Ross tripled her prices</a> with a website redesign.</p>
+
+<div class="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
+  <h3 class="font-bold text-lg mb-2">Related Services</h3>
+  <ul class="space-y-2">
+    <li><a href="/services/websites-landing-pages" class="text-emerald-600 hover:underline">Websites & Landing Pages</a> - Conversion-focused design</li>
+    <li><a href="/services/analytics-optimization" class="text-emerald-600 hover:underline">Analytics</a> - See what's working</li>
+  </ul>
+</div>
 `;
 
 const CONTENT_TEMPLATE_GENERIC = `
 <p class="lead">In the fast-paced world of digital business, agility is the ultimate competitive advantage. This article explores key strategies to stay ahead.</p>
 <p>Implementing systematic changes can seem daunting, but the long-term ROI is undeniable. Let's break down the core components of a successful modern operation.</p>
 <h2>Understanding the Baseline</h2>
-<p>Before you build, you must measure. What is your current cost of acquisition? How many hours are spent on admin? Without these numbers, improvement is just guessing.</p>
+<p>Before you build, you must measure. What is your current cost of acquisition? How many hours are spent on admin? Without these numbers, improvement is just guessing. Our <a href="/services/analytics-optimization" class="text-emerald-600 hover:underline">analytics service</a> helps you track the metrics that matter.</p>
 <!-- CTA -->
 <h2>The Implementation Phase</h2>
 <p>Execution eats strategy for breakfast. Start small. Pick one bottleneck in your business—be it lead intake, invoicing, or project management—and solve it completely before moving to the next.</p>
 <h2>Conclusion</h2>
 <p>The businesses that win in 2026 won't necessarily be the ones with the best product, but the ones with the best systems to deliver that product efficiently.</p>
+
+<div class="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
+  <h3 class="font-bold text-lg mb-2">Ready to Get Started?</h3>
+  <p class="mb-4">See how we've helped other businesses like yours.</p>
+  <ul class="space-y-2">
+    <li><a href="/work" class="text-emerald-600 hover:underline">View Case Studies</a></li>
+    <li><a href="/pricing" class="text-emerald-600 hover:underline">See Our Pricing</a></li>
+  </ul>
+</div>
 `;
 
 
@@ -615,7 +649,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'AI',
     readTime: '6 min read',
     date: 'Oct 12, 2025',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
+    image: '/blog-covers/ai-agents-guide.svg',
     featured: true,
     author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
@@ -628,7 +662,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Automation',
     readTime: '5 min read',
     date: 'Oct 08, 2025',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
+    image: '/blog-covers/zapier-automations.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
   {
@@ -640,7 +674,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Strategy',
     readTime: '4 min read',
     date: 'Sep 28, 2025',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
+    image: '/blog-covers/speed-to-lead.svg',
     author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
   {
@@ -676,7 +710,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'AI',
     readTime: '8 min read',
     date: 'Sep 10, 2025',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200',
+    image: '/blog-covers/chatgpt-vs-claude.svg',
     author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
   },
   {
@@ -712,7 +746,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Design',
     readTime: '4 min read',
     date: 'Aug 15, 2025',
-    image: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&q=80&w=1200',
+    image: '/blog-covers/mobile-nav.svg',
     author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
   {
@@ -736,7 +770,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'AI',
     readTime: '9 min read',
     date: 'Aug 02, 2025',
-    image: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=80&w=1200',
+    image: '/blog-covers/second-brain.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
   {

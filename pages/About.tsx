@@ -46,7 +46,7 @@ export const About: React.FC = () => {
             <div className="flex gap-4">
               <Button onClick={() => triggerBookingModal()}>
                 <Calendar className="mr-2 w-4 h-4" />
-                Let's Talk
+                Book a Free Call
               </Button>
               <NavLink to="/work">
                 <Button variant="outline">See Our Work</Button>

@@ -1,0 +1,51 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <ellipse cx="250" cy="180" rx="200" ry="180" fill="url(#grad1)" opacity="0.3"/>
+  <ellipse cx="950" cy="480" rx="280" ry="200" fill="url(#grad2)" opacity="0.25"/>
+
+  <g transform="translate(150, 100)">
+    <rect x="0" y="0" width="500" height="350" rx="20" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+
+    <circle cx="250" cy="100" r="50" fill="#10b981" opacity="0.2"/>
+    <circle cx="250" cy="100" r="35" fill="#10b981"/>
+    <path d="M235 95 L245 105 L265 85" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+    <text x="250" y="180" text-anchor="middle" fill="white" font-family="system-ui" font-size="24" font-weight="700">AI Agent Online</text>
+
+    <rect x="50" y="220" width="400" height="50" rx="8" fill="#334155"/>
+    <text x="70" y="252" fill="#94a3b8" font-family="system-ui" font-size="16">New lead: "Hi, I need a quote for..."</text>
+
+    <rect x="50" y="285" width="180" height="40" rx="8" fill="#10b981"/>
+    <text x="140" y="312" text-anchor="middle" fill="white" font-family="system-ui" font-size="14" font-weight="600">Response: 8 sec</text>
+  </g>
+
+  <g transform="translate(720, 140)">
+    <rect x="0" y="0" width="380" height="280" rx="16" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+
+    <text x="30" y="50" fill="#10b981" font-family="system-ui" font-size="14" font-weight="700">CONVERSION RATE</text>
+
+    <text x="30" y="100" fill="white" font-family="system-ui" font-size="48" font-weight="700">100x</text>
+    <text x="30" y="130" fill="#94a3b8" font-family="system-ui" font-size="16">more likely to close</text>
+
+    <rect x="30" y="160" width="320" height="8" rx="4" fill="#334155"/>
+    <rect x="30" y="160" width="280" height="8" rx="4" fill="#10b981"/>
+
+    <text x="30" y="200" fill="#94a3b8" font-family="system-ui" font-size="14">Response within 5 min vs 30 min</text>
+    <text x="30" y="230" fill="#64748b" font-family="system-ui" font-size="12">Source: Harvard Business Review</text>
+  </g>
+
+  <text x="100" y="520" fill="white" font-family="system-ui" font-size="36" font-weight="700">AI Sales Agents: The Complete Guide</text>
+  <text x="100" y="560" fill="#94a3b8" font-family="system-ui" font-size="20">Respond to leads in 8 seconds, even at 3am</text>
+
+  <defs>
+    <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="grad2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
