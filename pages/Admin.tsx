@@ -15,8 +15,10 @@ import { useAdminSearch } from '../hooks/useAdminSearch';
 import { AdminSearchFilters, Pagination } from '../components/AdminSearchFilters';
 import { LeadDetailModal } from '../components/LeadDetailModal';
 import { AnalyticsDashboard } from '../components/AnalyticsDashboard';
+import { AdminClients } from '../components/AdminClients';
 import {
   Users,
+  UserCircle,
   Mail,
   Download,
   Globe,
@@ -39,7 +41,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-type TabType = 'overview' | 'leads' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers';
+type TabType = 'overview' | 'leads' | 'clients' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers';
 
 const AdminLoginForm: React.FC<{
   onLogin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
@@ -910,6 +912,7 @@ export const Admin: React.FC = () => {
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: 'Overview', icon: <BarChart3 size={18} /> },
     { id: 'leads', label: 'Leads', icon: <Users size={18} /> },
+    { id: 'clients', label: 'Clients', icon: <UserCircle size={18} /> },
     { id: 'conversations', label: 'Chats', icon: <MessageCircle size={18} /> },
     { id: 'bookings', label: 'Bookings', icon: <Calendar size={18} /> },
     { id: 'teardowns', label: 'Teardowns', icon: <Globe size={18} /> },
@@ -978,6 +981,7 @@ export const Admin: React.FC = () => {
 
           {activeTab === 'overview' && <OverviewTab onNavigate={setActiveTab} />}
           {activeTab === 'leads' && <LeadsTab />}
+          {activeTab === 'clients' && <AdminClients />}
           {activeTab === 'conversations' && <ConversationsTab />}
           {activeTab === 'bookings' && <BookingsTab />}
           {activeTab === 'teardowns' && <TeardownsTab />}
