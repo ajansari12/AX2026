@@ -56,6 +56,7 @@ export function useCalBooking(eventTypeId: number = 0) {
   const [isLoadingSlots, setIsLoadingSlots] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [apiUnavailable, setApiUnavailable] = useState(false);
   const [bookingState, setBookingState] = useState<BookingState>({
     selectedDate: null,
     selectedTime: null,
@@ -69,6 +70,8 @@ export function useCalBooking(eventTypeId: number = 0) {
   };
 
   const fetchSlots = useCallback(async (startDate: Date, endDate: Date) => {
+    if (apiUnavailable) return;
+
     setIsLoadingSlots(true);
     setError(null);
 
@@ -81,20 +84,30 @@ export function useCalBooking(eventTypeId: number = 0) {
       });
 
       const response = await fetch(`${CAL_PROXY_URL}?${params}`, { headers });
-      const data: SlotsResponse = await response.json();
+      const data = await response.json();
+
+      if (response.status === 500 && data.error?.includes('API key')) {
+        setApiUnavailable(true);
+        return;
+      }
+
+      if (!response.ok) {
+        setApiUnavailable(true);
+        return;
+      }
 
       if (data.status === 'success' && data.data?.slots) {
         setSlots(data.data.slots);
       } else {
-        setError('Unable to load available times');
+        setApiUnavailable(true);
       }
     } catch (err) {
       console.error('Error fetching slots:', err);
-      setError('Failed to load availability');
+      setApiUnavailable(true);
     } finally {
       setIsLoadingSlots(false);
     }
-  }, []);
+  }, [apiUnavailable]);
 
   const createBooking = useCallback(async (bookingData: BookingData): Promise<boolean> => {
     setIsBooking(true);
@@ -202,6 +215,7 @@ export function useCalBooking(eventTypeId: number = 0) {
     isLoadingSlots,
     isBooking,
     error,
+    apiUnavailable,
     bookingState,
     eventTypeId,
     fetchSlots,
