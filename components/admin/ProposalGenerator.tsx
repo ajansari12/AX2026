@@ -174,7 +174,32 @@ export const ProposalGenerator: React.FC = () => {
 
       if (error) throw error;
 
-      // TODO: Send email with proposal link
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
+      const headers = {
+        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      };
+
+      const emailResult = await fetch(apiUrl, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          type: 'proposal',
+          proposal: {
+            title: proposal.title,
+            client_name: proposal.client_name,
+            client_email: proposal.client_email,
+            share_token: proposal.share_token,
+            total: proposal.pricing?.total || 0,
+            valid_until: proposal.valid_until,
+          },
+        }),
+      });
+
+      if (!emailResult.ok) {
+        console.error('Failed to send email');
+      }
+
       alert(`Proposal sent to ${proposal.client_email}`);
       fetchData();
     } catch (err) {

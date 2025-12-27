@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { CASE_STUDIES } from '../constants';
+import { useCaseStudies, useCaseStudy } from '../hooks/useCaseStudies';
 import { ArrowUpRight, ArrowLeft, CheckCircle2, Layers, Cpu, Code2, LineChart, Calendar } from 'lucide-react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
@@ -11,10 +11,20 @@ export const Work: React.FC = () => {
   const { slug } = useParams();
   const [filter, setFilter] = useState<string>('All');
   const triggerBookingModal = useTriggerBookingModal();
+  const { caseStudies, isLoading } = useCaseStudies();
+  const { caseStudy: singleCaseStudy } = useCaseStudy(slug || '');
 
   // --- DETAIL VIEW ---
   if (slug) {
-    const study = CASE_STUDIES.find(s => s.slug === slug);
+    if (isLoading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-pulse text-gray-500">Loading...</div>
+        </div>
+      );
+    }
+
+    const study = singleCaseStudy;
     if (!study) return <div className="pt-32 text-center text-gray-500">Case Study Not Found</div>;
 
     const caseStudySchema = {
@@ -208,10 +218,18 @@ export const Work: React.FC = () => {
   }
 
   // --- LIST VIEW ---
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
   const filters = ['All', 'Website', 'AI Assistant', 'Automation', 'App'];
-  const filteredStudies = filter === 'All' 
-    ? CASE_STUDIES 
-    : CASE_STUDIES.filter(s => s.tags.includes(filter));
+  const filteredStudies = filter === 'All'
+    ? caseStudies
+    : caseStudies.filter(s => s.tags.includes(filter));
 
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">

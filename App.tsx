@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ExitIntentModal } from './components/UI';
@@ -9,29 +9,29 @@ import { initMonitoring } from './lib/monitoring';
 import { CalBookingModal } from './components/CalBookingModal';
 import { useGlobalBookingModal } from './hooks/useGlobalBookingModal';
 
-// Pages
 import { Home } from './pages/Home';
-import { Services } from './pages/Services';
-import { Contact } from './pages/Contact';
-import { Work } from './pages/Work';
-import { Pricing } from './pages/Pricing';
-import { About } from './pages/About';
-import { Insights } from './pages/Insights';
-import { Resources } from './pages/Resources';
-import { Terms, Privacy } from './pages/Legal';
-import { NotFound } from './pages/NotFound';
-import { Admin } from './pages/Admin';
-import { ProposalView } from './pages/ProposalView';
 
-// Client Portal Pages
-import { PortalLogin } from './pages/PortalLogin';
-import { Portal } from './pages/Portal';
-import { PortalDashboard } from './pages/PortalDashboard';
-import { PortalProjects } from './pages/PortalProjects';
-import { PortalDocuments } from './pages/PortalDocuments';
-import { PortalMessages } from './pages/PortalMessages';
-import { PortalInvoices } from './pages/PortalInvoices';
-import { PortalTraining } from './pages/PortalTraining';
+const Services = lazy(() => import('./pages/Services').then(m => ({ default: m.Services })));
+const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
+const Work = lazy(() => import('./pages/Work').then(m => ({ default: m.Work })));
+const Pricing = lazy(() => import('./pages/Pricing').then(m => ({ default: m.Pricing })));
+const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
+const Insights = lazy(() => import('./pages/Insights').then(m => ({ default: m.Insights })));
+const Resources = lazy(() => import('./pages/Resources').then(m => ({ default: m.Resources })));
+const Terms = lazy(() => import('./pages/Legal').then(m => ({ default: m.Terms })));
+const Privacy = lazy(() => import('./pages/Legal').then(m => ({ default: m.Privacy })));
+const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.NotFound })));
+const Admin = lazy(() => import('./pages/Admin').then(m => ({ default: m.Admin })));
+const ProposalView = lazy(() => import('./pages/ProposalView').then(m => ({ default: m.ProposalView })));
+
+const PortalLogin = lazy(() => import('./pages/PortalLogin').then(m => ({ default: m.PortalLogin })));
+const Portal = lazy(() => import('./pages/Portal').then(m => ({ default: m.Portal })));
+const PortalDashboard = lazy(() => import('./pages/PortalDashboard').then(m => ({ default: m.PortalDashboard })));
+const PortalProjects = lazy(() => import('./pages/PortalProjects').then(m => ({ default: m.PortalProjects })));
+const PortalDocuments = lazy(() => import('./pages/PortalDocuments').then(m => ({ default: m.PortalDocuments })));
+const PortalMessages = lazy(() => import('./pages/PortalMessages').then(m => ({ default: m.PortalMessages })));
+const PortalInvoices = lazy(() => import('./pages/PortalInvoices').then(m => ({ default: m.PortalInvoices })));
+const PortalTraining = lazy(() => import('./pages/PortalTraining').then(m => ({ default: m.PortalTraining })));
 
 // Initialize monitoring on app load
 if (typeof window !== 'undefined') {
@@ -58,64 +58,69 @@ const GlobalBookingModal: React.FC = () => {
   );
 };
 
+const LoadingFallback: React.FC = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-pulse text-gray-500">Loading...</div>
+  </div>
+);
+
 const App: React.FC = () => {
   return (
     <I18nProvider>
       <HashRouter>
         <SkipLinks />
         <ScrollToTop />
-        <Routes>
-          {/* Public Proposal View - No Layout */}
-          <Route path="/proposal/:token" element={<ProposalView />} />
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/proposal/:token" element={<ProposalView />} />
 
-          {/* Client Portal Routes - No Layout wrapper */}
-          <Route path="/portal/login" element={<PortalLogin />} />
-          <Route path="/portal" element={<Portal />}>
-            <Route index element={<PortalDashboard />} />
-            <Route path="projects" element={<PortalProjects />} />
-            <Route path="projects/:projectId" element={<PortalProjects />} />
-            <Route path="documents" element={<PortalDocuments />} />
-            <Route path="messages" element={<PortalMessages />} />
-            <Route path="invoices" element={<PortalInvoices />} />
-            <Route path="training" element={<PortalTraining />} />
-          </Route>
+            <Route path="/portal/login" element={<PortalLogin />} />
+            <Route path="/portal" element={<Portal />}>
+              <Route index element={<PortalDashboard />} />
+              <Route path="projects" element={<PortalProjects />} />
+              <Route path="projects/:projectId" element={<PortalProjects />} />
+              <Route path="documents" element={<PortalDocuments />} />
+              <Route path="messages" element={<PortalMessages />} />
+              <Route path="invoices" element={<PortalInvoices />} />
+              <Route path="training" element={<PortalTraining />} />
+            </Route>
 
-          {/* Main Website Routes - With Layout */}
-          <Route
-            path="*"
-            element={
-              <Layout>
-                <main id="main-content">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/services" element={<Services />} />
-                    <Route path="/services/:slug" element={<Services />} />
+            <Route
+              path="*"
+              element={
+                <Layout>
+                  <main id="main-content">
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/services" element={<Services />} />
+                      <Route path="/services/:slug" element={<Services />} />
 
-                    <Route path="/work" element={<Work />} />
-                    <Route path="/work/:slug" element={<Work />} />
+                      <Route path="/work" element={<Work />} />
+                      <Route path="/work/:slug" element={<Work />} />
 
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/about" element={<About />} />
+                      <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/about" element={<About />} />
 
-                    <Route path="/insights" element={<Insights />} />
-                    <Route path="/insights/:slug" element={<Insights />} />
+                      <Route path="/insights" element={<Insights />} />
+                      <Route path="/insights/:slug" element={<Insights />} />
 
-                    <Route path="/resources" element={<Resources />} />
-                    <Route path="/contact" element={<Contact />} />
+                      <Route path="/resources" element={<Resources />} />
+                      <Route path="/contact" element={<Contact />} />
 
-                    <Route path="/terms" element={<Terms />} />
-                    <Route path="/privacy" element={<Privacy />} />
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-                <ExitIntentModal />
-                <ChatWidget />
-              </Layout>
-            }
-          />
-        </Routes>
-        <GlobalBookingModal />
+                      <Route path="/terms" element={<Terms />} />
+                      <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/admin" element={<Admin />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </main>
+                  <ExitIntentModal />
+                  <ChatWidget />
+                </Layout>
+              }
+            />
+          </Routes>
+          <GlobalBookingModal />
+        </Suspense>
       </HashRouter>
     </I18nProvider>
   );

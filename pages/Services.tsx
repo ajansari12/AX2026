@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { SERVICES } from '../constants';
+import { useServices, useService } from '../hooks/useServices';
 import * as Icons from 'lucide-react';
 import { ArrowRight, CheckCircle2, ChevronDown, Clock, Users, Package, HelpCircle, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,9 +12,19 @@ import { CalBookingModal, useBookingModal } from '../components/CalBookingModal'
 export const Services: React.FC = () => {
   const { slug } = useParams();
   const bookingModal = useBookingModal();
+  const { services, isLoading } = useServices();
+  const { service: singleService } = useService(slug || '');
 
   if (slug) {
-    const service = SERVICES.find(s => s.slug === slug);
+    if (isLoading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-pulse text-gray-500">Loading...</div>
+        </div>
+      );
+    }
+
+    const service = singleService;
     if (!service) return <div>Service not found</div>;
 
     const serviceSchema = {
@@ -183,9 +193,17 @@ export const Services: React.FC = () => {
   // Services Overview with Goal Selector
   const [quizFilter, setQuizFilter] = useState<string | null>(null);
 
-  const filteredServices = quizFilter 
-    ? SERVICES.filter(s => s.outcome.toLowerCase().includes(quizFilter.toLowerCase()) || s.description.toLowerCase().includes(quizFilter.toLowerCase()))
-    : SERVICES;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  const filteredServices = quizFilter
+    ? services.filter(s => s.outcome.toLowerCase().includes(quizFilter.toLowerCase()) || s.description.toLowerCase().includes(quizFilter.toLowerCase()))
+    : services;
 
   return (
     <>

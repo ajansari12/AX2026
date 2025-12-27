@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar, RefreshCw } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { CASE_STUDIES, PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
+import { PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
+import { useCaseStudies } from '../hooks/useCaseStudies';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 import { PricingToggle } from '../components/PricingToggle';
@@ -15,6 +16,7 @@ import { IllustratedAvatar, AnonymousAvatar } from '../components/IllustratedAva
 export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
+  const { caseStudies, isLoading: caseStudiesLoading } = useCaseStudies();
 
   const schema = {
     "@context": "https://schema.org",
@@ -252,7 +254,12 @@ export const Home: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {CASE_STUDIES.map((study, idx) => (
+          {caseStudiesLoading ? (
+            <div className="col-span-3 text-center py-12">
+              <div className="animate-pulse text-gray-500">Loading case studies...</div>
+            </div>
+          ) : (
+            caseStudies.map((study, idx) => (
              <FadeIn key={study.id} delay={idx * 0.1}>
                <NavLink to={`/work/${study.slug}`} className="block group">
                  <div className="rounded-[2rem] overflow-hidden mb-8 relative aspect-[4/3] bg-gray-100 dark:bg-gray-800 ring-1 ring-black/5 dark:ring-white/10">
@@ -267,7 +274,8 @@ export const Home: React.FC = () => {
                  </div>
                </NavLink>
              </FadeIn>
-          ))}
+          ))
+          )}
         </div>
       </Section>
 

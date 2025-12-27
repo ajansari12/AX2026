@@ -51,7 +51,19 @@ interface LeadStatusChangePayload {
   };
 }
 
-type EmailPayload = LeadEmailPayload | BookingEmailPayload | DailyDigestPayload | LeadStatusChangePayload;
+interface ProposalEmailPayload {
+  type: "proposal";
+  proposal: {
+    title: string;
+    client_name: string;
+    client_email: string;
+    share_token: string;
+    total: number;
+    valid_until?: string;
+  };
+}
+
+type EmailPayload = LeadEmailPayload | BookingEmailPayload | DailyDigestPayload | LeadStatusChangePayload | ProposalEmailPayload;
 
 // Admin notification email address
 const ADMIN_EMAIL = "hi@axrategy.com";
@@ -417,6 +429,95 @@ function generateConfirmationEmailHtml(name: string): string {
   `.trim();
 }
 
+function generateProposalEmailHtml(proposal: ProposalEmailPayload["proposal"], proposalUrl: string): string {
+  const firstName = proposal.client_name.split(" ")[0];
+  const validUntilText = proposal.valid_until
+    ? new Date(proposal.valid_until).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    : "30 days";
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f5; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+          <tr>
+            <td style="background-color: #18181b; padding: 32px 40px;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 600;">Your Proposal is Ready</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px;">
+              <p style="margin: 0 0 20px; color: #18181b; font-size: 18px; font-weight: 500;">
+                Hi ${firstName},
+              </p>
+
+              <p style="margin: 0 0 20px; color: #52525b; font-size: 16px; line-height: 1.6;">
+                Thank you for your interest in working with Axrategy. We're excited to share a customized proposal for your project.
+              </p>
+
+              <div style="margin: 32px 0; padding: 24px; background-color: #fafafa; border-radius: 6px;">
+                <p style="margin: 0 0 8px; color: #71717a; font-size: 14px;">Proposal Title</p>
+                <p style="margin: 0 0 16px; color: #18181b; font-size: 18px; font-weight: 600;">${proposal.title}</p>
+
+                <p style="margin: 0 0 8px; color: #71717a; font-size: 14px;">Investment</p>
+                <p style="margin: 0 0 16px; color: #18181b; font-size: 24px; font-weight: 700;">$${proposal.total.toLocaleString()}</p>
+
+                <p style="margin: 0 0 8px; color: #71717a; font-size: 14px;">Valid Until</p>
+                <p style="margin: 0; color: #18181b; font-size: 16px; font-weight: 500;">${validUntilText}</p>
+              </div>
+
+              <div style="text-align: center; margin: 32px 0;">
+                <a href="${proposalUrl}" style="display: inline-block; background-color: #18181b; color: #ffffff; padding: 16px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                  View Your Proposal
+                </a>
+              </div>
+
+              <p style="margin: 0 0 20px; color: #52525b; font-size: 16px; line-height: 1.6;">
+                This proposal includes detailed information about the scope, timeline, deliverables, and investment required for your project.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #52525b; font-size: 16px; line-height: 1.6;">
+                If you have any questions or would like to discuss the proposal, please don't hesitate to reach out.
+              </p>
+
+              <p style="margin: 24px 0 0; color: #18181b; font-size: 16px;">
+                Best regards,<br>
+                <strong>The Axrategy Team</strong>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #fafafa; padding: 24px 40px; border-top: 1px solid #e4e4e7;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center">
+                    <p style="margin: 0 0 8px; color: #71717a; font-size: 13px;">
+                      Axrategy - Strategic Consulting
+                    </p>
+                    <p style="margin: 0; color: #a1a1aa; font-size: 12px;">
+                      This proposal link is confidential and intended only for ${proposal.client_name}.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+}
+
 async function sendEmail(
   resendApiKey: string,
   to: string,
@@ -554,6 +655,29 @@ Deno.serve(async (req: Request) => {
       return new Response(
         JSON.stringify({
           success: adminEmailResult.success,
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Handle proposal sending
+    if (payload.type === "proposal") {
+      const { proposal } = payload;
+      const proposalUrl = `${req.headers.get("origin") || "https://axrategy.com"}/proposal/${proposal.share_token}`;
+
+      const clientEmailResult = await sendEmail(
+        resendApiKey,
+        proposal.client_email,
+        FROM_EMAIL,
+        `Your Proposal from Axrategy - ${proposal.title}`,
+        generateProposalEmailHtml(proposal, proposalUrl)
+      );
+
+      return new Response(
+        JSON.stringify({
+          success: clientEmailResult.success,
         }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
