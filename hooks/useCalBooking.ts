@@ -35,7 +35,9 @@ interface Attendee {
 
 interface BookingData {
   start: string;
-  eventTypeId: number;
+  eventTypeId?: number;
+  eventTypeSlug?: string;
+  username?: string;
   attendee: Attendee;
   notes?: string;
   serviceInterest?: string;

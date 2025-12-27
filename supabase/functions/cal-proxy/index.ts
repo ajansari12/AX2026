@@ -20,7 +20,9 @@ interface SlotsRequest {
 
 interface BookingRequest {
   start: string;
-  eventTypeId: number;
+  eventTypeId?: number;
+  eventTypeSlug?: string;
+  username?: string;
   attendee: {
     name: string;
     email: string;
@@ -204,10 +206,20 @@ Deno.serve(async (req: Request) => {
     if (req.method === "POST") {
       if (action === "book") {
         const body = await req.json();
-        
-        if (!body.start || !body.eventTypeId || !body.attendee) {
+
+        if (!body.start || !body.attendee) {
           return new Response(
-            JSON.stringify({ error: "start, eventTypeId, and attendee are required" }),
+            JSON.stringify({ error: "start and attendee are required" }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+
+        const hasEventTypeId = body.eventTypeId !== undefined && body.eventTypeId !== null;
+        const hasEventTypeSlug = body.eventTypeSlug && body.username;
+
+        if (!hasEventTypeId && !hasEventTypeSlug) {
+          return new Response(
+            JSON.stringify({ error: "Either eventTypeId or (eventTypeSlug + username) is required" }),
             { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
           );
         }

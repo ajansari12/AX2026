@@ -49,9 +49,8 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
   const handleFormSubmit = useCallback(async (data: { name: string; email: string; notes?: string; serviceInterest?: string }) => {
     if (!bookingState.selectedTime) return;
 
-    const success = await createBooking({
+    const bookingPayload: any = {
       start: bookingState.selectedTime,
-      eventTypeId: eventTypeId,
       attendee: {
         name: data.name,
         email: data.email,
@@ -59,7 +58,16 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
       },
       notes: data.notes,
       serviceInterest: data.serviceInterest,
-    });
+    };
+
+    if (eventTypeId && eventTypeId !== 0) {
+      bookingPayload.eventTypeId = eventTypeId;
+    } else {
+      bookingPayload.eventTypeSlug = '15min';
+      bookingPayload.username = 'axrategy';
+    }
+
+    const success = await createBooking(bookingPayload);
 
     if (success && onBookingComplete) {
       onBookingComplete();
