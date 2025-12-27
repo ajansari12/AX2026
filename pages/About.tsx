@@ -5,7 +5,7 @@ import { SEO } from '../components/SEO';
 import { NavLink } from 'react-router-dom';
 import { Database, Globe, Cpu, Workflow, Calendar } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
-import { AnimatedGradientMesh } from '../components/AnimatedGradientMesh';
+import { GTADotMap } from '../components/GTADotMap';
 import { IllustratedAvatar } from '../components/IllustratedAvatar';
 
 export const About: React.FC = () => {
@@ -55,7 +55,7 @@ export const About: React.FC = () => {
           </div>
           <div className="relative">
              <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden relative shadow-2xl">
-               <AnimatedGradientMesh className="absolute inset-0" />
+               <GTADotMap className="absolute inset-0" />
                <div className="absolute inset-0 flex items-end p-10">
                  <div className="relative z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-800">
                    <p className="font-bold text-lg text-gray-900 dark:text-white">Toronto, Canada</p>
