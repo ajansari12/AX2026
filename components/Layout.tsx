@@ -268,9 +268,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const triggerBookingModal = useTriggerBookingModal();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-gray-950 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300">
       <Header />
-      <main className="flex-grow pt-24">{children}</main>
+      <main className="flex-grow">{children}</main>
       <Footer />
       {/* Mobile Floating CTA - High Z-index */}
       <div className="fixed bottom-6 right-6 md:hidden z-[90]">

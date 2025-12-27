@@ -31,16 +31,16 @@ export const About: React.FC = () => {
       />
 
       {/* Hero */}
-      <Section className="pt-32 md:pt-48 pb-20">
+      <Section className="pt-32 md:pt-48 pb-20 bg-white dark:bg-gray-900">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs font-bold uppercase tracking-widest mb-8">
                Why We Do This
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
-              We help small businesses <br /><span className="text-gray-400">work smarter.</span>
+              We help small businesses <br /><span className="text-gray-400 dark:text-gray-500">work smarter.</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-xl">
+            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-10 max-w-xl">
               You shouldn't have to work nights and weekends just to keep up. We build simple tools that handle the repetitive stuff, so you can focus on the parts of your business you actually enjoy.
             </p>
             <div className="flex gap-4">
@@ -91,17 +91,17 @@ export const About: React.FC = () => {
       </Section>
       
       {/* Founder Note */}
-      <Section>
-        <div className="bg-black dark:bg-white text-white dark:text-black rounded-[3rem] p-10 md:p-20 flex flex-col md:flex-row gap-12 items-center shadow-2xl">
-           <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center flex-shrink-0 border-4 border-white/10 dark:border-black/10 shadow-xl">
+      <Section className="bg-white dark:bg-gray-900">
+        <div className="bg-gray-900 dark:bg-gray-800 text-white rounded-[3rem] p-10 md:p-20 flex flex-col md:flex-row gap-12 items-center shadow-2xl">
+           <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center flex-shrink-0 border-4 border-white/10 shadow-xl">
               <span className="text-white font-bold text-4xl md:text-6xl">AS</span>
            </div>
            <div className="flex-1">
-              <div className="mb-6 text-emerald-400 dark:text-emerald-600 font-bold uppercase tracking-widest text-sm">Why I Started This</div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-relaxed">
+              <div className="mb-6 text-emerald-400 font-bold uppercase tracking-widest text-sm">Why I Started This</div>
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-relaxed text-white">
                 "My dad ran a dental practice and lost thousands every year to missed appointments. Simple text reminders would have fixed it, but no one showed him how. That's why I do this - to give small business owners the tools that actually help."
               </h3>
-              <p className="text-gray-400 dark:text-gray-600 font-medium text-lg">
+              <p className="text-gray-300 font-medium text-lg">
                 — Alex Stratton, Founder
               </p>
            </div>
