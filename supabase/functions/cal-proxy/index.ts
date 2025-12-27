@@ -18,7 +18,7 @@ interface SlotsRequest {
   username?: string;
 }
 
-interface BookingRequest {
+interface BookingRequestInternal {
   start: string;
   eventTypeId?: number;
   eventTypeSlug?: string;
@@ -29,6 +29,19 @@ interface BookingRequest {
     timeZone: string;
   };
   notes?: string;
+  serviceInterest?: string;
+}
+
+interface CalComBookingPayload {
+  start: string;
+  eventTypeId?: number;
+  eventTypeSlug?: string;
+  username?: string;
+  attendee: {
+    name: string;
+    email: string;
+    timeZone: string;
+  };
 }
 
 async function getAvailableSlots(apiKey: string, params: SlotsRequest): Promise<Response> {
@@ -68,9 +81,13 @@ async function getAvailableSlots(apiKey: string, params: SlotsRequest): Promise<
 
 async function createBooking(
   apiKey: string,
-  booking: BookingRequest,
+  booking: BookingRequestInternal,
   supabase: ReturnType<typeof createClient>
 ): Promise<Response> {
+  const { notes, serviceInterest, ...calComPayload } = booking;
+
+  const cleanPayload: CalComBookingPayload = calComPayload;
+
   const response = await fetch(`${CAL_API_BASE}/bookings`, {
     method: "POST",
     headers: {
@@ -78,7 +95,7 @@ async function createBooking(
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(booking),
+    body: JSON.stringify(cleanPayload),
   });
 
   const data = await response.json();
@@ -97,7 +114,7 @@ async function createBooking(
         email: booking.attendee.email,
         scheduled_time: booking.start,
         status: 'scheduled',
-        notes: booking.notes || null,
+        notes: notes || null,
         lead_id: existingLead?.id || null,
       });
 
@@ -105,8 +122,8 @@ async function createBooking(
         await supabase.from('leads').insert({
           name: booking.attendee.name,
           email: booking.attendee.email,
-          service_interest: 'Consultation Call',
-          message: booking.notes || 'Booked a consultation call',
+          service_interest: serviceInterest || 'Consultation Call',
+          message: notes || 'Booked a consultation call',
           source: 'contact_form',
           status: 'qualified',
         });
