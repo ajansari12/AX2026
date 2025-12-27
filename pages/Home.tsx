@@ -26,6 +26,7 @@ export const Home: React.FC = () => {
         "name": "Axrategy",
         "url": "https://axrategy.com",
         "logo": "https://axrategy.com/logo.png",
+        "description": "AI automation and web development for small businesses",
         "sameAs": [
           "https://twitter.com/axrategy",
           "https://linkedin.com/company/axrategy",
@@ -35,6 +36,7 @@ export const Home: React.FC = () => {
       {
         "@type": "LocalBusiness",
         "name": "Axrategy",
+        "description": "AI automation and web development for small businesses",
         "image": "https://axrategy.com/og-image.svg",
         "telephone": "+1-416-555-0199",
         "address": {
@@ -45,7 +47,22 @@ export const Home: React.FC = () => {
           "postalCode": "M5V 1J9",
           "addressCountry": "CA"
         },
-        "priceRange": "$$$"
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "43.6532",
+          "longitude": "-79.3832"
+        },
+        "areaServed": [
+          { "@type": "Country", "name": "Canada" },
+          { "@type": "Country", "name": "United States" }
+        ],
+        "priceRange": "$$$",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "17:00"
+        }
       }
     ]
   };

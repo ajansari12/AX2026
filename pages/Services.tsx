@@ -38,10 +38,10 @@ export const Services: React.FC = () => {
         "name": "Axrategy",
         "url": "https://axrategy.com"
       },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Canada"
-      },
+      "areaServed": [
+        { "@type": "Country", "name": "Canada" },
+        { "@type": "Country", "name": "United States" }
+      ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Digital Services",

@@ -26,11 +26,38 @@ export const Pricing: React.FC = () => {
   const currentComparison = pricingMode === 'one-time' ? PRICING_COMPARISON_DATA : MONTHLY_COMPARISON_DATA;
   const currentFAQ = pricingMode === 'one-time' ? PRICING_FAQ_ONE_TIME : PRICING_FAQ_MONTHLY;
 
+  const pricingSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": "Pricing & Packages | Axrategy",
+        "description": "Website + AI automation packages from $3,500. Clear pricing, no surprises.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Axrategy"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": currentFAQ.map(faq => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a
+          }
+        }))
+      }
+    ]
+  };
+
   return (
     <>
       <SEO
         title="Pricing & Packages"
         description="Website + AI automation packages from $3,500. No monthly fees to us. Own everything. 4-6 week delivery. Clear pricing, no surprises."
+        schema={pricingSchema}
       />
 
       <Section className="pt-32 md:pt-48 pb-10 text-center px-4">

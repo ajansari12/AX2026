@@ -481,7 +481,10 @@ export const PRICING_FAQ_ONE_TIME = [
   { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
   { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
   { q: "What if I just need something small?", a: "Our smallest project is $3,500. We build complete solutions, not quick fixes. If you need smaller help, we can point you to someone good." },
-  { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." }
+  { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." },
+  { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
+  { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },
+  { q: "Can I see it before I commit?", a: "Yes. We show you exactly what we're building before you pay beyond the deposit. If you don't like the direction, you get your money back." }
 ];
 
 export const PRICING_FAQ_MONTHLY = [
@@ -489,7 +492,10 @@ export const PRICING_FAQ_MONTHLY = [
   { q: "Why a 6-month minimum commitment?", a: "It takes time to build your systems properly and see real results. The 6-month minimum ensures we have enough time to set everything up and optimize it based on real data. Most clients see their investment pay for itself within 2-3 months." },
   { q: "What happens after 6 months?", a: "You can continue month-to-month, switch to annual billing (with a discount), or transition to ownership. If you want to own everything and stop paying monthly, we'll help you migrate to a self-managed setup." },
   { q: "What ongoing support do I get?", a: "Depending on your plan: regular check-in calls, unlimited updates and tweaks, new automation builds, AI training updates, and priority support. We actively work to improve your results, not just maintain what exists." },
-  { q: "Can I switch from monthly to one-time later?", a: "Absolutely. After your 6-month commitment, you can pay a buyout fee to own everything outright. We'll calculate the remaining value and give you full ownership plus training to manage it yourself." }
+  { q: "Can I switch from monthly to one-time later?", a: "Absolutely. After your 6-month commitment, you can pay a buyout fee to own everything outright. We'll calculate the remaining value and give you full ownership plus training to manage it yourself." },
+  { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
+  { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },
+  { q: "Can I see it before I commit?", a: "Yes. We show you exactly what we're building before you pay beyond the setup fee. If you don't like the direction, you get your money back." }
 ];
 
 export const PRICING_FAQ = [
@@ -497,7 +503,10 @@ export const PRICING_FAQ = [
   { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
   { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
   { q: "What if I just need something small?", a: "Our smallest project is $3,500. We build complete solutions, not quick fixes. If you need smaller help, we can point you to someone good." },
-  { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." }
+  { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." },
+  { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
+  { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },
+  { q: "Can I see it before I commit?", a: "Yes. We show you exactly what we're building before you pay beyond the deposit. If you don't like the direction, you get your money back." }
 ];
 
 // Content Templates
