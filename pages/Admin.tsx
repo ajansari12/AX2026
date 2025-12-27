@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Section, Container, Button } from '../components/UI';
 import { SEO } from '../components/SEO';
 import {
@@ -38,10 +38,31 @@ import {
   Lock,
   LogOut,
   AlertCircle,
+  Link2,
+  FileText,
+  Send,
+  Newspaper,
+  GitBranch,
+  PieChart,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-type TabType = 'overview' | 'leads' | 'clients' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers';
+// Lazy load new admin components
+const Integrations = lazy(() => import('../components/admin/Integrations').then(m => ({ default: m.Integrations })));
+const ProposalGenerator = lazy(() => import('../components/admin/ProposalGenerator').then(m => ({ default: m.ProposalGenerator })));
+const EmailMarketing = lazy(() => import('../components/admin/EmailMarketing').then(m => ({ default: m.EmailMarketing })));
+const BlogCMS = lazy(() => import('../components/admin/BlogCMS').then(m => ({ default: m.BlogCMS })));
+const LeadPipeline = lazy(() => import('../components/admin/LeadPipeline').then(m => ({ default: m.LeadPipeline })));
+const AdvancedAnalytics = lazy(() => import('../components/admin/AdvancedAnalytics').then(m => ({ default: m.AdvancedAnalytics })));
+
+type TabType = 'overview' | 'leads' | 'clients' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers' | 'integrations' | 'proposals' | 'email' | 'blog' | 'pipeline' | 'analytics';
+
+// Loading fallback for lazy components
+const TabLoadingFallback = () => (
+  <div className="flex justify-center py-20">
+    <Loader2 className="animate-spin text-gray-400" size={32} />
+  </div>
+);
 
 const AdminLoginForm: React.FC<{
   onLogin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
@@ -912,9 +933,15 @@ export const Admin: React.FC = () => {
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: 'Overview', icon: <BarChart3 size={18} /> },
     { id: 'leads', label: 'Leads', icon: <Users size={18} /> },
+    { id: 'pipeline', label: 'Pipeline', icon: <GitBranch size={18} /> },
     { id: 'clients', label: 'Clients', icon: <UserCircle size={18} /> },
     { id: 'conversations', label: 'Chats', icon: <MessageCircle size={18} /> },
     { id: 'bookings', label: 'Bookings', icon: <Calendar size={18} /> },
+    { id: 'proposals', label: 'Proposals', icon: <FileText size={18} /> },
+    { id: 'email', label: 'Email', icon: <Send size={18} /> },
+    { id: 'blog', label: 'Blog', icon: <Newspaper size={18} /> },
+    { id: 'analytics', label: 'Analytics', icon: <PieChart size={18} /> },
+    { id: 'integrations', label: 'Integrations', icon: <Link2 size={18} /> },
     { id: 'teardowns', label: 'Teardowns', icon: <Globe size={18} /> },
     { id: 'downloads', label: 'Downloads', icon: <Download size={18} /> },
     { id: 'subscribers', label: 'Subscribers', icon: <Mail size={18} /> },
@@ -981,9 +1008,39 @@ export const Admin: React.FC = () => {
 
           {activeTab === 'overview' && <OverviewTab onNavigate={setActiveTab} />}
           {activeTab === 'leads' && <LeadsTab />}
+          {activeTab === 'pipeline' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <LeadPipeline />
+            </Suspense>
+          )}
           {activeTab === 'clients' && <AdminClients />}
           {activeTab === 'conversations' && <ConversationsTab />}
           {activeTab === 'bookings' && <BookingsTab />}
+          {activeTab === 'proposals' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <ProposalGenerator />
+            </Suspense>
+          )}
+          {activeTab === 'email' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <EmailMarketing />
+            </Suspense>
+          )}
+          {activeTab === 'blog' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <BlogCMS />
+            </Suspense>
+          )}
+          {activeTab === 'analytics' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <AdvancedAnalytics />
+            </Suspense>
+          )}
+          {activeTab === 'integrations' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <Integrations />
+            </Suspense>
+          )}
           {activeTab === 'teardowns' && <TeardownsTab />}
           {activeTab === 'downloads' && <DownloadsTab />}
           {activeTab === 'subscribers' && <SubscribersTab />}

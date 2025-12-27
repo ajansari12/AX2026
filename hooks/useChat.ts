@@ -12,6 +12,7 @@ interface UseChatReturn {
   isLoading: boolean;
   error: string | null;
   clearChat: () => void;
+  conversationId: string | null;
 }
 
 const getVisitorId = (): string => {
@@ -112,5 +113,5 @@ export function useChat(): UseChatReturn {
     localStorage.removeItem('axrategy_conversation_id');
   }, []);
 
-  return { messages, sendMessage, isLoading, error, clearChat };
+  return { messages, sendMessage, isLoading, error, clearChat, conversationId };
 }
