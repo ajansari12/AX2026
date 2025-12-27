@@ -30,7 +30,7 @@ export const Pricing: React.FC = () => {
     <>
       <SEO
         title="Pricing & Packages"
-        description="Clear, flexible pricing for websites, AI automation, and system builds. Choose one-time payment or monthly partnership."
+        description="Website + AI automation packages from $3,500. No monthly fees to us. Own everything. 4-6 week delivery. Clear pricing, no surprises."
       />
 
       <Section className="pt-32 md:pt-48 pb-10 text-center px-4">

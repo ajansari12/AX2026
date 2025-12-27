@@ -24,6 +24,10 @@ const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.N
 const Admin = lazy(() => import('./pages/Admin').then(m => ({ default: m.Admin })));
 const ProposalView = lazy(() => import('./pages/ProposalView').then(m => ({ default: m.ProposalView })));
 
+const ForDentists = lazy(() => import('./pages/ForDentists').then(m => ({ default: m.ForDentists })));
+const ForLawyers = lazy(() => import('./pages/ForLawyers').then(m => ({ default: m.ForLawyers })));
+const ForContractors = lazy(() => import('./pages/ForContractors').then(m => ({ default: m.ForContractors })));
+
 const PortalLogin = lazy(() => import('./pages/PortalLogin').then(m => ({ default: m.PortalLogin })));
 const Portal = lazy(() => import('./pages/Portal').then(m => ({ default: m.Portal })));
 const PortalDashboard = lazy(() => import('./pages/PortalDashboard').then(m => ({ default: m.PortalDashboard })));
@@ -110,6 +114,11 @@ const App: React.FC = () => {
                       <Route path="/terms" element={<Terms />} />
                       <Route path="/privacy" element={<Privacy />} />
                       <Route path="/admin" element={<Admin />} />
+
+                      <Route path="/for-dentists" element={<ForDentists />} />
+                      <Route path="/for-lawyers" element={<ForLawyers />} />
+                      <Route path="/for-contractors" element={<ForContractors />} />
+
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

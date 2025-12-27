@@ -235,7 +235,7 @@ export const Work: React.FC = () => {
     <div className="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <SEO
         title="Case Studies & Results"
-        description="See how we've helped small businesses save time and grow revenue through automation and modern web systems."
+        description="Case studies: Dental clinic saves $32K/year. Law firm doubles consultations. Contractor eliminates payment delays. Real results from real clients."
       />
 
       <Section className="pt-32 pb-12">

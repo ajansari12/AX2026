@@ -7,142 +7,143 @@ export const SERVICES: Service[] = [
   {
     id: '1',
     slug: 'ai-assistants',
-    title: 'AI That Answers For You',
-    description: 'Stop missing calls when you\'re with a client. An AI assistant responds instantly, answers common questions, and books appointments right on your calendar.',
-    outcome: 'Wake up to booked appointments instead of missed calls.',
+    title: 'AI That Never Sleeps',
+    description: 'Your AI assistant responds to phone calls, texts, and website inquiries in under 8 seconds - even at 3am. It answers FAQs, qualifies leads, and books directly on your calendar. No more voicemail. No more "I\'ll call them back later."',
+    outcome: 'Capture 100% of leads instead of losing 30-50% to slow response.',
     icon: 'Bot',
     tags: ['Clinics', 'Agencies', 'Realtors'],
     features: [
-      'Learns how you talk and what you offer',
-      'Answers in seconds, day or night',
-      'Books directly into your calendar',
-      'Sounds like you, not a robot',
-      'Answers pricing and FAQ questions',
-      'Hands off tricky questions to you'
+      'Responds to calls, texts, and web chat in under 8 seconds',
+      'Trained on YOUR business - answers like you would',
+      'Books directly into Google/Outlook/Calendly',
+      'Hands off complex questions to you via text/email',
+      'Works 24/7/365 - even holidays',
+      'Monthly reports so you can see what\'s working'
     ],
     timeline: '2 - 3 Weeks',
-    whoIsItFor: 'If you\'ve ever lost a client because you couldn\'t answer the phone in time.',
+    whoIsItFor: 'Best for service businesses that miss calls while working (dentists, lawyers, contractors, consultants).',
     faq: [
-      { q: 'Will it sound like a robot?', a: 'No. We train it on how you actually talk to customers, so it sounds natural and helpful.' },
-      { q: 'Can it actually book appointments?', a: 'Yes. It sees your real calendar and books slots that work for you. No double-booking.' },
-      { q: 'What if someone asks something it can\'t answer?', a: 'It takes their info and lets you know right away. You can always follow up personally.' }
+      { q: 'What happens if someone asks something the AI can\'t answer?', a: 'It gracefully says "Let me have someone call you back" and texts you immediately with their question and contact info. You never look bad.' },
+      { q: 'Can it handle my accent/industry jargon?', a: 'Yes. We train it on recordings of YOUR actual calls so it learns how you talk and what questions your customers actually ask.' },
+      { q: 'Is it expensive?', a: '$200-500/month vs. $45K/year for a human receptionist. Most clients see ROI within the first week.' }
     ]
   },
   {
     id: '2',
     slug: 'automation-systems',
     title: 'Automatic Follow-Ups',
-    description: 'No more copying info from emails to spreadsheets. New leads get added to your system, follow-ups send automatically, and nothing slips through the cracks.',
-    outcome: 'Stop staying late to catch up on admin work.',
+    description: 'Stop manually entering data and chasing leads. When someone fills out your form, they get an instant response. Invoices send themselves. Review requests go out automatically. You just do the work.',
+    outcome: 'Save 10-15 hours/week on admin busywork.',
     icon: 'Workflow',
     tags: ['Service Biz', 'Contractors'],
     features: [
-      'New leads go straight to your CRM',
-      'Instant text when someone fills out your form',
+      'New leads auto-added to your CRM + instant text notification to you',
+      'Automatic "thanks for reaching out" emails within 60 seconds',
       'Invoices and payment reminders send themselves',
-      'Automatic "how was your service?" review requests',
-      'Get notified when something needs attention',
-      'No more manual data entry'
+      'Review requests go out 2 days after project completion',
+      'Birthday/anniversary emails to keep clients warm',
+      'Weekly digest of new leads and pipeline status'
     ],
-    timeline: '3 - 5 Weeks',
-    whoIsItFor: 'If you\'re spending nights and weekends catching up on paperwork.',
+    timeline: '2 - 4 Weeks',
+    whoIsItFor: 'Best for businesses drowning in spreadsheets, sticky notes, and "I forgot to follow up" guilt.',
     faq: [
-      { q: 'Do I need to buy new software?', a: 'Usually just a simple tool like Zapier ($20-50/month). We find the cheapest setup that works.' },
-      { q: 'Is my customer data safe?', a: 'Absolutely. Everything is encrypted and we never store your customer info.' },
-      { q: 'What about paper forms I already use?', a: 'We can turn them digital. Info goes right into your system without typing.' }
+      { q: 'Do I need to buy new software?', a: 'Usually just Zapier ($20/mo) or Make.com ($10/mo). Total ongoing cost is typically under $70/month.' },
+      { q: 'Is my customer data safe?', a: 'Absolutely. Everything is encrypted and we follow security best practices. We never store your customer info on our end.' },
+      { q: 'What if my workflows are complicated?', a: 'Simple workflows (form to CRM to email): 2 weeks. Complex workflows with multiple systems: 3-4 weeks. We\'ll tell you upfront.' }
     ]
   },
   {
     id: '3',
     slug: 'websites-landing-pages',
     title: 'A Website That Books Clients',
-    description: 'Your website should bring in business, not just look nice. We build sites that make it easy for visitors to understand what you do and book a call.',
-    outcome: 'Turn more website visitors into actual paying clients.',
+    description: 'Not just a pretty site - a 24/7 salesperson. Clear messaging that explains what you do. Obvious calls-to-action. Built-in booking so visitors become appointments, not just pageviews.',
+    outcome: 'Turn 3-5% of visitors into booked calls (industry average is 1-2%).',
     icon: 'Layout',
     tags: ['Local Biz', 'Consultants'],
     features: [
-      'Clear messaging that explains what you do',
-      'Looks great on phones and computers',
-      'Shows up in Google searches',
-      'Loads fast (no one waits for slow sites)',
-      'You can update it yourself',
-      'Built-in booking and contact forms'
+      'Conversion-focused copy written for YOUR customers',
+      'One-click booking integrated into every page',
+      'Mobile-first design (70% of traffic is mobile)',
+      'Fast loading (under 2 seconds - slow sites lose 40% of visitors)',
+      'Basic SEO so you show up in Google',
+      'You can edit it yourself - no developer needed'
     ],
-    timeline: '4 - 6 Weeks',
-    whoIsItFor: 'If your current website looks outdated or people visit but never reach out.',
+    timeline: '3 - 5 Weeks',
+    whoIsItFor: 'Best for businesses with an outdated website, or one that looks nice but doesn\'t generate leads.',
     faq: [
       { q: 'Will I own the website?', a: 'Yes, 100%. The code, the domain, everything. No monthly fees to us to keep it online.' },
-      { q: 'Do you write all the text?', a: 'Yes. We write everything based on what makes your customers say yes. You just approve it.' },
-      { q: 'Can I update it myself?', a: 'Absolutely. We use tools that are easy to edit, no coding needed.' }
+      { q: 'Do you write all the text?', a: 'Yes. We write conversion-focused copy based on what makes your customers say yes. You just approve it.' },
+      { q: 'How is this different from Wix or Squarespace?', a: 'Those are templates. We build custom, conversion-optimized sites with professional copy. Huge difference in results.' }
     ]
   },
   {
     id: '4',
     slug: 'app-development',
-    title: 'A Place For Your Clients',
-    description: 'Give your clients one place to check progress, sign documents, and pay invoices. No more endless email threads or "just checking in" calls.',
-    outcome: 'Happier clients who stick around longer.',
+    title: 'Client Portal That Reduces "What\'s the Status?" Emails',
+    description: 'Give clients a private dashboard to check progress, approve work, sign documents, and pay invoices. No more email chains. No more phone calls asking for updates. Clients feel informed, you save hours.',
+    outcome: 'Cut client communication overhead by 50%+ and get paid 3x faster.',
     icon: 'Smartphone',
     tags: ['Law Firms', 'Coaching'],
     features: [
-      'Private login for each client',
-      'Share files and get signatures',
-      'Clients can see project status anytime',
-      'Easy online payments',
-      'Dashboard to manage everything',
-      'Automatic updates when things change'
+      'Private login for each client - they see only their stuff',
+      'Real-time project status updates',
+      'File sharing with e-signature capability',
+      'Online invoice payments (credit card, ACH, or both)',
+      'Automated "project update" notifications',
+      'Admin dashboard to manage all clients in one place'
     ],
     timeline: '8 - 12 Weeks',
-    whoIsItFor: 'If you spend too much time answering "what\'s the status?" emails.',
+    whoIsItFor: 'Best for service businesses managing multiple ongoing clients who need visibility (contractors, agencies, consultants, law firms).',
     faq: [
       { q: 'Do my clients need to download an app?', a: 'No. It works right in their browser, on any device. No app store needed.' },
-      { q: 'What if I need changes later?', a: 'We can set you up with ongoing support for updates and improvements.' }
+      { q: 'Why does this take so long?', a: 'We\'re building real software, not installing a plugin. You get something custom to your workflow - not a one-size-fits-all tool you\'ll outgrow in 6 months.' },
+      { q: 'Is a portal right for my business?', a: 'Yes if you manage 5+ ongoing clients, spend 5+ hours/week on client communication, or have slow invoice payments. No if you do one-time projects with no ongoing relationship.' }
     ]
   },
   {
     id: '5',
     slug: 'crm-setup',
-    title: 'Stop Forgetting to Follow Up',
-    description: 'Get all your leads and clients in one place. The system reminds you when to follow up, so no opportunity slips through the cracks.',
-    outcome: 'Close more deals without hiring more people.',
+    title: 'CRM Setup & Migration',
+    description: 'Get all your leads in one place. See your pipeline at a glance. Get reminders to follow up. We migrate your messy spreadsheets, set up the system, and train your team.',
+    outcome: 'Close 20-30% more deals by never forgetting to follow up.',
     icon: 'Database',
     tags: ['Sales Teams', 'B2B'],
     features: [
-      'See every deal in one clear view',
-      'Move your messy spreadsheets over',
-      'Send emails with one click',
-      'See what\'s working and what\'s not',
-      'We train your team to use it',
-      'Automatic reminders so you don\'t forget'
+      'We pick the right CRM for your business (HubSpot, Pipedrive, or GoHighLevel)',
+      'Migrate contacts from spreadsheets, email, and sticky notes',
+      'Set up deal stages that match YOUR sales process',
+      'Automated follow-up reminders',
+      'Email templates for one-click outreach',
+      'Team training (live session + recorded walkthrough)'
     ],
     timeline: '2 - 4 Weeks',
-    whoIsItFor: 'If you\'re tracking leads on sticky notes, spreadsheets, or in your head.',
+    whoIsItFor: 'Best for businesses tracking leads in their head, on paper, or in 17 different spreadsheets.',
     faq: [
-      { q: 'Which CRM should I use?', a: 'Depends on your business. We help you pick the simplest one that does what you need.' },
-      { q: 'Will my team actually use it?', a: 'Yes. We set it up to save them time, not add more work. Training included.' }
+      { q: 'Which CRM do you recommend?', a: 'Depends on your business. Solopreneurs: HubSpot Free. Small teams: Pipedrive ($15/mo). Need all-in-one: GoHighLevel ($97/mo). We help you pick.' },
+      { q: 'Will my team actually use it?', a: 'Yes. We set it up to save them time, not add more work. Training included. We\'ve never had a team abandon a system we set up.' }
     ]
   },
   {
     id: '6',
     slug: 'analytics-optimization',
-    title: 'See What\'s Actually Working',
-    description: 'Stop guessing which marketing brings in customers. See exactly where your leads come from and which ads are worth the money.',
-    outcome: 'Spend more on what works. Stop wasting money on what doesn\'t.',
+    title: 'Analytics That Show What\'s Working',
+    description: 'Know exactly which marketing brings in customers - and which is wasting money. We set up proper tracking, build a simple dashboard, and show you how to read it.',
+    outcome: 'Stop wasting money on ads that don\'t convert. Double down on what works.',
     icon: 'BarChart',
     tags: ['E-commerce', 'SaaS'],
     features: [
-      'Set up Google Analytics properly',
-      'Track when people take action',
-      'Simple dashboard showing what matters',
-      'See where visitors get stuck',
-      'Test different approaches',
-      'Know which marketing actually pays off'
+      'Google Analytics 4 set up properly (most setups are broken)',
+      'Conversion tracking for forms, calls, and bookings',
+      'Traffic source attribution - see where leads actually come from',
+      'Simple dashboard with the 5 numbers that matter',
+      'Monthly performance comparison',
+      '30-minute walkthrough so you understand what you\'re looking at'
     ],
     timeline: '1 - 2 Weeks',
-    whoIsItFor: 'If you\'re spending on ads but have no idea which ones actually bring in business.',
+    whoIsItFor: 'Best for businesses spending money on ads or SEO with no idea what\'s actually working.',
     faq: [
-      { q: 'Will this help me get found on Google?', a: 'It helps you understand what content people like, so you can do more of that.' },
-      { q: 'Is this a one-time thing or ongoing?', a: 'One-time setup. Or we can manage it monthly if you want us to keep improving things.' }
+      { q: 'My analytics are already set up. Do I need this?', a: 'Probably. Most analytics setups are either broken or overwhelming. We give you just the numbers that matter - nothing more.' },
+      { q: 'Is this a one-time thing or ongoing?', a: 'One-time setup with a 30-min training session. Ongoing management available if you want us to actively optimize.' }
     ]
   }
 ];
@@ -157,11 +158,12 @@ export const CASE_STUDIES: CaseStudy[] = [
     summary: 'The front desk spent 4 hours a day calling patients to confirm appointments. Most went to voicemail. We set up automatic reminders instead.',
     problem: 'Apex Dental was losing money to last-minute cancellations. Their front desk spent 4 hours every day manually calling patients to confirm appointments - most calls went to voicemail. When someone did cancel, those appointment slots stayed empty.',
     solution: 'We set up automatic text reminders that go out before appointments. Patients tap to confirm. If someone cancels, the system automatically texts people on the waitlist to fill the spot. The front desk now spends their time on patients, not phone calls.',
-    outcome: '30% fewer no-shows',
+    outcome: '30% fewer no-shows = $32K saved annually',
     outcomeDetails: [
       '15+ hours saved on phone calls every week',
       'Patients fill out paperwork before they arrive',
-      'Empty slots get filled automatically'
+      'Empty slots get filled automatically',
+      'ROI positive within 30 days'
     ],
     image: '/apex_case.png',
     tags: ['Automation', 'Website'],
@@ -176,11 +178,11 @@ export const CASE_STUDIES: CaseStudy[] = [
     summary: 'Lawyers were in court when potential clients called. By the time they called back, those clients had hired someone else.',
     problem: 'Harrison & Co. was losing potential clients because they couldn\'t answer the phone fast enough. Lawyers were in court or meetings. By the time they returned calls hours later, people had already hired another firm that picked up.',
     solution: 'We set up an AI assistant that answers calls and website inquiries instantly. It asks the right questions, figures out if it\'s a good case, and books consultations directly on the calendar. Lawyers only talk to qualified potential clients.',
-    outcome: 'Twice as many consultations',
+    outcome: '2x consultations, 12 new cases in 30 days',
     outcomeDetails: [
       'Response time went from hours to seconds',
       'No more spam calls interrupting work',
-      '12 new cases in the first month'
+      'Estimated $180K+ in new case revenue'
     ],
     image: '/law_case.png',
     tags: ['AI Assistant', 'CRM'],
@@ -195,10 +197,10 @@ export const CASE_STUDIES: CaseStudy[] = [
     summary: 'Managing 12 home builds through text messages was chaos. Clients kept calling asking for updates. Change orders got lost.',
     problem: 'Urban Build was managing 12 custom home builds through text messages and spreadsheets. Change orders got lost in long text threads, leading to expensive arguments. Clients called constantly asking "what\'s the status?" The owner spent 12+ hours a week just on communication.',
     solution: 'We built a simple client portal where clients log in to see photos and updates. They can approve changes and pay invoices online. Everything is documented. No more "I never agreed to that" disputes.',
-    outcome: 'Happier clients, fewer headaches',
+    outcome: '12 hrs/week saved, invoices paid 10x faster',
     outcomeDetails: [
       'Almost zero disputes over change orders',
-      '12 hours saved every week',
+      '12 hours saved every week = $600+/week in time',
       'Invoices get paid in 2 days instead of 2 weeks'
     ],
     image: '/urban_build_(1).png',
@@ -215,7 +217,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     summary: 'Her homemade website made her look cheap. Clients haggled on price even though she had 15 years of experience.',
     problem: 'Elena is an experienced HR consultant, but her DIY website made her look like a beginner. She kept attracting clients who wanted to negotiate down her prices, even though she knew she was worth more.',
     solution: 'We built a professional website that shows off her expertise. Real case studies. Clear explanations of her process. A free resource that proves her knowledge before anyone even gets on a call with her.',
-    outcome: '3x higher project fees',
+    outcome: '3x higher fees = $6K more per project',
     outcomeDetails: [
       'Average project went from $3k to $9k',
       '400 new email subscribers in 2 months',
@@ -238,8 +240,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     outcome: '$2M in new business in 90 days',
     outcomeDetails: [
       'Leads hear back in under 60 seconds',
-      '15 old leads came back and bought',
-      'Agents spend zero time on data entry'
+      '15 old "dead" leads came back and bought',
+      'Agents spend zero time on data entry',
+      'ROI: 25x return on system investment'
     ],
     image: '/prestige_crm.png',
     tags: ['Automation', 'AI Assistant', 'CRM'],

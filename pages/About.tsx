@@ -24,9 +24,9 @@ export const About: React.FC = () => {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="About Us"
-        description="We believe small businesses need better systems, not just more leads. Learn about our mission to fix the broken agency model."
+        description="Founded by a dentist's kid who watched $30K disappear to no-shows every year. We build the simple systems that actually help small businesses."
         schema={aboutSchema}
       />
 

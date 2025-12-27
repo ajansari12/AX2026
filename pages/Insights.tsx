@@ -280,7 +280,7 @@ export const Insights: React.FC = () => {
     <>
       <SEO
         title="Insights & Strategies"
-        description="Tactical guides on modernizing your business systems, AI implementation, and revenue growth. No fluff, just results."
+        description="Practical guides on AI, automation, and conversion optimization for small business owners. Scripts, templates, and step-by-step walkthroughs."
       />
 
       <Section className="pt-32 pb-12">

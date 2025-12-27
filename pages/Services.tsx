@@ -205,9 +205,9 @@ export const Services: React.FC = () => {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Our Services"
-        description="Explore our core services: High-converting websites, AI sales agents, and business automation workflows designed for small businesses."
+        description="AI assistants that answer calls 24/7. Websites that book clients. Automations that eliminate busywork. Done-for-you setup in 2-6 weeks."
       />
 
       <Section className="text-center pt-32 md:pt-48">

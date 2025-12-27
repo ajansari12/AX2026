@@ -213,7 +213,7 @@ export const Footer: React.FC = () => {
               Simple tools that help small businesses grow.
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
-              Helping 50+ businesses across North America
+              Trusted by businesses across North America
             </p>
             <div className="text-sm text-gray-400 dark:text-gray-600">
               <p>Toronto, Canada</p>

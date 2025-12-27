@@ -52,9 +52,9 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      <SEO 
-        title="AI-Powered Business Systems & Automation Consultancy"
-        description="Axrategy builds modern websites, AI assistants, and automation workflows that quietly grow revenue for small businesses in Canada & the US."
+      <SEO
+        title="AI Automation for Small Business"
+        description="AI automation for small businesses. Respond to leads in 8 seconds. Automate follow-ups. Book appointments 24/7. Trusted by growing businesses in Canada & the US."
         schema={schema}
       />
       
@@ -110,7 +110,7 @@ export const Home: React.FC = () => {
                   />
                 ))}
               </div>
-              <p>Helping 50+ small businesses across North America</p>
+              <p>Trusted by growing businesses across North America</p>
             </div>
           </motion.div>
 
@@ -420,23 +420,23 @@ export const Home: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left max-w-6xl mx-auto">
             <div className="bg-white dark:bg-gray-900/50 p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition-shadow backdrop-blur-sm">
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
-                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"I used to spend my evenings returning calls. Now I'm booked 6 weeks out and I actually have my weekends back."</p>
+                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"We went from missing 40% of calls to capturing every lead. The automated follow-ups alone paid for the entire system in the first month."</p>
                 <div className="flex items-center gap-4">
-                    <IllustratedAvatar name="Sarah Jenning" size="lg" />
+                    <IllustratedAvatar name="Dental Practice" size="lg" />
                     <div>
-                        <p className="font-bold text-gray-900 dark:text-white">Dr. Sarah Jenning</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Apex Dental Studio</p>
+                        <p className="font-bold text-gray-900 dark:text-white">Dental Practice Owner</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Toronto, ON</p>
                     </div>
                 </div>
             </div>
             <div className="bg-white dark:bg-gray-900/50 p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition-shadow backdrop-blur-sm">
                 <Quote className="text-gray-200 dark:text-gray-700 mb-6" size={40} />
-                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"We were losing clients to firms that called back faster. Now leads get a response in seconds and we've signed 12 new cases this month."</p>
+                <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 leading-relaxed font-medium">"Our response time dropped from 4 hours to 8 seconds. We closed 12 new cases this quarter that we would have lost to faster competitors."</p>
                 <div className="flex items-center gap-4">
-                    <IllustratedAvatar name="Mark Thompson" size="lg" />
+                    <IllustratedAvatar name="Law Firm" size="lg" />
                     <div>
-                        <p className="font-bold text-gray-900 dark:text-white">Mark Thompson</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Harrison & Co. Law</p>
+                        <p className="font-bold text-gray-900 dark:text-white">Managing Partner</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Law Firm, Vancouver</p>
                     </div>
                 </div>
             </div>

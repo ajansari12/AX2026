@@ -81,7 +81,7 @@ export const Contact: React.FC = () => {
     <div className="min-h-screen pt-20">
       <SEO
         title="Contact Us - Book a Strategy Call"
-        description="Schedule a free strategy session with Axrategy. Let's discuss how we can automate your business and grow your revenue."
+        description="Free 15-minute strategy call. No pitch, no pressure. See if AI automation is right for your business. Book online or send a message."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-80px)]">
