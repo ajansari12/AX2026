@@ -9,22 +9,26 @@ const LEAD_MAGNETS = [
   {
     title: "The 20-Point AI Audit: Find Where You're Wasting 10+ Hours/Week",
     desc: "Don't automate tasks that don't matter. This checklist helps you identify the high-ROI workflows that actually deserve AI. Used by 200+ service businesses.",
-    color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+    color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
+    filename: "the-20-point-ai-audit.pdf"
   },
   {
     title: "The Homepage Scorecard: Grade Your Site in 5 Minutes",
     desc: "Find the conversion leaks on your homepage before you spend another dollar on ads. Based on 100+ SMB site reviews. Includes video walkthrough.",
-    color: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400"
+    color: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400",
+    filename: "the-homepage-scorecard.pdf"
   },
   {
     title: "5 Emails That Revive Dead Leads (Including the Breakup Email)",
     desc: "Copy-paste templates to re-engage cold leads without sounding desperate. Includes 'The 9-Word Email' that gets 35% response rates.",
-    color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400"
+    color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400",
+    filename: "5-emails-that-revive-dead-leads.pdf"
   },
   {
     title: "The Lean Ops Blueprint: How We Run a 6-Figure Consultancy Solo",
     desc: "The exact SOPs, tech stack, and hiring triggers we use internally. No fluff. Just the systems that let you work 40 hours, not 70.",
-    color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400"
+    color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400",
+    filename: "the-lean-ops-blueprint.pdf"
   }
 ];
 
@@ -39,14 +43,24 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const { requestDownload, isSubmitting } = useResourceDownload();
 
+  const triggerDownload = (filename: string) => {
+    const link = document.createElement('a');
+    link.href = `/${filename}`;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
     setErrorMessage('');
 
-    const result = await requestDownload(email, resource.title);
+    const result = await requestDownload(email, resource.title, resource.filename);
 
     if (result.success) {
+      triggerDownload(resource.filename);
       setStatus('success');
       setEmail('');
     } else {
@@ -86,10 +100,10 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) => {
                 aria-live="polite"
               >
                 <div className="flex items-center gap-3 mb-2 text-emerald-700 dark:text-emerald-400 font-bold text-lg">
-                  <Check size={24} /> Check your inbox
+                  <Check size={24} /> Download started!
                 </div>
                 <p className="text-sm text-emerald-600/80 dark:text-emerald-400/70 mb-4 font-medium">
-                  We've sent the guide to your email.
+                  Your guide is downloading now. We've also sent a copy to your email for future access.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}

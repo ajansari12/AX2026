@@ -63,7 +63,17 @@ interface ProposalEmailPayload {
   };
 }
 
-type EmailPayload = LeadEmailPayload | BookingEmailPayload | DailyDigestPayload | LeadStatusChangePayload | ProposalEmailPayload;
+interface ResourceDownloadEmailPayload {
+  type: "resource_download";
+  resource: {
+    email: string;
+    resourceName: string;
+    resourceTitle: string;
+    downloadUrl: string;
+  };
+}
+
+type EmailPayload = LeadEmailPayload | BookingEmailPayload | DailyDigestPayload | LeadStatusChangePayload | ProposalEmailPayload | ResourceDownloadEmailPayload;
 
 // Admin notification email address
 const ADMIN_EMAIL = "hi@axrategy.com";
@@ -518,6 +528,120 @@ function generateProposalEmailHtml(proposal: ProposalEmailPayload["proposal"], p
   `.trim();
 }
 
+function generateResourceDownloadEmailHtml(resourceTitle: string, downloadUrl: string): string {
+  const resourceMap: Record<string, { title: string; value: string }> = {
+    "the-20-point-ai-audit.pdf": {
+      title: "The 20-Point AI Audit",
+      value: "Use this checklist to identify the high-ROI workflows that deserve automation. Focus on what matters most."
+    },
+    "the-homepage-scorecard.pdf": {
+      title: "The Homepage Scorecard",
+      value: "Grade your site in 5 minutes and find conversion leaks before spending another dollar on ads."
+    },
+    "5-emails-that-revive-dead-leads.pdf": {
+      title: "5 Emails That Revive Dead Leads",
+      value: "Copy-paste templates to re-engage cold leads without sounding desperate. Includes 'The 9-Word Email' with 35% response rates."
+    },
+    "the-lean-ops-blueprint.pdf": {
+      title: "The Lean Ops Blueprint",
+      value: "Our exact SOPs, tech stack, and hiring triggers. Work 40 hours, not 70."
+    }
+  };
+
+  const resource = resourceMap[resourceTitle] || { title: resourceTitle, value: "Your free resource guide." };
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f5; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+          <tr>
+            <td style="background-color: #059669; padding: 32px 40px;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 600;">Your Resource is Ready</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px;">
+              <p style="margin: 0 0 20px; color: #18181b; font-size: 18px; font-weight: 500;">
+                Thanks for downloading!
+              </p>
+
+              <p style="margin: 0 0 20px; color: #52525b; font-size: 16px; line-height: 1.6;">
+                Here's your copy of <strong>${resource.title}</strong>. ${resource.value}
+              </p>
+
+              <div style="text-align: center; margin: 32px 0;">
+                <a href="${downloadUrl}" style="display: inline-block; background-color: #059669; color: #ffffff; padding: 16px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                  Download Your Guide
+                </a>
+              </div>
+
+              <div style="margin: 32px 0; padding: 24px; background-color: #fafafa; border-radius: 6px;">
+                <p style="margin: 0 0 16px; color: #18181b; font-size: 16px; font-weight: 600;">
+                  Want help implementing these strategies?
+                </p>
+                <p style="margin: 0 0 16px; color: #52525b; font-size: 15px; line-height: 1.6;">
+                  We work with service businesses to automate operations, improve websites, and build systems that scale. Book a free consultation to see how we can help.
+                </p>
+                <a href="https://axrategy.com/contact" style="display: inline-block; background-color: #18181b; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 14px;">
+                  Schedule a Call
+                </a>
+              </div>
+
+              <div style="margin: 32px 0; padding: 20px; background-color: #ecfdf5; border-radius: 6px; border-left: 4px solid #059669;">
+                <p style="margin: 0 0 8px; color: #065f46; font-size: 14px; font-weight: 600;">
+                  More Free Resources
+                </p>
+                <p style="margin: 0; color: #047857; font-size: 14px; line-height: 1.6;">
+                  Check out our other guides, templates, and tools at <a href="https://axrategy.com/resources" style="color: #059669; text-decoration: underline;">axrategy.com/resources</a>
+                </p>
+              </div>
+
+              <p style="margin: 0; color: #52525b; font-size: 15px; line-height: 1.6;">
+                If you have any questions, just hit reply. We read every email.
+              </p>
+
+              <p style="margin: 24px 0 0; color: #18181b; font-size: 16px;">
+                Best regards,<br>
+                <strong>The Axrategy Team</strong>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #fafafa; padding: 24px 40px; border-top: 1px solid #e4e4e7;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center">
+                    <p style="margin: 0 0 8px; color: #71717a; font-size: 13px;">
+                      Axrategy - Strategic Consulting
+                    </p>
+                    <p style="margin: 0 0 8px; color: #a1a1aa; font-size: 12px;">
+                      You received this email because you downloaded a resource from our website.
+                    </p>
+                    <p style="margin: 0; color: #a1a1aa; font-size: 12px;">
+                      <a href="https://axrategy.com/unsubscribe" style="color: #71717a; text-decoration: underline;">Unsubscribe</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+}
+
 async function sendEmail(
   resendApiKey: string,
   to: string,
@@ -678,6 +802,30 @@ Deno.serve(async (req: Request) => {
       return new Response(
         JSON.stringify({
           success: clientEmailResult.success,
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Handle resource download
+    if (payload.type === "resource_download") {
+      const { resource } = payload;
+      const baseUrl = req.headers.get("origin") || "https://axrategy.com";
+      const downloadUrl = `${baseUrl}/${resource.downloadUrl}`;
+
+      const resourceEmailResult = await sendEmail(
+        resendApiKey,
+        resource.email,
+        FROM_EMAIL,
+        `Your Free Guide: ${resource.resourceTitle}`,
+        generateResourceDownloadEmailHtml(resource.resourceName, downloadUrl)
+      );
+
+      return new Response(
+        JSON.stringify({
+          success: resourceEmailResult.success,
         }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
