@@ -10,38 +10,35 @@ export const AuthCallback: React.FC = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
+        // Check if there's a code in the hash (PKCE flow for magic links)
         const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        const accessToken = hashParams.get('access_token');
-        const refreshToken = hashParams.get('refresh_token');
+        const code = hashParams.get('code');
 
-        if (accessToken && refreshToken) {
-          const { error: sessionError } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken,
-          });
-
-          if (sessionError) {
-            setError(sessionError.message);
-            return;
-          }
-        }
-
-        const { data: { session } } = await supabase.auth.getSession();
-
-        if (session) {
-          navigate('/portal', { replace: true });
-        } else {
-          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(
-            window.location.href
-          );
+        if (code) {
+          // Exchange the code for a session
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
           if (exchangeError) {
+            console.error('Exchange error:', exchangeError);
             setError('Failed to verify your login link. Please try again.');
             setTimeout(() => navigate('/portal/login', { replace: true }), 3000);
             return;
           }
 
+          if (data.session) {
+            navigate('/portal', { replace: true });
+            return;
+          }
+        }
+
+        // Fallback: Check for existing session (in case user refreshed page)
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session) {
           navigate('/portal', { replace: true });
+        } else {
+          setError('No authentication code found. Please request a new login link.');
+          setTimeout(() => navigate('/portal/login', { replace: true }), 3000);
         }
       } catch (err) {
         console.error('Auth callback error:', err);
