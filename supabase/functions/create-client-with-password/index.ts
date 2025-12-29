@@ -47,9 +47,10 @@ Deno.serve(async (req: Request) => {
     }
 
     const { data: adminCheck } = await userClient
-      .from("admin_whitelist")
-      .select("id")
+      .from("admin_users")
+      .select("email, is_active")
       .eq("email", callingUser.email?.toLowerCase())
+      .eq("is_active", true)
       .maybeSingle();
 
     if (!adminCheck) {
