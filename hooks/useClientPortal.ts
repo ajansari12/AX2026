@@ -305,11 +305,13 @@ export function useClientMessages() {
         throw new Error('Not authenticated');
       }
 
+      const normalizedEmail = email.toLowerCase();
+
       // Get client data
       const { data: client } = await supabase
         .from('clients')
         .select('id, name')
-        .eq('email', email)
+        .eq('email', normalizedEmail)
         .single();
 
       if (!client) {
@@ -322,7 +324,7 @@ export function useClientMessages() {
           client_id: client.id,
           project_id: projectId || null,
           sender_type: 'client',
-          sender_email: email,
+          sender_email: normalizedEmail,
           sender_name: client.name,
           subject,
           content,

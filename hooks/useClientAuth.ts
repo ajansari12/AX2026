@@ -40,11 +40,12 @@ export function useClientAuth(): UseClientAuthReturn {
   const [error, setError] = useState<string | null>(null);
 
   const fetchClientData = useCallback(async (email: string) => {
+    const normalizedEmail = email.toLowerCase();
     try {
       const { data, error: fetchError } = await supabase
         .from('clients')
         .select('*')
-        .eq('email', email)
+        .eq('email', normalizedEmail)
         .maybeSingle();
 
       if (fetchError) {
@@ -214,7 +215,7 @@ export function useClientAuth(): UseClientAuthReturn {
 
       if (session?.user?.email) {
         await supabase.rpc('mark_password_set', {
-          client_email: session.user.email,
+          client_email: session.user.email.toLowerCase(),
         });
       }
 
