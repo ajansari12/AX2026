@@ -72,24 +72,30 @@ export function useClientAuth(): UseClientAuthReturn {
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+    const initializeSession = async () => {
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
       setSession(currentSession);
       if (currentSession?.user?.email) {
-        fetchClientData(currentSession.user.email);
+        await fetchClientData(currentSession.user.email);
       }
       setIsLoading(false);
-    });
+    };
+
+    initializeSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, newSession) => {
+      (_event, newSession) => {
         setSession(newSession);
         if (newSession?.user?.email) {
-          await fetchClientData(newSession.user.email);
+          (async () => {
+            await fetchClientData(newSession.user.email);
+            setIsLoading(false);
+          })();
         } else {
           setClient(null);
           setError(null);
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }
     );
 
