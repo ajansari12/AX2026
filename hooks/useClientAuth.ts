@@ -6,10 +6,12 @@ export interface Client {
   id: string;
   lead_id: string | null;
   email: string;
-  name: string;
-  company_name: string | null;
+  name: string | null;
+  company: string | null;
   phone: string | null;
   avatar_url: string | null;
+  status: 'active' | 'inactive' | 'pending';
+  notes: string | null;
   created_at: string;
   updated_at: string;
   last_login_at: string | null;
@@ -23,7 +25,7 @@ interface UseClientAuthReturn {
   error: string | null;
   sendMagicLink: (email: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
-  updateProfile: (data: Partial<Pick<Client, 'name' | 'company_name' | 'phone'>>) => Promise<{ success: boolean; error?: string }>;
+  updateProfile: (data: Partial<Pick<Client, 'name' | 'company' | 'phone'>>) => Promise<{ success: boolean; error?: string }>;
   refetchClient: () => Promise<void>;
 }
 
@@ -39,29 +41,27 @@ export function useClientAuth(): UseClientAuthReturn {
         .from('clients')
         .select('*')
         .eq('email', email)
-        .single();
+        .maybeSingle();
 
       if (fetchError) {
-        if (fetchError.code === 'PGRST116') {
-          // No client found with this email
-          setClient(null);
-          setError('No client account found. Please contact support.');
-        } else {
-          throw fetchError;
-        }
+        throw fetchError;
+      }
+
+      if (!data) {
+        // No client found with this email
+        setClient(null);
+        setError('No client account found. Please contact support.');
         return;
       }
 
-      if (data) {
-        setClient(data);
-        setError(null);
+      setClient(data);
+      setError(null);
 
-        // Update last login timestamp
-        await supabase
-          .from('clients')
-          .update({ last_login_at: new Date().toISOString() })
-          .eq('id', data.id);
-      }
+      // Update last login timestamp
+      await supabase
+        .from('clients')
+        .update({ last_login_at: new Date().toISOString() })
+        .eq('id', data.id);
     } catch (err) {
       console.error('Error fetching client data:', err);
       setError('Failed to load client data');
@@ -102,9 +102,9 @@ export function useClientAuth(): UseClientAuthReturn {
         .from('clients')
         .select('id')
         .eq('email', email.toLowerCase())
-        .single();
+        .maybeSingle();
 
-      if (checkError && checkError.code !== 'PGRST116') {
+      if (checkError) {
         throw checkError;
       }
 
@@ -142,7 +142,7 @@ export function useClientAuth(): UseClientAuthReturn {
   };
 
   const updateProfile = async (
-    data: Partial<Pick<Client, 'name' | 'company_name' | 'phone'>>
+    data: Partial<Pick<Client, 'name' | 'company' | 'phone'>>
   ): Promise<{ success: boolean; error?: string }> => {
     if (!client) {
       return { success: false, error: 'Not authenticated' };

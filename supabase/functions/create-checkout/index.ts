@@ -26,8 +26,8 @@ interface Invoice {
   clients: {
     id: string;
     email: string;
-    name: string;
-    company_name: string | null;
+    name: string | null;
+    company: string | null;
   };
 }
 
@@ -100,7 +100,7 @@ Deno.serve(async (req: Request) => {
           id,
           email,
           name,
-          company_name
+          company
         )
       `)
       .eq("id", invoiceId)
