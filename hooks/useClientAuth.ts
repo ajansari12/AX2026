@@ -45,7 +45,7 @@ export function useClientAuth(): UseClientAuthReturn {
       const { data, error: fetchError } = await supabase
         .from('clients')
         .select('*')
-        .eq('email', normalizedEmail)
+        .ilike('email', normalizedEmail)
         .maybeSingle();
 
       if (fetchError) {

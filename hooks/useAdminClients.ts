@@ -152,11 +152,12 @@ export function useAdminClients() {
         return { success: true, data: result.client };
       }
 
+      const normalizedEmail = data.email.toLowerCase();
       const { data: newClient, error: insertError } = await supabase
         .from('clients')
         .insert({
-          email: data.email,
-          name: data.name || data.email.split('@')[0],
+          email: normalizedEmail,
+          name: data.name || normalizedEmail.split('@')[0],
           company: data.company || null,
           phone: data.phone || null,
           notes: data.notes || null,
