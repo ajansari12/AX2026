@@ -119,7 +119,7 @@ export function useClientAuth(): UseClientAuthReturn {
       const { error: signInError } = await supabase.auth.signInWithOtp({
         email: email.toLowerCase(),
         options: {
-          emailRedirectTo: `${window.location.origin}/#/portal`,
+          emailRedirectTo: `${window.location.origin}/#/auth/callback`,
         },
       });
 

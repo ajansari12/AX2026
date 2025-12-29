@@ -35,6 +35,7 @@ const ForFinancialAdvisors = lazy(() => import('./pages/ForFinancialAdvisors').t
 const ForVeterinarians = lazy(() => import('./pages/ForVeterinarians').then(m => ({ default: m.ForVeterinarians })));
 
 const PortalLogin = lazy(() => import('./pages/PortalLogin').then(m => ({ default: m.PortalLogin })));
+const AuthCallback = lazy(() => import('./pages/AuthCallback').then(m => ({ default: m.AuthCallback })));
 const Portal = lazy(() => import('./pages/Portal').then(m => ({ default: m.Portal })));
 const PortalDashboard = lazy(() => import('./pages/PortalDashboard').then(m => ({ default: m.PortalDashboard })));
 const PortalProjects = lazy(() => import('./pages/PortalProjects').then(m => ({ default: m.PortalProjects })));
@@ -85,6 +86,7 @@ const App: React.FC = () => {
             <Route path="/proposal/:token" element={<ProposalView />} />
 
             <Route path="/portal/login" element={<PortalLogin />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/portal" element={<Portal />}>
               <Route index element={<PortalDashboard />} />
               <Route path="projects" element={<PortalProjects />} />
