@@ -28,6 +28,7 @@ export interface Client {
 
 export interface CreateClientData {
   email: string;
+  password?: string;
   name?: string;
   company?: string;
   phone?: string;
@@ -103,9 +104,54 @@ export function useAdminClients() {
     fetchClients();
   }, [fetchClients]);
 
-  // Create a new client
   const createClient = async (data: CreateClientData) => {
     try {
+      if (data.password) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          return { success: false, error: 'Admin session required' };
+        }
+
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-client-with-password`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`,
+              'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+            },
+            body: JSON.stringify({
+              email: data.email,
+              password: data.password,
+              name: data.name,
+              company: data.company,
+              phone: data.phone,
+              notes: data.notes,
+            }),
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          return { success: false, error: result.error || 'Failed to create client' };
+        }
+
+        setClients(prev => [
+          {
+            ...result.client,
+            projects_count: 0,
+            documents_count: 0,
+            invoices_count: 0,
+            outstanding_balance: 0,
+          },
+          ...prev,
+        ]);
+
+        return { success: true, data: result.client };
+      }
+
       const { data: newClient, error: insertError } = await supabase
         .from('clients')
         .insert({
@@ -121,7 +167,6 @@ export function useAdminClients() {
 
       if (insertError) throw insertError;
 
-      // Add to local state
       setClients(prev => [
         {
           ...newClient,

@@ -22,6 +22,9 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
+  Lock,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useAdminClients, Client, CreateClientData, UpdateClientData } from '../hooks/useAdminClients';
 
@@ -399,21 +402,23 @@ interface ClientFormModalProps {
 const ClientFormModal: React.FC<ClientFormModalProps> = ({ isOpen, client, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     email: '',
+    password: '',
     name: '',
     company: '',
     phone: '',
     notes: '',
     status: 'active' as 'active' | 'inactive' | 'pending',
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
 
-  // Reset form when modal opens
   React.useEffect(() => {
     if (isOpen) {
       if (client) {
         setFormData({
           email: client.email,
+          password: '',
           name: client.name || '',
           company: client.company || '',
           phone: client.phone || '',
@@ -423,6 +428,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({ isOpen, client, onClo
       } else {
         setFormData({
           email: '',
+          password: '',
           name: '',
           company: '',
           phone: '',
@@ -431,15 +437,26 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({ isOpen, client, onClo
         });
       }
       setError('');
+      setShowPassword(false);
     }
   }, [isOpen, client]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!client && formData.password && formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+
     setIsSaving(true);
 
-    const result = await onSave(formData);
+    const submitData = client
+      ? { name: formData.name, company: formData.company, phone: formData.phone, notes: formData.notes, status: formData.status }
+      : { email: formData.email, password: formData.password || undefined, name: formData.name, company: formData.company, phone: formData.phone, notes: formData.notes };
+
+    const result = await onSave(submitData);
 
     if (result.success) {
       onClose();
@@ -501,6 +518,34 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({ isOpen, client, onClo
               />
             </div>
           </div>
+
+          {!client && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Initial Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="Min 8 characters (optional)"
+                  className="w-full pl-12 pr-12 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                Set a password so the client can log in immediately. Leave blank to send an invite link instead.
+              </p>
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
