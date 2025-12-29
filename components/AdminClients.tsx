@@ -333,7 +333,7 @@ export const AdminClients: React.FC = () => {
                 top: menuPosition.top,
                 left: menuPosition.left,
               }}
-              className="w-48 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg z-[9999] overflow-hidden"
+              className="w-56 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg z-[9999] overflow-hidden"
             >
               {(() => {
                 const client = clients.find(c => c.id === actionMenuId);
@@ -346,10 +346,10 @@ export const AdminClients: React.FC = () => {
                         setActionMenuId(null);
                         setMenuPosition(null);
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
                       <Edit2 size={16} />
-                      <span>Edit</span>
+                      <span className="whitespace-nowrap">Edit</span>
                     </button>
                     <button
                       onClick={() => {
@@ -357,10 +357,10 @@ export const AdminClients: React.FC = () => {
                         setActionMenuId(null);
                         setMenuPosition(null);
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
                       <Send size={16} />
-                      <span>Send Portal Invite</span>
+                      <span className="whitespace-nowrap">Send Portal Invite</span>
                     </button>
                     <button
                       onClick={() => {
@@ -368,10 +368,10 @@ export const AdminClients: React.FC = () => {
                         setActionMenuId(null);
                         setMenuPosition(null);
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                     >
                       <Trash2 size={16} />
-                      <span>Delete</span>
+                      <span className="whitespace-nowrap">Delete</span>
                     </button>
                   </>
                 );
