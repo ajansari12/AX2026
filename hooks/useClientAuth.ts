@@ -180,6 +180,8 @@ export function useClientAuth(): UseClientAuthReturn {
         };
       }
 
+      localStorage.setItem('password_reset_pending', 'true');
+
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
         email.toLowerCase(),
         {
@@ -188,12 +190,14 @@ export function useClientAuth(): UseClientAuthReturn {
       );
 
       if (resetError) {
+        localStorage.removeItem('password_reset_pending');
         return { success: false, error: resetError.message };
       }
 
       return { success: true };
     } catch (err) {
       console.error('Password reset error:', err);
+      localStorage.removeItem('password_reset_pending');
       return { success: false, error: 'Failed to send reset link. Please try again.' };
     }
   };

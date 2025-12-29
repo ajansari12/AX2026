@@ -12,28 +12,35 @@ export const AuthCallback: React.FC = () => {
       try {
         console.log('Auth callback URL:', window.location.href);
 
-        // Check query parameters first (Supabase sends code here)
         const queryParams = new URLSearchParams(window.location.search);
         let code = queryParams.get('code');
         const tokenHash = queryParams.get('token_hash');
-        const type = queryParams.get('type');
+        let type = queryParams.get('type');
 
-        console.log('Query params - code:', code, 'token_hash:', tokenHash, 'type:', type);
-
-        // Fallback: Check hash parameters (for compatibility)
-        if (!code && !tokenHash) {
-          const hashParams = new URLSearchParams(window.location.hash.substring(1));
-          code = hashParams.get('code');
-          console.log('Hash params - code:', code);
+        const hash = window.location.hash;
+        const hashQueryIndex = hash.indexOf('?');
+        if (hashQueryIndex !== -1) {
+          const hashQueryString = hash.substring(hashQueryIndex + 1);
+          const hashParams = new URLSearchParams(hashQueryString);
+          if (!type) {
+            type = hashParams.get('type');
+          }
+          if (!code) {
+            code = hashParams.get('code');
+          }
         }
 
-        // If we have a code, exchange it for a session
+        const isRecoveryFlow = type === 'recovery' || localStorage.getItem('password_reset_pending') === 'true';
+
+        console.log('Auth params - code:', !!code, 'type:', type, 'isRecovery:', isRecoveryFlow);
+
         if (code) {
           console.log('Exchanging code for session...');
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
           if (exchangeError) {
             console.error('Exchange error:', exchangeError);
+            localStorage.removeItem('password_reset_pending');
             setError('Failed to verify your login link. Please try again.');
             setTimeout(() => navigate('/portal/login', { replace: true }), 3000);
             return;
@@ -42,9 +49,9 @@ export const AuthCallback: React.FC = () => {
           if (data.session) {
             console.log('Session established');
 
-            // Check if this is a password recovery flow
-            if (type === 'recovery') {
+            if (isRecoveryFlow) {
               console.log('Recovery flow detected, redirecting to reset password...');
+              localStorage.removeItem('password_reset_pending');
               navigate('/portal/reset-password', { replace: true });
             } else {
               console.log('Regular login flow, redirecting to portal...');
@@ -54,22 +61,20 @@ export const AuthCallback: React.FC = () => {
           }
         }
 
-        // If we have token_hash and type, Supabase will handle it automatically
         if (tokenHash && type) {
           console.log('Token hash detected, checking for session...');
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
 
-        // Check for existing session
         console.log('Checking for existing session...');
         const { data: { session } } = await supabase.auth.getSession();
 
         if (session) {
           console.log('Session found');
 
-          // Check if this is a password recovery flow
-          if (type === 'recovery') {
+          if (isRecoveryFlow) {
             console.log('Recovery flow detected, redirecting to reset password...');
+            localStorage.removeItem('password_reset_pending');
             navigate('/portal/reset-password', { replace: true });
           } else {
             console.log('Regular login flow, redirecting to portal...');
@@ -77,11 +82,13 @@ export const AuthCallback: React.FC = () => {
           }
         } else {
           console.log('No session found');
+          localStorage.removeItem('password_reset_pending');
           setError('No authentication code found. Please request a new login link.');
           setTimeout(() => navigate('/portal/login', { replace: true }), 3000);
         }
       } catch (err) {
         console.error('Auth callback error:', err);
+        localStorage.removeItem('password_reset_pending');
         setError('Authentication failed. Redirecting to login...');
         setTimeout(() => navigate('/portal/login', { replace: true }), 3000);
       }
