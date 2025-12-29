@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users,
@@ -41,6 +42,26 @@ export const AdminClients: React.FC = () => {
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [actionMenuId, setActionMenuId] = useState<string | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{ top: number; left: number } | null>(null);
+  const actionButtonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+
+  const handleActionMenuOpen = (clientId: string) => {
+    if (actionMenuId === clientId) {
+      setActionMenuId(null);
+      setMenuPosition(null);
+      return;
+    }
+
+    const button = actionButtonRefs.current.get(clientId);
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + 4,
+        left: rect.right - 192,
+      });
+    }
+    setActionMenuId(clientId);
+  };
 
   // Filter clients
   const filteredClients = clients.filter((client) => {
@@ -243,56 +264,16 @@ export const AdminClients: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2 relative">
+                      <div className="flex items-center justify-end gap-2">
                         <button
-                          onClick={() => setActionMenuId(actionMenuId === client.id ? null : client.id)}
+                          ref={(el) => {
+                            if (el) actionButtonRefs.current.set(client.id, el);
+                          }}
+                          onClick={() => handleActionMenuOpen(client.id)}
                           className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                         >
                           <MoreVertical size={18} />
                         </button>
-
-                        {/* Action menu */}
-                        <AnimatePresence>
-                          {actionMenuId === client.id && (
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.95 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.95 }}
-                              className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg z-10 overflow-hidden"
-                            >
-                              <button
-                                onClick={() => {
-                                  setEditingClient(client);
-                                  setActionMenuId(null);
-                                }}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                              >
-                                <Edit2 size={16} />
-                                <span>Edit</span>
-                              </button>
-                              <button
-                                onClick={() => {
-                                  handleSendInvite(client.email);
-                                  setActionMenuId(null);
-                                }}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                              >
-                                <Send size={16} />
-                                <span>Send Portal Invite</span>
-                              </button>
-                              <button
-                                onClick={() => {
-                                  handleDelete(client);
-                                  setActionMenuId(null);
-                                }}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                              >
-                                <Trash2 size={16} />
-                                <span>Delete</span>
-                              </button>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
                       </div>
                     </td>
                   </tr>
@@ -332,12 +313,73 @@ export const AdminClients: React.FC = () => {
         }}
       />
 
-      {/* Click outside handler for action menu */}
-      {actionMenuId && (
-        <div
-          className="fixed inset-0 z-0"
-          onClick={() => setActionMenuId(null)}
-        />
+      {/* Portal-based action menu */}
+      {actionMenuId && menuPosition && createPortal(
+        <>
+          <div
+            className="fixed inset-0 z-[9998]"
+            onClick={() => {
+              setActionMenuId(null);
+              setMenuPosition(null);
+            }}
+          />
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              style={{
+                position: 'fixed',
+                top: menuPosition.top,
+                left: menuPosition.left,
+              }}
+              className="w-48 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg z-[9999] overflow-hidden"
+            >
+              {(() => {
+                const client = clients.find(c => c.id === actionMenuId);
+                if (!client) return null;
+                return (
+                  <>
+                    <button
+                      onClick={() => {
+                        setEditingClient(client);
+                        setActionMenuId(null);
+                        setMenuPosition(null);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <Edit2 size={16} />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleSendInvite(client.email);
+                        setActionMenuId(null);
+                        setMenuPosition(null);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <Send size={16} />
+                      <span>Send Portal Invite</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleDelete(client);
+                        setActionMenuId(null);
+                        setMenuPosition(null);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    >
+                      <Trash2 size={16} />
+                      <span>Delete</span>
+                    </button>
+                  </>
+                );
+              })()}
+            </motion.div>
+          </AnimatePresence>
+        </>,
+        document.body
       )}
     </div>
   );
