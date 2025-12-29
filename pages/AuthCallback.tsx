@@ -10,12 +10,26 @@ export const AuthCallback: React.FC = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Check if there's a code in the hash (PKCE flow for magic links)
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        const code = hashParams.get('code');
+        console.log('Auth callback URL:', window.location.href);
 
+        // Check query parameters first (Supabase sends code here)
+        const queryParams = new URLSearchParams(window.location.search);
+        let code = queryParams.get('code');
+        const tokenHash = queryParams.get('token_hash');
+        const type = queryParams.get('type');
+
+        console.log('Query params - code:', code, 'token_hash:', tokenHash, 'type:', type);
+
+        // Fallback: Check hash parameters (for compatibility)
+        if (!code && !tokenHash) {
+          const hashParams = new URLSearchParams(window.location.hash.substring(1));
+          code = hashParams.get('code');
+          console.log('Hash params - code:', code);
+        }
+
+        // If we have a code, exchange it for a session
         if (code) {
-          // Exchange the code for a session
+          console.log('Exchanging code for session...');
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
           if (exchangeError) {
@@ -26,17 +40,27 @@ export const AuthCallback: React.FC = () => {
           }
 
           if (data.session) {
+            console.log('Session established, redirecting to portal...');
             navigate('/portal', { replace: true });
             return;
           }
         }
 
-        // Fallback: Check for existing session (in case user refreshed page)
+        // If we have token_hash and type, Supabase will handle it automatically
+        if (tokenHash && type) {
+          console.log('Token hash detected, checking for session...');
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
+        // Check for existing session
+        console.log('Checking for existing session...');
         const { data: { session } } = await supabase.auth.getSession();
 
         if (session) {
+          console.log('Session found, redirecting to portal...');
           navigate('/portal', { replace: true });
         } else {
+          console.log('No session found');
           setError('No authentication code found. Please request a new login link.');
           setTimeout(() => navigate('/portal/login', { replace: true }), 3000);
         }
