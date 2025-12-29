@@ -15,6 +15,7 @@ export interface Client {
   created_at: string;
   updated_at: string;
   last_login_at: string | null;
+  password_set?: boolean;
 }
 
 interface UseClientAuthReturn {
@@ -24,6 +25,9 @@ interface UseClientAuthReturn {
   isAuthenticated: boolean;
   error: string | null;
   sendMagicLink: (email: string) => Promise<{ success: boolean; error?: string }>;
+  signInWithPassword: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
+  updatePassword: (newPassword: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   updateProfile: (data: Partial<Pick<Client, 'name' | 'company' | 'phone'>>) => Promise<{ success: boolean; error?: string }>;
   refetchClient: () => Promise<void>;
@@ -48,7 +52,6 @@ export function useClientAuth(): UseClientAuthReturn {
       }
 
       if (!data) {
-        // No client found with this email
         setClient(null);
         setError('No client account found. Please contact support.');
         return;
@@ -57,7 +60,6 @@ export function useClientAuth(): UseClientAuthReturn {
       setClient(data);
       setError(null);
 
-      // Update last login timestamp
       await supabase
         .from('clients')
         .update({ last_login_at: new Date().toISOString() })
@@ -69,7 +71,6 @@ export function useClientAuth(): UseClientAuthReturn {
   }, []);
 
   useEffect(() => {
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);
       if (currentSession?.user?.email) {
@@ -78,7 +79,6 @@ export function useClientAuth(): UseClientAuthReturn {
       setIsLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, newSession) => {
         setSession(newSession);
@@ -111,7 +111,6 @@ export function useClientAuth(): UseClientAuthReturn {
         };
       }
 
-      // Send magic link
       const { error: signInError } = await supabase.auth.signInWithOtp({
         email: email.toLowerCase(),
         options: {
@@ -127,6 +126,98 @@ export function useClientAuth(): UseClientAuthReturn {
     } catch (err) {
       console.error('Magic link error:', err);
       return { success: false, error: 'Failed to send login link. Please try again.' };
+    }
+  };
+
+  const signInWithPassword = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { data: clientExists, error: checkError } = await supabase
+        .rpc('check_client_exists', { client_email: email.toLowerCase() });
+
+      if (checkError) {
+        throw checkError;
+      }
+
+      if (!clientExists) {
+        return {
+          success: false,
+          error: 'No account found with this email. Please contact us to get started.',
+        };
+      }
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.toLowerCase(),
+        password,
+      });
+
+      if (signInError) {
+        if (signInError.message.includes('Invalid login credentials')) {
+          return { success: false, error: 'Invalid email or password. Please try again.' };
+        }
+        return { success: false, error: signInError.message };
+      }
+
+      return { success: true };
+    } catch (err) {
+      console.error('Password sign in error:', err);
+      return { success: false, error: 'Failed to sign in. Please try again.' };
+    }
+  };
+
+  const resetPassword = async (email: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { data: clientExists, error: checkError } = await supabase
+        .rpc('check_client_exists', { client_email: email.toLowerCase() });
+
+      if (checkError) {
+        throw checkError;
+      }
+
+      if (!clientExists) {
+        return {
+          success: false,
+          error: 'No account found with this email. Please contact us to get started.',
+        };
+      }
+
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email.toLowerCase(),
+        {
+          redirectTo: `${window.location.origin}/#/portal/reset-password`,
+        }
+      );
+
+      if (resetError) {
+        return { success: false, error: resetError.message };
+      }
+
+      return { success: true };
+    } catch (err) {
+      console.error('Password reset error:', err);
+      return { success: false, error: 'Failed to send reset link. Please try again.' };
+    }
+  };
+
+  const updatePassword = async (newPassword: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (updateError) {
+        return { success: false, error: updateError.message };
+      }
+
+      if (session?.user?.email) {
+        await supabase.rpc('mark_password_set', {
+          client_email: session.user.email,
+        });
+      }
+
+      return { success: true };
+    } catch (err) {
+      console.error('Password update error:', err);
+      return { success: false, error: 'Failed to update password. Please try again.' };
     }
   };
 
@@ -154,7 +245,6 @@ export function useClientAuth(): UseClientAuthReturn {
         throw updateError;
       }
 
-      // Update local state
       setClient(prev => prev ? { ...prev, ...data } : null);
 
       return { success: true };
@@ -177,6 +267,9 @@ export function useClientAuth(): UseClientAuthReturn {
     isAuthenticated: !!session && !!client,
     error,
     sendMagicLink,
+    signInWithPassword,
+    resetPassword,
+    updatePassword,
     signOut,
     updateProfile,
     refetchClient,

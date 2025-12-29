@@ -17,7 +17,9 @@ export interface Client {
   last_login_at: string | null;
   created_at: string;
   updated_at: string;
-  // Computed fields
+  password_set?: boolean;
+  invitation_token?: string | null;
+  invitation_expires_at?: string | null;
   projects_count?: number;
   documents_count?: number;
   invoices_count?: number;
@@ -190,23 +192,60 @@ export function useAdminClients() {
     }
   };
 
-  // Send magic link to client
-  const sendPortalInvite = async (email: string) => {
+  const sendPortalInvite = async (email: string): Promise<{ success: boolean; error?: string; inviteUrl?: string }> => {
     try {
+      const { data: tokenData, error: tokenError } = await supabase
+        .rpc('generate_invitation_token');
+
+      if (tokenError) throw tokenError;
+
+      const token = tokenData as string;
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 7);
+
+      const { error: updateError } = await supabase
+        .from('clients')
+        .update({
+          invitation_token: token,
+          invitation_expires_at: expiresAt.toISOString(),
+          password_set: false,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('email', email.toLowerCase());
+
+      if (updateError) throw updateError;
+
+      const inviteUrl = `${window.location.origin}/#/portal/set-password?token=${token}`;
+
       const { error: authError } = await supabase.auth.signInWithOtp({
-        email,
+        email: email.toLowerCase(),
         options: {
-          emailRedirectTo: `${window.location.origin}/#/portal`,
+          emailRedirectTo: inviteUrl,
+          data: {
+            invitation_type: 'client_portal',
+          },
         },
       });
 
       if (authError) throw authError;
 
-      return { success: true };
+      setClients(prev =>
+        prev.map(client =>
+          client.email.toLowerCase() === email.toLowerCase()
+            ? { ...client, invitation_token: token, invitation_expires_at: expiresAt.toISOString(), password_set: false }
+            : client
+        )
+      );
+
+      return { success: true, inviteUrl };
     } catch (err) {
       console.error('Error sending portal invite:', err);
       return { success: false, error: 'Failed to send portal invite' };
     }
+  };
+
+  const resendInvite = async (email: string) => {
+    return sendPortalInvite(email);
   };
 
   // Get a single client by ID
@@ -228,6 +267,7 @@ export function useAdminClients() {
     updateClient,
     deleteClient,
     sendPortalInvite,
+    resendInvite,
     getClient,
     activeClients,
     inactiveClients,

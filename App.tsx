@@ -36,6 +36,8 @@ const ForVeterinarians = lazy(() => import('./pages/ForVeterinarians').then(m =>
 
 const PortalLogin = lazy(() => import('./pages/PortalLogin').then(m => ({ default: m.PortalLogin })));
 const AuthCallback = lazy(() => import('./pages/AuthCallback').then(m => ({ default: m.AuthCallback })));
+const SetPassword = lazy(() => import('./pages/SetPassword').then(m => ({ default: m.SetPassword })));
+const ResetPassword = lazy(() => import('./pages/ResetPassword').then(m => ({ default: m.ResetPassword })));
 const Portal = lazy(() => import('./pages/Portal').then(m => ({ default: m.Portal })));
 const PortalDashboard = lazy(() => import('./pages/PortalDashboard').then(m => ({ default: m.PortalDashboard })));
 const PortalProjects = lazy(() => import('./pages/PortalProjects').then(m => ({ default: m.PortalProjects })));
@@ -86,6 +88,8 @@ const App: React.FC = () => {
             <Route path="/proposal/:token" element={<ProposalView />} />
 
             <Route path="/portal/login" element={<PortalLogin />} />
+            <Route path="/portal/set-password" element={<SetPassword />} />
+            <Route path="/portal/reset-password" element={<ResetPassword />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/portal" element={<Portal />}>
               <Route index element={<PortalDashboard />} />
