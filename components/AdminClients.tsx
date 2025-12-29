@@ -410,19 +410,19 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({ isOpen, client, onClo
   if (!isOpen) return null;
 
   return (
-    <>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 z-40"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
       />
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-lg bg-white dark:bg-gray-900 rounded-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -553,7 +553,7 @@ const ClientFormModal: React.FC<ClientFormModalProps> = ({ isOpen, client, onClo
           </button>
         </div>
       </motion.div>
-    </>
+    </div>
   );
 };
 
@@ -588,19 +588,19 @@ const ClientDetailModal: React.FC<ClientDetailModalProps> = ({ client, onClose, 
   };
 
   return (
-    <>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 z-40"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
       />
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-lg bg-white dark:bg-gray-900 rounded-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -720,6 +720,6 @@ const ClientDetailModal: React.FC<ClientDetailModalProps> = ({ client, onClose, 
           </button>
         </div>
       </motion.div>
-    </>
+    </div>
   );
 };
