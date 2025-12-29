@@ -183,7 +183,7 @@ export function useClientAuth(): UseClientAuthReturn {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
         email.toLowerCase(),
         {
-          redirectTo: `${window.location.origin}/#/portal/reset-password`,
+          redirectTo: `${window.location.origin}/#/auth/callback?type=recovery`,
         }
       );
 

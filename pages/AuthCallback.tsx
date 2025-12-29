@@ -40,8 +40,16 @@ export const AuthCallback: React.FC = () => {
           }
 
           if (data.session) {
-            console.log('Session established, redirecting to portal...');
-            navigate('/portal', { replace: true });
+            console.log('Session established');
+
+            // Check if this is a password recovery flow
+            if (type === 'recovery') {
+              console.log('Recovery flow detected, redirecting to reset password...');
+              navigate('/portal/reset-password', { replace: true });
+            } else {
+              console.log('Regular login flow, redirecting to portal...');
+              navigate('/portal', { replace: true });
+            }
             return;
           }
         }
@@ -57,8 +65,16 @@ export const AuthCallback: React.FC = () => {
         const { data: { session } } = await supabase.auth.getSession();
 
         if (session) {
-          console.log('Session found, redirecting to portal...');
-          navigate('/portal', { replace: true });
+          console.log('Session found');
+
+          // Check if this is a password recovery flow
+          if (type === 'recovery') {
+            console.log('Recovery flow detected, redirecting to reset password...');
+            navigate('/portal/reset-password', { replace: true });
+          } else {
+            console.log('Regular login flow, redirecting to portal...');
+            navigate('/portal', { replace: true });
+          }
         } else {
           console.log('No session found');
           setError('No authentication code found. Please request a new login link.');
