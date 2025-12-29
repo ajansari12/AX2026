@@ -81,30 +81,52 @@ Deno.serve(async (req: Request) => {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    const { data: authUser, error: createAuthError } = await adminClient.auth.admin.createUser({
-      email: email.toLowerCase(),
-      password: password,
-      email_confirm: true,
-      user_metadata: {
-        name: name || email.split("@")[0],
-        role: "client",
-      },
-    });
+    const normalizedEmail = email.toLowerCase();
+    let authUserId: string;
 
-    if (createAuthError) {
-      if (createAuthError.message.includes("already been registered")) {
-        return new Response(
-          JSON.stringify({ error: "A user with this email already exists" }),
-          { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+    const { data: existingUsers } = await adminClient.auth.admin.listUsers();
+    const existingAuthUser = existingUsers?.users?.find(
+      (u) => u.email?.toLowerCase() === normalizedEmail
+    );
+
+    if (existingAuthUser) {
+      const { data: updatedUser, error: updateAuthError } = await adminClient.auth.admin.updateUserById(
+        existingAuthUser.id,
+        {
+          password: password,
+          email_confirm: true,
+          user_metadata: {
+            name: name || normalizedEmail.split("@")[0],
+            role: "client",
+          },
+        }
+      );
+
+      if (updateAuthError) {
+        throw updateAuthError;
       }
-      throw createAuthError;
+      authUserId = updatedUser.user.id;
+    } else {
+      const { data: authUser, error: createAuthError } = await adminClient.auth.admin.createUser({
+        email: normalizedEmail,
+        password: password,
+        email_confirm: true,
+        user_metadata: {
+          name: name || normalizedEmail.split("@")[0],
+          role: "client",
+        },
+      });
+
+      if (createAuthError) {
+        throw createAuthError;
+      }
+      authUserId = authUser.user.id;
     }
 
     const { data: existingClient } = await adminClient
       .from("clients")
       .select("id")
-      .eq("email", email.toLowerCase())
+      .eq("email", normalizedEmail)
       .maybeSingle();
 
     let clientData;
@@ -112,8 +134,8 @@ Deno.serve(async (req: Request) => {
       const { data: updated, error: updateError } = await adminClient
         .from("clients")
         .update({
-          auth_user_id: authUser.user.id,
-          name: name || email.split("@")[0],
+          auth_user_id: authUserId,
+          name: name || normalizedEmail.split("@")[0],
           company: company || null,
           phone: phone || null,
           notes: notes || null,
@@ -131,9 +153,9 @@ Deno.serve(async (req: Request) => {
       const { data: inserted, error: insertError } = await adminClient
         .from("clients")
         .insert({
-          email: email.toLowerCase(),
-          auth_user_id: authUser.user.id,
-          name: name || email.split("@")[0],
+          email: normalizedEmail,
+          auth_user_id: authUserId,
+          name: name || normalizedEmail.split("@")[0],
           company: company || null,
           phone: phone || null,
           notes: notes || null,
@@ -151,7 +173,9 @@ Deno.serve(async (req: Request) => {
       JSON.stringify({
         success: true,
         client: clientData,
-        message: "Client created with password. They can now log in to the portal.",
+        message: existingAuthUser 
+          ? "Client updated with new password. They can now log in to the portal."
+          : "Client created with password. They can now log in to the portal.",
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
