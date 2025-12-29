@@ -29,6 +29,11 @@ import {
   CreditCard,
   Banknote,
   FileCheck,
+  GraduationCap,
+  Play,
+  File,
+  BookOpen,
+  Star,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { Client } from '../../hooks/useAdminClients';
@@ -39,7 +44,7 @@ interface ClientManagementProps {
   onRefresh: () => void;
 }
 
-type TabType = 'overview' | 'projects' | 'documents' | 'invoices' | 'messages' | 'activity';
+type TabType = 'overview' | 'projects' | 'documents' | 'invoices' | 'messages' | 'activity' | 'training';
 
 interface Project {
   id: string;
@@ -96,6 +101,27 @@ interface Activity {
   created_at: string;
 }
 
+interface TrainingModule {
+  id: string;
+  title: string;
+  description: string | null;
+  category: string;
+  type: string;
+  duration: string | null;
+  read_time: string | null;
+  order_index: number;
+  is_active: boolean;
+}
+
+interface TrainingAssignment {
+  id: string;
+  module_id: string;
+  assigned_at: string;
+  assigned_by: string | null;
+  is_custom: boolean;
+  notes: string | null;
+}
+
 export const ClientManagement: React.FC<ClientManagementProps> = ({
   client,
   onClose,
@@ -107,6 +133,8 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [trainingModules, setTrainingModules] = useState<TrainingModule[]>([]);
+  const [trainingAssignments, setTrainingAssignments] = useState<TrainingAssignment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [showCreateProject, setShowCreateProject] = useState(false);
@@ -117,12 +145,14 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({
   const fetchClientData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const [projectsRes, docsRes, invoicesRes, messagesRes, activityRes] = await Promise.all([
+      const [projectsRes, docsRes, invoicesRes, messagesRes, activityRes, modulesRes, assignmentsRes] = await Promise.all([
         supabase.from('projects').select('*, milestones:project_milestones(id, title, status)').eq('client_id', client.id).order('created_at', { ascending: false }),
         supabase.from('client_documents').select('*').eq('client_id', client.id).order('created_at', { ascending: false }),
         supabase.from('invoices').select('*').eq('client_id', client.id).order('created_at', { ascending: false }),
         supabase.from('client_messages').select('*').eq('client_id', client.id).order('created_at', { ascending: false }).limit(50),
         supabase.from('client_activity').select('*').eq('client_id', client.id).order('created_at', { ascending: false }).limit(30),
+        supabase.from('training_modules').select('*').eq('is_active', true).order('order_index'),
+        supabase.from('client_training_assignments').select('*').eq('client_id', client.id),
       ]);
 
       if (projectsRes.data) setProjects(projectsRes.data);
@@ -130,6 +160,8 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({
       if (invoicesRes.data) setInvoices(invoicesRes.data);
       if (messagesRes.data) setMessages(messagesRes.data);
       if (activityRes.data) setActivities(activityRes.data);
+      if (modulesRes.data) setTrainingModules(modulesRes.data);
+      if (assignmentsRes.data) setTrainingAssignments(assignmentsRes.data);
     } catch (err) {
       console.error('Error fetching client data:', err);
     } finally {
@@ -157,12 +189,14 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({
     });
   };
 
+  const customTrainingCount = trainingAssignments.filter(a => a.is_custom).length;
   const tabs: { id: TabType; label: string; icon: React.ReactNode; count?: number }[] = [
     { id: 'overview', label: 'Overview', icon: <User size={16} /> },
     { id: 'projects', label: 'Projects', icon: <FolderKanban size={16} />, count: projects.length },
     { id: 'documents', label: 'Documents', icon: <FileText size={16} />, count: documents.length },
     { id: 'invoices', label: 'Invoices', icon: <Receipt size={16} />, count: invoices.length },
     { id: 'messages', label: 'Messages', icon: <MessageSquare size={16} />, count: messages.length },
+    { id: 'training', label: 'Training', icon: <GraduationCap size={16} />, count: customTrainingCount },
     { id: 'activity', label: 'Activity', icon: <Clock size={16} /> },
   ];
 
@@ -325,6 +359,14 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({
                   messages={messages}
                   formatDate={formatDate}
                   onSendNew={() => setShowSendMessage(true)}
+                />
+              )}
+              {activeTab === 'training' && (
+                <TrainingTab
+                  modules={trainingModules}
+                  assignments={trainingAssignments}
+                  clientId={client.id}
+                  onRefresh={fetchClientData}
                 />
               )}
               {activeTab === 'activity' && (
@@ -874,6 +916,214 @@ const ActivityTab: React.FC<{
           </div>
         </div>
       ))}
+    </div>
+  );
+};
+
+const TrainingTab: React.FC<{
+  modules: TrainingModule[];
+  assignments: TrainingAssignment[];
+  clientId: string;
+  onRefresh: () => void;
+}> = ({ modules, assignments, clientId, onRefresh }) => {
+  const [assigning, setAssigning] = useState<string | null>(null);
+  const [removing, setRemoving] = useState<string | null>(null);
+
+  const assignedModuleIds = new Set(assignments.filter(a => a.is_custom).map(a => a.module_id));
+
+  const handleAssign = async (moduleId: string) => {
+    setAssigning(moduleId);
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      const adminEmail = session.session?.user?.email || 'admin';
+
+      const { error } = await supabase.from('client_training_assignments').insert({
+        client_id: clientId,
+        module_id: moduleId,
+        assigned_by: adminEmail,
+        is_custom: true,
+      });
+
+      if (error) throw error;
+      onRefresh();
+    } catch (err) {
+      console.error('Error assigning training:', err);
+    } finally {
+      setAssigning(null);
+    }
+  };
+
+  const handleRemove = async (moduleId: string) => {
+    setRemoving(moduleId);
+    try {
+      const { error } = await supabase
+        .from('client_training_assignments')
+        .delete()
+        .eq('client_id', clientId)
+        .eq('module_id', moduleId);
+
+      if (error) throw error;
+      onRefresh();
+    } catch (err) {
+      console.error('Error removing training:', err);
+    } finally {
+      setRemoving(null);
+    }
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'video':
+        return <Play size={14} className="text-pink-500" />;
+      case 'article':
+        return <FileText size={14} className="text-blue-500" />;
+      case 'document':
+        return <File size={14} className="text-emerald-500" />;
+      default:
+        return <BookOpen size={14} className="text-gray-500" />;
+    }
+  };
+
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      'getting-started': 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400',
+      guides: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+      videos: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
+      documentation: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+    };
+    return colors[category] || 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400';
+  };
+
+  const customModules = modules.filter(m => assignedModuleIds.has(m.id));
+  const availableModules = modules.filter(m => !assignedModuleIds.has(m.id));
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-xl p-4 border border-cyan-100 dark:border-cyan-800">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0">
+            <GraduationCap size={20} className="text-cyan-600 dark:text-cyan-400" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Training Resources</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              All training modules are available to clients by default. Use custom assignments to highlight specific resources for this client.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {customModules.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            <Star size={16} className="text-amber-500" />
+            Custom Training ({customModules.length})
+          </h3>
+          <div className="space-y-2">
+            {customModules.map((module) => {
+              const assignment = assignments.find(a => a.module_id === module.id);
+              return (
+                <div
+                  key={module.id}
+                  className="flex items-center justify-between p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                      {getTypeIcon(module.type)}
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900 dark:text-white">{module.title}</h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(module.category)}`}>
+                          {module.category.replace('-', ' ')}
+                        </span>
+                        {module.duration && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400">{module.duration}</span>
+                        )}
+                        {module.read_time && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400">{module.read_time}</span>
+                        )}
+                      </div>
+                      {assignment?.assigned_at && (
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          Assigned {new Date(assignment.assigned_at).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleRemove(module.id)}
+                    disabled={removing === module.id}
+                    className="px-3 py-1.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {removing === module.id ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      'Remove'
+                    )}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div>
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+          <BookOpen size={16} className="text-gray-500" />
+          Available Modules ({availableModules.length})
+        </h3>
+        <div className="space-y-2">
+          {availableModules.map((module) => (
+            <div
+              key={module.id}
+              className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl hover:border-gray-200 dark:hover:border-gray-700 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                  {getTypeIcon(module.type)}
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-900 dark:text-white">{module.title}</h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(module.category)}`}>
+                      {module.category.replace('-', ' ')}
+                    </span>
+                    {module.duration && (
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{module.duration}</span>
+                    )}
+                    {module.read_time && (
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{module.read_time}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => handleAssign(module.id)}
+                disabled={assigning === module.id}
+                className="px-3 py-1.5 text-sm bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-50"
+              >
+                {assigning === module.id ? (
+                  <Loader2 size={14} className="animate-spin" />
+                ) : (
+                  'Assign'
+                )}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {modules.length === 0 && (
+        <div className="text-center py-12">
+          <GraduationCap className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No training modules</h3>
+          <p className="text-gray-500 dark:text-gray-400">
+            Training modules will appear here once they are created.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

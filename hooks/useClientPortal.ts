@@ -512,6 +512,19 @@ export interface TrainingModule {
   order_index: number;
   is_active: boolean;
   created_at: string;
+  is_custom_assignment?: boolean;
+  assigned_at?: string;
+  assignment_notes?: string;
+}
+
+export interface TrainingAssignment {
+  id: string;
+  client_id: string;
+  module_id: string;
+  assigned_at: string;
+  assigned_by: string | null;
+  is_custom: boolean;
+  notes: string | null;
 }
 
 export interface TrainingProgress {
@@ -529,6 +542,7 @@ export interface TrainingProgress {
 
 export function useClientTraining() {
   const [modules, setModules] = useState<TrainingModule[]>([]);
+  const [customAssignments, setCustomAssignments] = useState<TrainingAssignment[]>([]);
   const [progress, setProgress] = useState<TrainingProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -543,6 +557,7 @@ export function useClientTraining() {
 
       if (!email) {
         setModules([]);
+        setCustomAssignments([]);
         setProgress([]);
         setIsLoading(false);
         return;
@@ -554,14 +569,17 @@ export function useClientTraining() {
         .eq('email', email)
         .maybeSingle();
 
-      if (!client) {
-        const { data: allModules } = await supabase
-          .from('training_modules')
-          .select('*')
-          .eq('is_active', true)
-          .order('order_index');
+      const { data: allModules, error: modulesError } = await supabase
+        .from('training_modules')
+        .select('*')
+        .eq('is_active', true)
+        .order('order_index');
 
+      if (modulesError) throw modulesError;
+
+      if (!client) {
         setModules(allModules || []);
+        setCustomAssignments([]);
         setProgress([]);
         setIsLoading(false);
         return;
@@ -569,23 +587,32 @@ export function useClientTraining() {
 
       const { data: assignments } = await supabase
         .from('client_training_assignments')
-        .select('module_id')
-        .eq('client_id', client.id);
-
-      const assignedModuleIds = assignments?.map(a => a.module_id) || [];
-
-      let modulesQuery = supabase
-        .from('training_modules')
         .select('*')
-        .eq('is_active', true)
-        .order('order_index');
+        .eq('client_id', client.id)
+        .eq('is_custom', true);
 
-      if (assignedModuleIds.length > 0) {
-        modulesQuery = modulesQuery.in('id', assignedModuleIds);
-      }
+      const customAssignmentsList: TrainingAssignment[] = (assignments || []).map(a => ({
+        id: a.id,
+        client_id: a.client_id,
+        module_id: a.module_id,
+        assigned_at: a.assigned_at,
+        assigned_by: a.assigned_by,
+        is_custom: a.is_custom,
+        notes: a.notes,
+      }));
 
-      const { data: modulesData, error: modulesError } = await modulesQuery;
-      if (modulesError) throw modulesError;
+      setCustomAssignments(customAssignmentsList);
+
+      const customModuleIds = new Set(customAssignmentsList.map(a => a.module_id));
+      const modulesWithCustomFlag = (allModules || []).map(module => {
+        const assignment = customAssignmentsList.find(a => a.module_id === module.id);
+        return {
+          ...module,
+          is_custom_assignment: customModuleIds.has(module.id),
+          assigned_at: assignment?.assigned_at,
+          assignment_notes: assignment?.notes || undefined,
+        };
+      });
 
       const { data: progressData, error: progressError } = await supabase
         .from('client_training_progress')
@@ -593,7 +620,7 @@ export function useClientTraining() {
         .eq('client_id', client.id);
       if (progressError) throw progressError;
 
-      setModules(modulesData || []);
+      setModules(modulesWithCustomFlag);
       setProgress(progressData || []);
     } catch (err) {
       console.error('Error fetching training:', err);
@@ -694,12 +721,20 @@ export function useClientTraining() {
     'documentation': modules.filter(m => m.category === 'documentation'),
   };
 
+  const customModules = modules.filter(m => m.is_custom_assignment);
+  const regularModules = modules.filter(m => !m.is_custom_assignment);
+  const hasCustomTraining = customModules.length > 0;
+
   const completedCount = progress.filter(p => p.completed_at).length;
   const totalModules = modules.length;
   const overallProgress = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
   return {
     modules,
+    customModules,
+    regularModules,
+    customAssignments,
+    hasCustomTraining,
     progress,
     isLoading,
     error,

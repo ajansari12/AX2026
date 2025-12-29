@@ -15,15 +15,17 @@ import {
   X,
   Loader2,
   AlertCircle,
+  Star,
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { useClientTraining, TrainingModule } from '../hooks/useClientPortal';
 
-type CategoryFilter = 'all' | 'getting-started' | 'guides' | 'videos' | 'documentation';
+type CategoryFilter = 'all' | 'recommended' | 'getting-started' | 'guides' | 'videos' | 'documentation';
 
 export const PortalTraining: React.FC = () => {
   const {
     modules,
+    hasCustomTraining,
     isLoading,
     error,
     markAsStarted,
@@ -40,6 +42,7 @@ export const PortalTraining: React.FC = () => {
 
   const categories: { value: CategoryFilter; label: string; icon: React.ReactNode }[] = [
     { value: 'all', label: 'All Resources', icon: <BookOpen size={18} /> },
+    ...(hasCustomTraining ? [{ value: 'recommended' as CategoryFilter, label: 'Recommended', icon: <Star size={18} /> }] : []),
     { value: 'getting-started', label: 'Getting Started', icon: <Play size={18} /> },
     { value: 'guides', label: 'Guides', icon: <FileText size={18} /> },
     { value: 'videos', label: 'Video Tutorials', icon: <Video size={18} /> },
@@ -51,7 +54,10 @@ export const PortalTraining: React.FC = () => {
       ? module.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (module.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
       : true;
-    const matchesCategory = categoryFilter === 'all' || module.category === categoryFilter;
+    const matchesCategory =
+      categoryFilter === 'all' ||
+      (categoryFilter === 'recommended' && module.is_custom_assignment) ||
+      module.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
@@ -210,7 +216,7 @@ export const PortalTraining: React.FC = () => {
             </h2>
             <p className="text-gray-500 dark:text-gray-400">
               {modules.length === 0
-                ? 'No training materials have been assigned yet. Check back later!'
+                ? 'Training materials are being prepared. Check back soon!'
                 : 'Try adjusting your search or filter criteria.'}
             </p>
           </motion.div>
@@ -228,8 +234,18 @@ export const PortalTraining: React.FC = () => {
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ delay: index * 0.03 }}
                     onClick={() => handleOpenModule(module)}
-                    className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 hover:border-gray-200 dark:hover:border-gray-700 transition-all cursor-pointer group"
+                    className={`bg-white dark:bg-gray-900 rounded-2xl border p-6 hover:border-gray-200 dark:hover:border-gray-700 transition-all cursor-pointer group ${
+                      module.is_custom_assignment
+                        ? 'border-amber-200 dark:border-amber-800 ring-1 ring-amber-100 dark:ring-amber-900/30'
+                        : 'border-gray-100 dark:border-gray-800'
+                    }`}
                   >
+                    {module.is_custom_assignment && (
+                      <div className="flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 mb-3">
+                        <Star size={12} className="fill-amber-500" />
+                        <span>Recommended for you</span>
+                      </div>
+                    )}
                     <div className="w-12 h-12 bg-gray-50 dark:bg-gray-800 rounded-xl flex items-center justify-center mb-4">
                       {getTypeIcon(module.type)}
                     </div>
@@ -291,10 +307,16 @@ export const PortalTraining: React.FC = () => {
                     <div className="w-10 h-10 bg-gray-50 dark:bg-gray-800 rounded-xl flex items-center justify-center">
                       {getTypeIcon(selectedModule.type)}
                     </div>
-                    <div>
+                    <div className="flex items-center gap-2">
                       <span className={`px-2 py-0.5 rounded-md text-xs font-medium ${getCategoryColor(selectedModule.category)}`}>
                         {selectedModule.category.replace('-', ' ')}
                       </span>
+                      {selectedModule.is_custom_assignment && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                          <Star size={10} className="fill-amber-500" />
+                          Recommended
+                        </span>
+                      )}
                     </div>
                   </div>
                   <button
