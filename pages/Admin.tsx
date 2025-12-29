@@ -928,7 +928,7 @@ const ConversationsTab: React.FC = () => {
 
 export const Admin: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
-  const { isLoading, isAuthenticated, signIn, signOut, session } = useAdminAuth();
+  const { isLoading, isAuthenticated, isAdmin, signIn, signOut, session } = useAdminAuth();
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: 'Overview', icon: <BarChart3 size={18} /> },
@@ -957,6 +957,34 @@ export const Admin: React.FC = () => {
 
   if (!isAuthenticated) {
     return <AdminLoginForm onLogin={signIn} />;
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
+        <SEO title="Access Denied" description="You do not have permission to access this page." />
+        <div className="w-full max-w-md">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 shadow-xl text-center">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 rounded-2xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+                <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
+              </div>
+            </div>
+
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Access Denied
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
+              You are not authorized to access the admin panel. Please contact the administrator if you believe this is an error.
+            </p>
+
+            <Button onClick={signOut} className="w-full">
+              Sign Out
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
