@@ -97,18 +97,14 @@ export function useClientAuth(): UseClientAuthReturn {
 
   const sendMagicLink = async (email: string): Promise<{ success: boolean; error?: string }> => {
     try {
-      // First check if a client exists with this email
-      const { data: existingClient, error: checkError } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('email', email.toLowerCase())
-        .maybeSingle();
+      const { data: clientExists, error: checkError } = await supabase
+        .rpc('check_client_exists', { client_email: email.toLowerCase() });
 
       if (checkError) {
         throw checkError;
       }
 
-      if (!existingClient) {
+      if (!clientExists) {
         return {
           success: false,
           error: 'No account found with this email. Please contact us to get started.',
