@@ -108,7 +108,7 @@ export function useAdminClients() {
         .from('clients')
         .insert({
           email: data.email,
-          name: data.name || null,
+          name: data.name || data.email.split('@')[0],
           company: data.company || null,
           phone: data.phone || null,
           notes: data.notes || null,
