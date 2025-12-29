@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -15,18 +15,13 @@ import {
   X,
   Loader2,
   User,
-  DollarSign,
-  FolderKanban,
-  FileText,
-  Receipt,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
   Lock,
   Eye,
   EyeOff,
+  ExternalLink,
 } from 'lucide-react';
 import { useAdminClients, Client, CreateClientData, UpdateClientData } from '../hooks/useAdminClients';
+import { ClientManagement } from './admin/ClientManagement';
 
 export const AdminClients: React.FC = () => {
   const {
@@ -37,6 +32,7 @@ export const AdminClients: React.FC = () => {
     deleteClient,
     sendPortalInvite,
     totalOutstanding,
+    refetch,
   } = useAdminClients();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -306,15 +302,16 @@ export const AdminClients: React.FC = () => {
         }}
       />
 
-      {/* Client Detail Modal */}
-      <ClientDetailModal
-        client={selectedClient}
-        onClose={() => setSelectedClient(null)}
-        onEdit={() => {
-          setEditingClient(selectedClient);
-          setSelectedClient(null);
-        }}
-      />
+      {/* Enhanced Client Management Panel */}
+      <AnimatePresence>
+        {selectedClient && (
+          <ClientManagement
+            client={selectedClient}
+            onClose={() => setSelectedClient(null)}
+            onRefresh={refetch}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Portal-based action menu */}
       {actionMenuId && menuPosition && createPortal(

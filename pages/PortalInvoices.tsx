@@ -12,6 +12,10 @@ import {
   FolderOpen,
   X,
   DollarSign,
+  Banknote,
+  FileCheck,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { useClientInvoices, Invoice } from '../hooks/useClientPortal';
@@ -89,11 +93,36 @@ export const PortalInvoices: React.FC = () => {
     return statusMap[status] || statusMap.draft;
   };
 
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+
   // Handle pay invoice
   const handlePay = (invoice: Invoice) => {
     if (invoice.stripe_payment_url) {
       window.open(invoice.stripe_payment_url, '_blank');
     }
+  };
+
+  // Copy to clipboard
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedText(text);
+      setTimeout(() => setCopiedText(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  // Get payment method icon and label
+  const getPaymentMethodInfo = (method: string) => {
+    const methods: Record<string, { icon: React.ReactNode; label: string }> = {
+      stripe: { icon: <CreditCard size={14} />, label: 'Credit Card' },
+      bank_transfer: { icon: <Banknote size={14} />, label: 'Bank Transfer' },
+      check: { icon: <FileCheck size={14} />, label: 'Check' },
+      cash: { icon: <DollarSign size={14} />, label: 'Cash' },
+      other: { icon: <Receipt size={14} />, label: 'Other' },
+    };
+    return methods[method] || methods.other;
   };
 
   return (
@@ -204,7 +233,7 @@ export const PortalInvoices: React.FC = () => {
             <AnimatePresence mode="popLayout">
               {filteredInvoices.map((invoice, index) => {
                 const statusInfo = getStatusInfo(invoice.status);
-                const isPayable = ['sent', 'viewed', 'overdue'].includes(invoice.status) && invoice.stripe_payment_url;
+                const isPayable = ['sent', 'viewed', 'overdue'].includes(invoice.status) && invoice.payment_method === 'stripe' && invoice.stripe_payment_url;
 
                 return (
                   <motion.div
@@ -244,6 +273,10 @@ export const PortalInvoices: React.FC = () => {
                                   {invoice.project.name}
                                 </span>
                               )}
+                              <span className="flex items-center gap-1.5">
+                                {getPaymentMethodInfo(invoice.payment_method || 'stripe').icon}
+                                {getPaymentMethodInfo(invoice.payment_method || 'stripe').label}
+                              </span>
                               <span className="flex items-center gap-1.5">
                                 <Calendar size={14} />
                                 {new Date(invoice.created_at).toLocaleDateString()}
@@ -478,11 +511,53 @@ export const PortalInvoices: React.FC = () => {
                       </p>
                     </div>
                   )}
+
+                  {/* Payment Method & Instructions */}
+                  {['sent', 'viewed', 'overdue'].includes(selectedInvoice.status) && (
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-4">
+                      <div className="flex items-center gap-2 text-blue-700 dark:text-blue-400 font-medium mb-2">
+                        {getPaymentMethodInfo(selectedInvoice.payment_method || 'stripe').icon}
+                        <span>Payment Method: {getPaymentMethodInfo(selectedInvoice.payment_method || 'stripe').label}</span>
+                      </div>
+
+                      {selectedInvoice.payment_method === 'stripe' && selectedInvoice.stripe_payment_url ? (
+                        <p className="text-sm text-blue-600 dark:text-blue-300">
+                          Click the button below to pay securely with your credit card.
+                        </p>
+                      ) : selectedInvoice.payment_instructions ? (
+                        <div className="space-y-2">
+                          <p className="text-sm text-blue-600 dark:text-blue-300 whitespace-pre-wrap">
+                            {selectedInvoice.payment_instructions}
+                          </p>
+                          <button
+                            onClick={() => copyToClipboard(selectedInvoice.payment_instructions!)}
+                            className="flex items-center gap-2 text-xs text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                          >
+                            {copiedText === selectedInvoice.payment_instructions ? (
+                              <>
+                                <Check size={12} />
+                                <span>Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy size={12} />
+                                <span>Copy payment details</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-blue-600 dark:text-blue-300">
+                          Please contact us for payment instructions.
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Footer */}
                 <div className="p-6 border-t border-gray-100 dark:border-gray-800 flex gap-3">
-                  {['sent', 'viewed', 'overdue'].includes(selectedInvoice.status) && selectedInvoice.stripe_payment_url && (
+                  {['sent', 'viewed', 'overdue'].includes(selectedInvoice.status) && selectedInvoice.payment_method === 'stripe' && selectedInvoice.stripe_payment_url && (
                     <button
                       onClick={() => handlePay(selectedInvoice)}
                       className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-medium transition-colors"
@@ -493,7 +568,11 @@ export const PortalInvoices: React.FC = () => {
                   )}
                   <button
                     onClick={() => setSelectedInvoice(null)}
-                    className="flex-1 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    className={`py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${
+                      ['sent', 'viewed', 'overdue'].includes(selectedInvoice.status) && selectedInvoice.payment_method === 'stripe' && selectedInvoice.stripe_payment_url
+                        ? 'flex-1'
+                        : 'w-full'
+                    }`}
                   >
                     Close
                   </button>

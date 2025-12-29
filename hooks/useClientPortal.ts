@@ -94,6 +94,11 @@ export interface Invoice {
   viewed_at: string | null;
   paid_at: string | null;
   stripe_payment_url: string | null;
+  payment_method: 'stripe' | 'bank_transfer' | 'check' | 'cash' | 'other';
+  payment_instructions: string | null;
+  manual_payment_date: string | null;
+  manual_payment_reference: string | null;
+  payment_notes: string | null;
   created_at: string;
   // Relations
   project?: { name: string } | null;
@@ -486,5 +491,226 @@ export function useClientActivity(limit = 20) {
     activities,
     isLoading,
     refetch: fetchActivities,
+  };
+}
+
+// ============================================
+// Training Types
+// ============================================
+
+export interface TrainingModule {
+  id: string;
+  title: string;
+  description: string | null;
+  category: 'getting-started' | 'guides' | 'videos' | 'documentation';
+  type: 'video' | 'article' | 'document';
+  content_url: string | null;
+  content_body: string | null;
+  duration: string | null;
+  read_time: string | null;
+  thumbnail_url: string | null;
+  order_index: number;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface TrainingProgress {
+  id: string;
+  client_id: string;
+  module_id: string;
+  started_at: string | null;
+  completed_at: string | null;
+  progress_percent: number;
+}
+
+// ============================================
+// Training Hook
+// ============================================
+
+export function useClientTraining() {
+  const [modules, setModules] = useState<TrainingModule[]>([]);
+  const [progress, setProgress] = useState<TrainingProgress[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchTraining = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      const email = session.session?.user?.email?.toLowerCase();
+
+      if (!email) {
+        setModules([]);
+        setProgress([]);
+        setIsLoading(false);
+        return;
+      }
+
+      const { data: client } = await supabase
+        .from('clients')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle();
+
+      if (!client) {
+        const { data: allModules } = await supabase
+          .from('training_modules')
+          .select('*')
+          .eq('is_active', true)
+          .order('order_index');
+
+        setModules(allModules || []);
+        setProgress([]);
+        setIsLoading(false);
+        return;
+      }
+
+      const { data: assignments } = await supabase
+        .from('client_training_assignments')
+        .select('module_id')
+        .eq('client_id', client.id);
+
+      const assignedModuleIds = assignments?.map(a => a.module_id) || [];
+
+      let modulesQuery = supabase
+        .from('training_modules')
+        .select('*')
+        .eq('is_active', true)
+        .order('order_index');
+
+      if (assignedModuleIds.length > 0) {
+        modulesQuery = modulesQuery.in('id', assignedModuleIds);
+      }
+
+      const { data: modulesData, error: modulesError } = await modulesQuery;
+      if (modulesError) throw modulesError;
+
+      const { data: progressData, error: progressError } = await supabase
+        .from('client_training_progress')
+        .select('*')
+        .eq('client_id', client.id);
+      if (progressError) throw progressError;
+
+      setModules(modulesData || []);
+      setProgress(progressData || []);
+    } catch (err) {
+      console.error('Error fetching training:', err);
+      setError('Failed to load training content');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchTraining();
+  }, [fetchTraining]);
+
+  const markAsStarted = async (moduleId: string) => {
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      const email = session.session?.user?.email?.toLowerCase();
+      if (!email) return;
+
+      const { data: client } = await supabase
+        .from('clients')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle();
+      if (!client) return;
+
+      const existingProgress = progress.find(p => p.module_id === moduleId);
+
+      if (existingProgress) {
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('client_training_progress')
+        .upsert({
+          client_id: client.id,
+          module_id: moduleId,
+          started_at: new Date().toISOString(),
+          progress_percent: 10,
+        }, { onConflict: 'client_id,module_id' })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      setProgress(prev => [...prev.filter(p => p.module_id !== moduleId), data]);
+    } catch (err) {
+      console.error('Error marking as started:', err);
+    }
+  };
+
+  const markAsCompleted = async (moduleId: string) => {
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      const email = session.session?.user?.email?.toLowerCase();
+      if (!email) return;
+
+      const { data: client } = await supabase
+        .from('clients')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle();
+      if (!client) return;
+
+      const { data, error } = await supabase
+        .from('client_training_progress')
+        .upsert({
+          client_id: client.id,
+          module_id: moduleId,
+          started_at: new Date().toISOString(),
+          completed_at: new Date().toISOString(),
+          progress_percent: 100,
+        }, { onConflict: 'client_id,module_id' })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      setProgress(prev => [...prev.filter(p => p.module_id !== moduleId), data]);
+    } catch (err) {
+      console.error('Error marking as completed:', err);
+    }
+  };
+
+  const getModuleProgress = (moduleId: string) => {
+    return progress.find(p => p.module_id === moduleId);
+  };
+
+  const isModuleCompleted = (moduleId: string) => {
+    const moduleProgress = getModuleProgress(moduleId);
+    return moduleProgress?.completed_at !== null && moduleProgress?.completed_at !== undefined;
+  };
+
+  const modulesByCategory = {
+    'getting-started': modules.filter(m => m.category === 'getting-started'),
+    'guides': modules.filter(m => m.category === 'guides'),
+    'videos': modules.filter(m => m.category === 'videos'),
+    'documentation': modules.filter(m => m.category === 'documentation'),
+  };
+
+  const completedCount = progress.filter(p => p.completed_at).length;
+  const totalModules = modules.length;
+  const overallProgress = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
+
+  return {
+    modules,
+    progress,
+    isLoading,
+    error,
+    refetch: fetchTraining,
+    markAsStarted,
+    markAsCompleted,
+    getModuleProgress,
+    isModuleCompleted,
+    modulesByCategory,
+    completedCount,
+    totalModules,
+    overallProgress,
   };
 }
