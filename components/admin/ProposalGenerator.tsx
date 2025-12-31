@@ -3,7 +3,7 @@ import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import {
   FileText, Plus, Edit2, Trash2, Send, Eye, Copy, Check,
   ExternalLink, Clock, DollarSign, Calendar, User, Building,
-  GripVertical, ChevronDown, ChevronUp, Download, Link2
+  GripVertical, ChevronDown, ChevronUp, Download, Link2, Upload
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -245,6 +245,43 @@ export const ProposalGenerator: React.FC = () => {
     alert('Link copied to clipboard!');
   };
 
+  const sendToPortal = async (proposal: Proposal) => {
+    try {
+      const { data: client, error: clientError } = await supabase
+        .from('clients')
+        .select('id, name')
+        .ilike('email', proposal.client_email)
+        .maybeSingle();
+
+      if (clientError) throw clientError;
+
+      if (!client) {
+        alert(`No client found with email: ${proposal.client_email}. Create a client first to send proposals to their portal.`);
+        return;
+      }
+
+      const proposalUrl = `${window.location.origin}/proposal/${proposal.share_token}`;
+
+      const { error: docError } = await supabase
+        .from('client_documents')
+        .insert({
+          client_id: client.id,
+          name: proposal.title,
+          description: `Proposal - ${proposal.summary || `$${proposal.pricing?.total?.toLocaleString() || 0}`}`,
+          category: 'proposal',
+          file_url: proposalUrl,
+          uploaded_at: new Date().toISOString(),
+        });
+
+      if (docError) throw docError;
+
+      alert(`Proposal sent to ${client.name}'s portal successfully!`);
+    } catch (err) {
+      console.error('Error sending to portal:', err);
+      alert('Failed to send proposal to portal');
+    }
+  };
+
   if (showEditor && editingProposal) {
     return (
       <ProposalEditor
@@ -353,6 +390,16 @@ export const ProposalGenerator: React.FC = () => {
                       >
                         <Send className="w-4 h-4" />
                         Send
+                      </button>
+                    )}
+                    {(proposal.status === 'sent' || proposal.status === 'viewed' || proposal.status === 'accepted') && (
+                      <button
+                        onClick={() => sendToPortal(proposal)}
+                        className="flex items-center gap-1 px-3 py-1.5 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700"
+                        title="Send to client portal"
+                      >
+                        <Upload className="w-4 h-4" />
+                        Portal
                       </button>
                     )}
                     <button

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -34,6 +34,10 @@ import {
   File,
   BookOpen,
   Star,
+  Link2,
+  Image,
+  Video,
+  Check,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { Client } from '../../hooks/useAdminClients';
@@ -1341,6 +1345,31 @@ const CreateProjectModal: React.FC<{
   );
 };
 
+const ACCEPTED_FILE_TYPES = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'video/mp4',
+  'video/webm',
+];
+
+const formatFileSize = (bytes: number): string => {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+const getFileIcon = (type: string) => {
+  if (type.startsWith('image/')) return Image;
+  if (type.startsWith('video/')) return Video;
+  if (type.includes('pdf')) return FileText;
+  return File;
+};
+
 const UploadDocumentModal: React.FC<{
   isOpen: boolean;
   clientId: string;
@@ -1348,6 +1377,7 @@ const UploadDocumentModal: React.FC<{
   onClose: () => void;
   onSuccess: () => void;
 }> = ({ isOpen, clientId, projects, onClose, onSuccess }) => {
+  const [uploadMode, setUploadMode] = useState<'file' | 'url'>('file');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -1356,8 +1386,12 @@ const UploadDocumentModal: React.FC<{
     project_id: '',
     requires_signature: false,
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -1369,14 +1403,90 @@ const UploadDocumentModal: React.FC<{
         project_id: '',
         requires_signature: false,
       });
+      setSelectedFile(null);
+      setUploadProgress(0);
       setError('');
+      setUploadMode('file');
     }
   }, [isOpen]);
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileSelect(file);
+  };
+
+  const handleFileSelect = (file: File) => {
+    if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
+      setError(`File type not supported: ${file.type}`);
+      return;
+    }
+    if (file.size > 50 * 1024 * 1024) {
+      setError('File too large. Maximum size is 50MB');
+      return;
+    }
+    setSelectedFile(file);
+    setError('');
+    if (!formData.name) {
+      setFormData((prev) => ({ ...prev, name: file.name }));
+    }
+  };
+
+  const uploadFile = async (): Promise<string | null> => {
+    if (!selectedFile) return null;
+
+    const timestamp = Date.now();
+    const sanitizedName = selectedFile.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const storagePath = `${clientId}/${formData.category}/${timestamp}-${sanitizedName}`;
+
+    setUploadProgress(10);
+
+    const { error: uploadError } = await supabase.storage
+      .from('client-documents')
+      .upload(storagePath, selectedFile, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    if (uploadError) throw uploadError;
+
+    setUploadProgress(80);
+
+    const { data: signedUrlData } = await supabase.storage
+      .from('client-documents')
+      .createSignedUrl(storagePath, 60 * 60 * 24 * 365);
+
+    setUploadProgress(100);
+
+    return signedUrlData?.signedUrl || null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.file_url.trim()) {
-      setError('Document name and URL are required');
+
+    if (!formData.name.trim()) {
+      setError('Document name is required');
+      return;
+    }
+
+    if (uploadMode === 'url' && !formData.file_url.trim()) {
+      setError('File URL is required');
+      return;
+    }
+
+    if (uploadMode === 'file' && !selectedFile) {
+      setError('Please select a file to upload');
       return;
     }
 
@@ -1384,15 +1494,36 @@ const UploadDocumentModal: React.FC<{
     setError('');
 
     try {
+      let fileUrl = formData.file_url.trim();
+      let fileSize: number | null = null;
+      let mimeType: string | null = null;
+      let storagePath: string | null = null;
+
+      if (uploadMode === 'file' && selectedFile) {
+        fileUrl = (await uploadFile()) || '';
+        fileSize = selectedFile.size;
+        mimeType = selectedFile.type;
+        const timestamp = Date.now();
+        const sanitizedName = selectedFile.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        storagePath = `${clientId}/${formData.category}/${timestamp}-${sanitizedName}`;
+      }
+
+      if (!fileUrl) {
+        throw new Error('Failed to get file URL');
+      }
+
       const { error: insertError } = await supabase.from('client_documents').insert({
         client_id: clientId,
         project_id: formData.project_id || null,
         name: formData.name.trim(),
         description: formData.description.trim() || null,
-        file_url: formData.file_url.trim(),
+        file_url: fileUrl,
         category: formData.category,
         requires_signature: formData.requires_signature,
         uploaded_by: 'admin',
+        file_size: fileSize,
+        mime_type: mimeType,
+        storage_path: storagePath,
       });
 
       if (insertError) throw insertError;
@@ -1407,13 +1538,15 @@ const UploadDocumentModal: React.FC<{
 
   if (!isOpen) return null;
 
+  const FileIcon = selectedFile ? getFileIcon(selectedFile.type) : File;
+
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl overflow-hidden"
+        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Upload Document</h3>
@@ -1429,6 +1562,106 @@ const UploadDocumentModal: React.FC<{
             </div>
           )}
 
+          <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <button
+              type="button"
+              onClick={() => setUploadMode('file')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                uploadMode === 'file'
+                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              <Upload size={16} />
+              Upload File
+            </button>
+            <button
+              type="button"
+              onClick={() => setUploadMode('url')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                uploadMode === 'url'
+                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              <Link2 size={16} />
+              Paste URL
+            </button>
+          </div>
+
+          {uploadMode === 'file' ? (
+            <div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={ACCEPTED_FILE_TYPES.join(',')}
+                onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
+                className="hidden"
+              />
+              {!selectedFile ? (
+                <div
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`
+                    border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all
+                    ${isDragging
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                    }
+                  `}
+                >
+                  <Upload className={`w-10 h-10 mx-auto mb-2 ${isDragging ? 'text-blue-500' : 'text-gray-400'}`} />
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {isDragging ? 'Drop file here' : 'Drag & drop or click to browse'}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">PDF, Word, Images, Videos up to 50MB</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                  <div className="p-2 bg-green-100 dark:bg-green-800 rounded-lg">
+                    <FileIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {selectedFile.name}
+                    </p>
+                    <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
+                    {isSaving && uploadProgress > 0 && uploadProgress < 100 && (
+                      <div className="mt-1 h-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-green-500 transition-all duration-300"
+                          style={{ width: `${uploadProgress}%` }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedFile(null)}
+                    className="p-1 hover:bg-green-100 dark:hover:bg-green-800 rounded"
+                  >
+                    <X size={16} className="text-gray-500" />
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                File URL <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="url"
+                value={formData.file_url}
+                onChange={(e) => setFormData({ ...formData, file_url: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+                placeholder="https://storage.example.com/document.pdf"
+              />
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Document Name <span className="text-red-500">*</span>
@@ -1440,22 +1673,6 @@ const UploadDocumentModal: React.FC<{
               className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
               placeholder="Project Proposal.pdf"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              File URL <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="url"
-              value={formData.file_url}
-              onChange={(e) => setFormData({ ...formData, file_url: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
-              placeholder="https://storage.example.com/document.pdf"
-            />
-            <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
-              Upload to your storage provider and paste the URL here
-            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -1534,7 +1751,7 @@ const UploadDocumentModal: React.FC<{
               className="flex items-center gap-2 px-6 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-50"
             >
               {isSaving && <Loader2 size={16} className="animate-spin" />}
-              Upload Document
+              {uploadMode === 'file' ? 'Upload Document' : 'Add Document'}
             </button>
           </div>
         </form>

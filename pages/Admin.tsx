@@ -44,6 +44,7 @@ import {
   Newspaper,
   GitBranch,
   PieChart,
+  GraduationCap,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -54,8 +55,9 @@ const EmailMarketing = lazy(() => import('../components/admin/EmailMarketing').t
 const BlogCMS = lazy(() => import('../components/admin/BlogCMS').then(m => ({ default: m.BlogCMS })));
 const LeadPipeline = lazy(() => import('../components/admin/LeadPipeline').then(m => ({ default: m.LeadPipeline })));
 const AdvancedAnalytics = lazy(() => import('../components/admin/AdvancedAnalytics').then(m => ({ default: m.AdvancedAnalytics })));
+const TrainingManagement = lazy(() => import('../components/admin/TrainingManagement').then(m => ({ default: m.TrainingManagement })));
 
-type TabType = 'overview' | 'leads' | 'clients' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers' | 'integrations' | 'proposals' | 'email' | 'blog' | 'pipeline' | 'analytics';
+type TabType = 'overview' | 'leads' | 'clients' | 'conversations' | 'bookings' | 'teardowns' | 'downloads' | 'subscribers' | 'integrations' | 'proposals' | 'email' | 'blog' | 'pipeline' | 'analytics' | 'training';
 
 // Loading fallback for lazy components
 const TabLoadingFallback = () => (
@@ -935,6 +937,7 @@ export const Admin: React.FC = () => {
     { id: 'leads', label: 'Leads', icon: <Users size={18} /> },
     { id: 'pipeline', label: 'Pipeline', icon: <GitBranch size={18} /> },
     { id: 'clients', label: 'Clients', icon: <UserCircle size={18} /> },
+    { id: 'training', label: 'Training', icon: <GraduationCap size={18} /> },
     { id: 'conversations', label: 'Chats', icon: <MessageCircle size={18} /> },
     { id: 'bookings', label: 'Bookings', icon: <Calendar size={18} /> },
     { id: 'proposals', label: 'Proposals', icon: <FileText size={18} /> },
@@ -1042,6 +1045,11 @@ export const Admin: React.FC = () => {
             </Suspense>
           )}
           {activeTab === 'clients' && <AdminClients />}
+          {activeTab === 'training' && (
+            <Suspense fallback={<TabLoadingFallback />}>
+              <TrainingManagement />
+            </Suspense>
+          )}
           {activeTab === 'conversations' && <ConversationsTab />}
           {activeTab === 'bookings' && <BookingsTab />}
           {activeTab === 'proposals' && (
