@@ -353,12 +353,13 @@ export const PortalInvoices: React.FC = () => {
                 className="fixed inset-0 bg-black/50 z-40"
                 onClick={() => setSelectedInvoice(null)}
               />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl bg-white dark:bg-gray-900 rounded-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
-              >
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl overflow-hidden flex flex-col max-h-[calc(100vh-2rem)] pointer-events-auto"
+                >
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
                   <div>
@@ -577,7 +578,8 @@ export const PortalInvoices: React.FC = () => {
                     Close
                   </button>
                 </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </>
           )}
         </AnimatePresence>
