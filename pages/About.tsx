@@ -26,7 +26,7 @@ export const About: React.FC = () => {
     <>
       <SEO
         title="About Us"
-        description="Founded by a dentist's kid who watched $30K disappear to no-shows every year. We build the simple systems that actually help small businesses."
+        description="We build simple systems that actually help small businesses save time and grow. No fluff, just tools that work."
         schema={aboutSchema}
       />
 
@@ -71,12 +71,12 @@ export const About: React.FC = () => {
       <Section light className="bg-white dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
         <div className="max-w-4xl mx-auto text-center mb-16">
            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">How We're Different</h2>
-           <p className="text-lg text-gray-500 dark:text-gray-400">We're not a typical agency. We build something useful, hand it over, and you're done paying us.</p>
+           <p className="text-lg text-gray-500 dark:text-gray-400">We're not a typical agency. Whether you want to own everything outright or partner with us for ongoing support, we build something useful and make sure it works.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
            {[
-             { title: "Pay Once, Own It Forever", desc: "No monthly fees to us. We build it, you own it. Like hiring a contractor to renovate your kitchen - you don't pay rent on it after." },
+             { title: "Pay Your Way", desc: "Choose what works for you: pay once and own everything outright, or start with a lower upfront cost and partner with us monthly for ongoing optimization and support." },
              { title: "Done in 4-6 Weeks", desc: "We don't drag things out. You'll have something working in about a month. No endless meetings or waiting around." },
              { title: "It's 100% Yours", desc: "The website, the code, all the accounts - everything belongs to you. No asking permission to make changes to your own stuff." }
            ].map((val, i) => (
@@ -94,7 +94,7 @@ export const About: React.FC = () => {
       <Section className="bg-white dark:bg-gray-900">
         <div className="bg-gray-900 dark:bg-gray-800 text-white rounded-[3rem] p-10 md:p-20 flex flex-col md:flex-row gap-12 items-center shadow-2xl">
            <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center flex-shrink-0 border-4 border-white/10 shadow-xl">
-              <span className="text-white font-bold text-4xl md:text-6xl">AS</span>
+              <span className="text-white font-bold text-4xl md:text-6xl">AA</span>
            </div>
            <div className="flex-1">
               <div className="mb-6 text-emerald-400 font-bold uppercase tracking-widest text-sm">Why I Started This</div>
@@ -102,7 +102,7 @@ export const About: React.FC = () => {
                 "I've seen too many small businesses pay for websites that sit there doing nothing. Every tool we build should bring in customers, save time, or both. If it doesn't, what's the point?"
               </h3>
               <p className="text-gray-300 font-medium text-lg">
-                — Alex Stratton, Founder
+                — Ali Ansari, Founder
               </p>
            </div>
         </div>

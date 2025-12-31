@@ -651,7 +651,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: 'Oct 12, 2025',
     image: '/blog-covers/ai-agents-guide.svg',
     featured: true,
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
+    author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
   {
     id: '2',
@@ -675,7 +675,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '4 min read',
     date: 'Sep 28, 2025',
     image: '/blog-covers/speed-to-lead.svg',
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
+    author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
   {
     id: '4',
@@ -711,7 +711,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '8 min read',
     date: 'Sep 10, 2025',
     image: '/blog-covers/chatgpt-vs-claude.svg',
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
+    author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
   {
     id: '7',
@@ -759,7 +759,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '6 min read',
     date: 'Aug 10, 2025',
     image: '/blog-covers/local-service-ads.svg',
-    author: { name: 'Alex Stratton', role: 'Founder', avatar: '/avatars/alex-stratton.svg' }
+    author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
   {
     id: '11',
