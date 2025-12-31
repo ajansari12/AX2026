@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AXRATEGY Insights</title>
+    <link>https://axrategy.com/insights</link>
+    <description>AI automation, business systems, and growth strategies for small businesses. Learn how to capture more leads, automate follow-ups, and scale your operations.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 30 Dec 2025 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://axrategy.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://axrategy.com/og-image.svg</url>
+      <title>AXRATEGY Insights</title>
+      <link>https://axrategy.com</link>
+    </image>
+    <item>
+      <title>How to Respond to Leads in 8 Seconds (Even at 3am)</title>
+      <link>https://axrategy.com/insights/ai-sales-agents-guide</link>
+      <guid isPermaLink="true">https://axrategy.com/insights/ai-sales-agents-guide</guid>
+      <pubDate>Thu, 12 Dec 2025 09:00:00 GMT</pubDate>
+      <description>Harvard found businesses that respond in 5 minutes are 100x more likely to close. Here's how to respond in 8 seconds.</description>
+      <category>AI</category>
+      <author>hello@axrategy.com (Ali Ansari)</author>
+    </item>
+    <item>
+      <title>5 Automations That Save 10+ Hours/Week (Copy-Paste Ready)</title>
+      <link>https://axrategy.com/insights/stop-copy-pasting-zapier</link>
+      <guid isPermaLink="true">https://axrategy.com/insights/stop-copy-pasting-zapier</guid>
+      <pubDate>Fri, 05 Dec 2025 09:00:00 GMT</pubDate>
+      <description>Stop manually entering data. These 5 Zapier workflows pay for themselves in the first week.</description>
+      <category>Automation</category>
+      <author>hello@axrategy.com (Sarah Chen)</author>
+    </item>
+    <item>
+      <title>Why 5 Minutes is Too Slow: The Speed-to-Lead Data</title>
+      <link>https://axrategy.com/insights/speed-to-lead-rule</link>
+      <guid isPermaLink="true">https://axrategy.com/insights/speed-to-lead-rule</guid>
+      <pubDate>Fri, 28 Nov 2025 09:00:00 GMT</pubDate>
+      <description>Responding in 60 seconds increases conversion by 300%. Here's the system that makes it automatic.</description>
+      <category>Strategy</category>
+      <author>hello@axrategy.com (Ali Ansari)</author>
+    </item>
+    <item>
+      <title>Why "Pretty" Websites Don't Sell (And What Does)</title>
+      <link>https://axrategy.com/insights/conversion-first-design</link>
+      <guid isPermaLink="true">https://axrategy.com/insights/conversion-first-design</guid>
+      <pubDate>Thu, 20 Nov 2025 09:00:00 GMT</pubDate>
+      <description>Your designer made it look amazing. But visitors aren't booking. Here's why aesthetics alone fail.</description>
+      <category>Design</category>
+      <author>hello@axrategy.com (Marcus Cole)</author>
+    </item>
+    <item>
+      <title>The 3-Text Sequence That Revives Dead Leads</title>
+      <link>https://axrategy.com/insights/reactivate-dead-leads</link>
+      <guid isPermaLink="true">https://axrategy.com/insights/reactivate-dead-leads</guid>
+      <pubDate>Wed, 12 Nov 2025 09:00:00 GMT</pubDate>
+      <description>Your old leads aren't dead. They're just dormant. This SMS sequence wakes them up.</description>
+      <category>Growth</category>
+      <author>hello@axrategy.com (Sarah Chen)</author>
+    </item>
+    <item>
+      <title>ChatGPT vs. Claude for Sales Copy: Head-to-Head Test</title>
+      <link>https://axrategy.com/insights/chatgpt-vs-claude</link>
+      <guid isPermaLink="true">https://axrategy.com/insights/chatgpt-vs-claude</guid>
+      <pubDate>Wed, 05 Nov 2025 09:00:00 GMT</pubDate>
+      <description>We tested both AI models on real sales emails. The winner might surprise you.</description>
+      <category>AI</category>
+      <author>hello@axrategy.com (Ali Ansari)</author>
+    </item>
+  </channel>
+</rss>

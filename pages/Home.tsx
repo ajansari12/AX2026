@@ -38,13 +38,11 @@ export const Home: React.FC = () => {
         "name": "Axrategy",
         "description": "AI automation and web development for small businesses",
         "image": "https://axrategy.com/og-image.svg",
-        "telephone": "+1-416-555-0199",
+        "telephone": "+1-647-607-3046",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "123 King St W",
           "addressLocality": "Toronto",
           "addressRegion": "ON",
-          "postalCode": "M5V 1J9",
           "addressCountry": "CA"
         },
         "geo": {

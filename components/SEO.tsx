@@ -8,14 +8,16 @@ interface SEOProps {
   image?: string;
   type?: 'website' | 'article' | 'service';
   schema?: Record<string, any>;
+  noIndex?: boolean;
 }
 
 export const SEO: React.FC<SEOProps> = ({
   title,
   description,
-  image = 'https://axrategy.com/og-image.svg', // Branded social preview
+  image = 'https://axrategy.com/og-image.svg',
   type = 'website',
-  schema
+  schema,
+  noIndex = false
 }) => {
   const location = useLocation();
   const domain = 'https://axrategy.com'; // In production, use env var
@@ -50,6 +52,16 @@ export const SEO: React.FC<SEOProps> = ({
 
     // --- Standard Meta ---
     updateMeta('description', description);
+
+    // --- Robots ---
+    if (noIndex) {
+      updateMeta('robots', 'noindex, nofollow');
+    } else {
+      const existingRobots = document.querySelector('meta[name="robots"]');
+      if (existingRobots) {
+        existingRobots.remove();
+      }
+    }
 
     // --- OpenGraph ---
     updateMeta('og:site_name', siteName, 'property');
@@ -86,7 +98,7 @@ export const SEO: React.FC<SEOProps> = ({
       script.textContent = '';
     }
 
-  }, [title, description, image, type, schema, canonicalUrl]);
+  }, [title, description, image, type, schema, canonicalUrl, noIndex]);
 
   return null;
 };

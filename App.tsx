@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ExitIntentModal } from './components/UI';
 import { ChatWidget } from './components/ChatWidget';
@@ -8,6 +8,7 @@ import { I18nProvider } from './lib/i18n';
 import { initMonitoring } from './lib/monitoring';
 import { CalBookingModal } from './components/CalBookingModal';
 import { useGlobalBookingModal } from './hooks/useGlobalBookingModal';
+import { CookieConsentBanner } from './components/CookieConsent';
 
 import { Home } from './pages/Home';
 
@@ -80,7 +81,7 @@ const LoadingFallback: React.FC = () => (
 const App: React.FC = () => {
   return (
     <I18nProvider>
-      <HashRouter>
+      <BrowserRouter>
         <SkipLinks />
         <ScrollToTop />
         <Suspense fallback={<LoadingFallback />}>
@@ -147,8 +148,9 @@ const App: React.FC = () => {
             />
           </Routes>
           <GlobalBookingModal />
+          <CookieConsentBanner />
         </Suspense>
-      </HashRouter>
+      </BrowserRouter>
     </I18nProvider>
   );
 };

@@ -648,7 +648,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_AI,
     category: 'AI',
     readTime: '6 min read',
-    date: 'Oct 12, 2025',
+    date: 'Dec 12, 2025',
     image: '/blog-covers/ai-agents-guide.svg',
     featured: true,
     author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
@@ -661,7 +661,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_AUTOMATION,
     category: 'Automation',
     readTime: '5 min read',
-    date: 'Oct 08, 2025',
+    date: 'Dec 05, 2025',
     image: '/blog-covers/zapier-automations.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
@@ -673,7 +673,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_STRATEGY,
     category: 'Strategy',
     readTime: '4 min read',
-    date: 'Sep 28, 2025',
+    date: 'Nov 28, 2025',
     image: '/blog-covers/speed-to-lead.svg',
     author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
@@ -685,7 +685,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_STRATEGY,
     category: 'Design',
     readTime: '7 min read',
-    date: 'Sep 22, 2025',
+    date: 'Nov 20, 2025',
     image: '/blog-covers/conversion-design.svg',
     author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
@@ -697,7 +697,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_AUTOMATION,
     category: 'Growth',
     readTime: '4 min read',
-    date: 'Sep 15, 2025',
+    date: 'Nov 12, 2025',
     image: '/blog-covers/sms-sequence.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
@@ -709,7 +709,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_AI,
     category: 'AI',
     readTime: '8 min read',
-    date: 'Sep 10, 2025',
+    date: 'Nov 05, 2025',
     image: '/blog-covers/chatgpt-vs-claude.svg',
     author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
@@ -721,7 +721,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_AUTOMATION,
     category: 'Automation',
     readTime: '6 min read',
-    date: 'Aug 30, 2025',
+    date: 'Oct 28, 2025',
     image: '/blog-covers/automation-backoffice.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
@@ -733,7 +733,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_STRATEGY,
     category: 'Strategy',
     readTime: '5 min read',
-    date: 'Aug 24, 2025',
+    date: 'Oct 18, 2025',
     image: '/blog-covers/client-retention.svg',
     author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
@@ -745,7 +745,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_GENERIC,
     category: 'Design',
     readTime: '4 min read',
-    date: 'Aug 15, 2025',
+    date: 'Oct 10, 2025',
     image: '/blog-covers/mobile-nav.svg',
     author: { name: 'Marcus Cole', role: 'Design Lead', avatar: '/avatars/marcus-cole.svg' }
   },
@@ -757,7 +757,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_GENERIC,
     category: 'Growth',
     readTime: '6 min read',
-    date: 'Aug 10, 2025',
+    date: 'Oct 02, 2025',
     image: '/blog-covers/local-service-ads.svg',
     author: { name: 'Ali Ansari', role: 'Founder', avatar: '/avatars/ali-ansari.svg' }
   },
@@ -769,7 +769,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_GENERIC,
     category: 'AI',
     readTime: '9 min read',
-    date: 'Aug 02, 2025',
+    date: 'Sep 24, 2025',
     image: '/blog-covers/second-brain.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   },
@@ -781,7 +781,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: CONTENT_TEMPLATE_AUTOMATION,
     category: 'Automation',
     readTime: '7 min read',
-    date: 'Jul 28, 2025',
+    date: 'Sep 15, 2025',
     image: '/blog-covers/crm-migration.svg',
     author: { name: 'Sarah Chen', role: 'Head of Ops', avatar: '/avatars/sarah-chen.svg' }
   }

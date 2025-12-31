@@ -10,6 +10,49 @@ import { CustomCalendar } from '../components/CustomCalendar';
 import { PricingPreference } from '../types';
 import { Turnstile, useTurnstile, isTurnstileEnabled } from '../components/Turnstile';
 
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Axrategy",
+  "description": "Get in touch with Axrategy for AI automation, web development, and digital consultancy services.",
+  "url": "https://axrategy.com/contact",
+  "mainEntity": {
+    "@type": "LocalBusiness",
+    "name": "Axrategy",
+    "description": "AI automation and web development for small businesses",
+    "image": "https://axrategy.com/og-image.svg",
+    "telephone": "+1-647-607-3046",
+    "email": "hello@axrategy.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Toronto",
+      "addressRegion": "ON",
+      "addressCountry": "CA"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "43.6532",
+      "longitude": "-79.3832"
+    },
+    "areaServed": [
+      { "@type": "Country", "name": "Canada" },
+      { "@type": "Country", "name": "United States" }
+    ],
+    "priceRange": "$$$",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "17:00"
+    },
+    "sameAs": [
+      "https://twitter.com/axrategy",
+      "https://linkedin.com/company/axrategy",
+      "https://instagram.com/axrategy"
+    ]
+  }
+};
+
 export const Contact: React.FC = () => {
   const { search } = useLocation();
   const { submitLead, isSubmitting, resetFormTimer } = useLeads();
@@ -82,6 +125,7 @@ export const Contact: React.FC = () => {
       <SEO
         title="Contact Us - Book a Strategy Call"
         description="Free 15-minute strategy call. No pitch, no pressure. See if AI automation is right for your business. Book online or send a message."
+        schema={contactSchema}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-80px)]">
@@ -139,7 +183,7 @@ export const Contact: React.FC = () => {
           </div>
 
           <div className="mt-12 text-sm text-gray-600 relative z-10">
-            © 2026 Axrategy Inc.
+            © {new Date().getFullYear()} Axrategy Inc.
           </div>
         </div>
 
