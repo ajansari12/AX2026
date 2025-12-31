@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useClientAuth } from '../hooks/useClientAuth';
 import { useClientMessages } from '../hooks/useClientPortal';
+import { NotificationsDropdown } from '../components/NotificationsDropdown';
 
 interface NavItem {
   to: string;
@@ -31,8 +32,9 @@ export const Portal: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { client, isLoading, signOut } = useClientAuth();
-  const { unreadCount } = useClientMessages();
+  const { unreadCount, unreadMessages, markAsRead } = useClientMessages();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -228,12 +230,26 @@ export const Portal: React.FC = () => {
             {/* Right side actions */}
             <div className="flex items-center gap-4">
               {/* Notifications */}
-              <button className="relative p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-                <Bell size={20} />
-                {unreadCount > 0 && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-                )}
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setNotificationsOpen(!notificationsOpen)}
+                  className="relative p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  aria-label="Notifications"
+                  aria-expanded={notificationsOpen}
+                >
+                  <Bell size={20} />
+                  {unreadCount > 0 && (
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                  )}
+                </button>
+                <NotificationsDropdown
+                  isOpen={notificationsOpen}
+                  onClose={() => setNotificationsOpen(false)}
+                  unreadMessages={unreadMessages}
+                  unreadCount={unreadCount}
+                  onMarkAsRead={markAsRead}
+                />
+              </div>
 
               {/* Mobile close button when sidebar is open */}
               {sidebarOpen && (
