@@ -11,6 +11,12 @@ import {
   CheckCircle2,
   AlertCircle,
   TrendingUp,
+  Calendar,
+  Target,
+  Layers,
+  Play,
+  Pause,
+  Search,
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { useClientAuth } from '../hooks/useClientAuth';
@@ -24,7 +30,15 @@ import {
 
 export const PortalDashboard: React.FC = () => {
   const { client } = useClientAuth();
-  const { projects, activeProjects, isLoading: projectsLoading } = useClientProjects();
+  const {
+    projects,
+    activeProjects,
+    projectsByStatus,
+    ongoingProjects,
+    upcomingMilestones,
+    overdueMilestones,
+    isLoading: projectsLoading,
+  } = useClientProjects();
   const { documents, isLoading: documentsLoading } = useClientDocuments();
   const { unreadCount, isLoading: messagesLoading } = useClientMessages();
   const { pendingInvoices, totalOutstanding, isLoading: invoicesLoading } = useClientInvoices();
@@ -77,12 +91,32 @@ export const PortalDashboard: React.FC = () => {
     return colors[status] || colors.on_hold;
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  const getDaysUntil = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.ceil((date.getTime() - now.getTime()) / 86400000);
+    return diffDays;
+  };
+
+  const statusConfig = [
+    { key: 'planning', label: 'Planning', color: 'bg-blue-500', icon: <Search className="w-3.5 h-3.5" /> },
+    { key: 'in_progress', label: 'In Progress', color: 'bg-amber-500', icon: <Play className="w-3.5 h-3.5" /> },
+    { key: 'review', label: 'Review', color: 'bg-cyan-500', icon: <Search className="w-3.5 h-3.5" /> },
+    { key: 'completed', label: 'Completed', color: 'bg-emerald-500', icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
+    { key: 'on_hold', label: 'On Hold', color: 'bg-gray-500', icon: <Pause className="w-3.5 h-3.5" /> },
+  ];
+
   // Quick stats
   const stats = [
     {
-      label: 'Active Projects',
-      value: activeProjects.length,
-      icon: <FolderKanban className="w-5 h-5" />,
+      label: 'Total Projects',
+      value: projects.length,
+      icon: <Layers className="w-5 h-5" />,
       color: 'bg-blue-500',
       link: '/portal/projects',
     },
@@ -97,7 +131,7 @@ export const PortalDashboard: React.FC = () => {
       label: 'Unread Messages',
       value: unreadCount,
       icon: <MessageSquare className="w-5 h-5" />,
-      color: 'bg-purple-500',
+      color: 'bg-cyan-500',
       link: '/portal/messages',
     },
     {
@@ -175,9 +209,63 @@ export const PortalDashboard: React.FC = () => {
           ))}
         </div>
 
+        {/* Project Status Overview */}
+        {projects.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Project Status Overview
+              </h2>
+              <Link
+                to="/portal/projects"
+                className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                View all
+              </Link>
+            </div>
+
+            <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden flex mb-4">
+              {statusConfig.map(({ key, color }) => {
+                const count = projectsByStatus[key as keyof typeof projectsByStatus]?.length || 0;
+                const percentage = projects.length > 0 ? (count / projects.length) * 100 : 0;
+                if (percentage === 0) return null;
+                return (
+                  <div
+                    key={key}
+                    className={`${color} h-full transition-all`}
+                    style={{ width: `${percentage}%` }}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              {statusConfig.map(({ key, label, color, icon }) => {
+                const count = projectsByStatus[key as keyof typeof projectsByStatus]?.length || 0;
+                if (count === 0) return null;
+                return (
+                  <div key={key} className="flex items-center gap-2">
+                    <div className={`w-6 h-6 ${color} rounded-md flex items-center justify-center text-white`}>
+                      {icon}
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      {count} {label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+
         {/* Main content grid */}
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Active projects */}
+          {/* All projects */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -186,7 +274,7 @@ export const PortalDashboard: React.FC = () => {
           >
             <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Active Projects
+                Your Projects
               </h2>
               <Link
                 to="/portal/projects"
@@ -205,14 +293,14 @@ export const PortalDashboard: React.FC = () => {
                   </div>
                 ))}
               </div>
-            ) : activeProjects.length === 0 ? (
+            ) : ongoingProjects.length === 0 ? (
               <div className="p-12 text-center">
                 <FolderKanban className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-500 dark:text-gray-400">No active projects</p>
+                <p className="text-gray-500 dark:text-gray-400">No ongoing projects</p>
               </div>
             ) : (
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
-                {activeProjects.slice(0, 3).map((project) => (
+                {ongoingProjects.slice(0, 4).map((project) => (
                   <Link
                     key={project.id}
                     to={`/portal/projects/${project.id}`}
@@ -228,7 +316,6 @@ export const PortalDashboard: React.FC = () => {
                             {project.description}
                           </p>
                         )}
-                        {/* Progress bar */}
                         {project.total_milestones && project.total_milestones > 0 && (
                           <div className="mt-3">
                             <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
@@ -245,8 +332,21 @@ export const PortalDashboard: React.FC = () => {
                             </div>
                           </div>
                         )}
+                        {project.next_milestone && (
+                          <div className="mt-3 flex items-center gap-2 text-xs">
+                            <Target className="w-3.5 h-3.5 text-gray-400" />
+                            <span className="text-gray-500 dark:text-gray-400">
+                              Next: {project.next_milestone.title}
+                            </span>
+                            {project.next_milestone.due_date && (
+                              <span className="text-gray-400">
+                                (Due {formatDate(project.next_milestone.due_date)})
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${getStatusColor(project.status)}`}>
+                      <span className={`px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap ${getStatusColor(project.status)}`}>
                         {project.status.replace('_', ' ')}
                       </span>
                     </div>
@@ -307,6 +407,104 @@ export const PortalDashboard: React.FC = () => {
             )}
           </motion.div>
         </div>
+
+        {/* Upcoming Deadlines & Timeline */}
+        {(upcomingMilestones.length > 0 || overdueMilestones.length > 0) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800"
+          >
+            <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Calendar className="w-5 h-5 text-gray-500" />
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Upcoming Milestones
+                </h2>
+              </div>
+              {overdueMilestones.length > 0 && (
+                <span className="px-2.5 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-lg text-xs font-medium">
+                  {overdueMilestones.length} overdue
+                </span>
+              )}
+            </div>
+
+            <div className="divide-y divide-gray-100 dark:divide-gray-800">
+              {overdueMilestones.map((milestone) => (
+                <Link
+                  key={milestone.id}
+                  to={`/portal/projects/${milestone.projectId}`}
+                  className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                >
+                  <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center">
+                    <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-gray-900 dark:text-white truncate">
+                      {milestone.title}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                      {milestone.projectName}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-red-600 dark:text-red-400">
+                      Overdue
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {formatDate(milestone.due_date!)}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+
+              {upcomingMilestones.filter(m => !overdueMilestones.some(o => o.id === m.id)).slice(0, 4).map((milestone) => {
+                const daysUntil = getDaysUntil(milestone.due_date!);
+                const isUrgent = daysUntil <= 3;
+                return (
+                  <Link
+                    key={milestone.id}
+                    to={`/portal/projects/${milestone.projectId}`}
+                    className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                      isUrgent
+                        ? 'bg-amber-100 dark:bg-amber-900/30'
+                        : 'bg-blue-100 dark:bg-blue-900/30'
+                    }`}>
+                      <Target className={`w-5 h-5 ${
+                        isUrgent
+                          ? 'text-amber-600 dark:text-amber-400'
+                          : 'text-blue-600 dark:text-blue-400'
+                      }`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 dark:text-white truncate">
+                        {milestone.title}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                        {milestone.projectName}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className={`text-sm font-medium ${
+                        isUrgent
+                          ? 'text-amber-600 dark:text-amber-400'
+                          : 'text-gray-600 dark:text-gray-300'
+                      }`}>
+                        {daysUntil === 0 ? 'Today' : daysUntil === 1 ? 'Tomorrow' : `${daysUntil} days`}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {formatDate(milestone.due_date!)}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
 
         {/* Quick actions */}
         <motion.div

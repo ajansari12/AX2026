@@ -171,6 +171,29 @@ export function useClientProjects() {
     return projects.find(p => p.id === id) || null;
   }, [projects]);
 
+  const projectsByStatus = {
+    planning: projects.filter(p => p.status === 'planning'),
+    in_progress: projects.filter(p => p.status === 'in_progress'),
+    review: projects.filter(p => p.status === 'review'),
+    completed: projects.filter(p => p.status === 'completed'),
+    on_hold: projects.filter(p => p.status === 'on_hold'),
+    cancelled: projects.filter(p => p.status === 'cancelled'),
+  };
+
+  const ongoingProjects = projects.filter(p =>
+    ['planning', 'in_progress', 'review'].includes(p.status)
+  );
+
+  const upcomingMilestones = projects
+    .flatMap(p => (p.milestones || []).map(m => ({ ...m, projectName: p.name, projectId: p.id })))
+    .filter(m => m.status !== 'completed' && m.due_date)
+    .sort((a, b) => new Date(a.due_date!).getTime() - new Date(b.due_date!).getTime())
+    .slice(0, 5);
+
+  const overdueMilestones = projects
+    .flatMap(p => (p.milestones || []).map(m => ({ ...m, projectName: p.name, projectId: p.id })))
+    .filter(m => m.status !== 'completed' && m.due_date && new Date(m.due_date) < new Date());
+
   return {
     projects,
     isLoading,
@@ -179,6 +202,10 @@ export function useClientProjects() {
     getProject,
     activeProjects: projects.filter(p => p.status === 'in_progress'),
     completedProjects: projects.filter(p => p.status === 'completed'),
+    projectsByStatus,
+    ongoingProjects,
+    upcomingMilestones,
+    overdueMilestones,
   };
 }
 
