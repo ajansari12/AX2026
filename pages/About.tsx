@@ -99,7 +99,7 @@ export const About: React.FC = () => {
            <div className="flex-1">
               <div className="mb-6 text-emerald-400 font-bold uppercase tracking-widest text-sm">Why I Started This</div>
               <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-relaxed text-white">
-                "My dad ran a dental practice and lost thousands every year to missed appointments. Simple text reminders would have fixed it, but no one showed him how. That's why I do this - to give small business owners the tools that actually help."
+                "I've seen too many small businesses pay for websites that sit there doing nothing. Every tool we build should bring in customers, save time, or both. If it doesn't, what's the point?"
               </h3>
               <p className="text-gray-300 font-medium text-lg">
                 — Alex Stratton, Founder
