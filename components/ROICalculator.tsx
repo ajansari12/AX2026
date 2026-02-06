@@ -24,13 +24,13 @@ export const ROICalculator: React.FC = () => {
     const timeValueSaved = annualHoursSaved * hourlyValue;
     const totalAnnualValue = annualRevenue + timeValueSaved;
 
+    const monthlyStarterTotal = 500 + (149 * 6);
     const starterOneTime = 3500;
     const growthOneTime = 7500;
-    const professionalMonthlyTotal = 1200 + (349 * 6);
 
+    const monthlyStarterPaybackMonths = Math.ceil(monthlyStarterTotal / monthlyRevenue);
     const starterPaybackMonths = Math.ceil(starterOneTime / monthlyRevenue);
     const growthPaybackMonths = Math.ceil(growthOneTime / monthlyRevenue);
-    const monthlyPaybackMonths = Math.ceil(professionalMonthlyTotal / monthlyRevenue);
 
     return {
       monthlyRevenue,
@@ -39,9 +39,9 @@ export const ROICalculator: React.FC = () => {
       annualHoursSaved,
       timeValueSaved,
       totalAnnualValue,
+      monthlyStarterPaybackMonths,
       starterPaybackMonths,
-      growthPaybackMonths,
-      monthlyPaybackMonths
+      growthPaybackMonths
     };
   }, [inputs]);
 
@@ -205,21 +205,21 @@ export const ROICalculator: React.FC = () => {
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Starter ($3,500)</span>
+                  <span className="text-gray-600 dark:text-gray-400">Monthly Starter ($500 + $149/mo)</span>
+                  <span className="font-bold text-gray-900 dark:text-white">
+                    {calculations.monthlyStarterPaybackMonths <= 12 ? `${calculations.monthlyStarterPaybackMonths} months` : '12+ months'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 dark:text-gray-400">One-Time Starter ($3,500)</span>
                   <span className="font-bold text-gray-900 dark:text-white">
                     {calculations.starterPaybackMonths <= 12 ? `${calculations.starterPaybackMonths} months` : '12+ months'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Growth ($7,500)</span>
+                  <span className="text-gray-600 dark:text-gray-400">One-Time Growth ($7,500)</span>
                   <span className="font-bold text-gray-900 dark:text-white">
                     {calculations.growthPaybackMonths <= 12 ? `${calculations.growthPaybackMonths} months` : '12+ months'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Monthly Professional</span>
-                  <span className="font-bold text-gray-900 dark:text-white">
-                    {calculations.monthlyPaybackMonths <= 12 ? `${calculations.monthlyPaybackMonths} months` : '12+ months'}
                   </span>
                 </div>
               </div>

@@ -62,17 +62,19 @@ Contact: hello@axrategy.com | Website: axrategy.com | Booking: cal.com/axrategy/
 
 ## Pricing Options
 
+### MONTHLY PARTNERSHIP (Most popular - ongoing optimization & support)
+- **Starter ($500 setup + $149/mo)**: Professional website, contact forms, monthly updates, hosting included
+- **Professional ($1,200 setup + $349/mo)**: Website + AI assistant + CRM + bi-weekly strategy calls (Most Popular)
+- **Growth ($2,500 setup + $649/mo)**: Full stack + dedicated support + weekly calls + priority response
+- All monthly plans have a 6-month minimum commitment
+
 ### ONE-TIME PAYMENT (Own everything, no monthly fees to us)
 - **Starter ($3,500+)**: Professional website, contact forms, 30 days support
-- **Growth ($7,500+)**: Website + AI assistant + CRM + automation, 90 days support (Most Popular)
+- **Growth ($7,500+)**: Website + AI assistant + CRM + automation, 90 days support
 - **Scale (Custom)**: Custom portal/app + advanced AI + dedicated support
+- Payment: 50% upfront, 50% at launch. Larger projects can split into more payments.
 
-### MONTHLY PARTNERSHIP (Ongoing optimization & support)
-- **Starter ($500 setup + $149/mo)**: Website + basic chat + monthly updates
-- **Professional ($1,200 setup + $349/mo)**: Website + AI assistant + CRM + weekly optimization
-- **Growth ($2,500 setup + $649/mo)**: Full stack + dedicated support + priority response
-
-Payment: 50% upfront, 50% at launch. Larger projects can split into more payments.
+When asked about pricing, ALWAYS mention the monthly option first since it has a lower barrier to entry. Many visitors are surprised to learn they can get started for as little as $500 + $149/month.
 
 ## Process (6 weeks typical)
 1. **Week 1**: Free discovery call to understand your business and goals

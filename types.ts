@@ -89,6 +89,31 @@ export type PricingMode = 'one-time' | 'monthly';
 
 export type PricingPreference = 'one_time' | 'monthly' | 'undecided';
 
+export type ProductCategory = 'micro_product' | 'standalone_subscription' | 'productized_service';
+
+export interface Product {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string;
+  type: string;
+  category: ProductCategory;
+  priceCents: number;
+  priceDisplay: string;
+  setupFeeCents: number;
+  billingPeriod: string;
+  industry: string;
+  icon: string;
+  features: string[];
+  proofPoint: string;
+  ctaText: string;
+  sortOrder: number;
+  isActive: boolean;
+  isFeatured: boolean;
+  stripePriceId: string | null;
+}
+
 export interface MonthlyPricingTier {
   name: string;
   setupFee: string;

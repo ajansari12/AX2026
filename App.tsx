@@ -16,6 +16,7 @@ const Services = lazy(() => import('./pages/Services').then(m => ({ default: m.S
 const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
 const Work = lazy(() => import('./pages/Work').then(m => ({ default: m.Work })));
 const Pricing = lazy(() => import('./pages/Pricing').then(m => ({ default: m.Pricing })));
+const Products = lazy(() => import('./pages/Products').then(m => ({ default: m.Products })));
 const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
 const Insights = lazy(() => import('./pages/Insights').then(m => ({ default: m.Insights })));
 const Resources = lazy(() => import('./pages/Resources').then(m => ({ default: m.Resources })));
@@ -116,6 +117,8 @@ const App: React.FC = () => {
                       <Route path="/work/:slug" element={<Work />} />
 
                       <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/products" element={<Products />} />
+                      <Route path="/products/:slug" element={<Products />} />
                       <Route path="/about" element={<About />} />
 
                       <Route path="/insights" element={<Insights />} />

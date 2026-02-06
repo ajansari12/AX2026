@@ -8,10 +8,10 @@ import { useNewsletter } from '../hooks/useNewsletter';
 
 const NAV_LINKS = [
   { name: 'Services', path: '/services' },
+  { name: 'Products', path: '/products' },
   { name: 'Work', path: '/work' },
   { name: 'Pricing', path: '/pricing' },
   { name: 'Insights', path: '/insights' },
-  { name: 'Resources', path: '/resources' },
 ];
 
 const INDUSTRY_LINKS = [
@@ -387,6 +387,7 @@ export const Footer: React.FC = () => {
               <li><NavLink to="/work" className="hover:text-black dark:hover:text-white">Case Studies</NavLink></li>
               <li><NavLink to="/about" className="hover:text-black dark:hover:text-white">About</NavLink></li>
               <li><NavLink to="/pricing" className="hover:text-black dark:hover:text-white">Pricing</NavLink></li>
+              <li><NavLink to="/products" className="hover:text-black dark:hover:text-white">Products</NavLink></li>
               <li><NavLink to="/contact" className="hover:text-black dark:hover:text-white">Contact</NavLink></li>
             </ul>
           </div>

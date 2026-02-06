@@ -11,7 +11,7 @@ import {
   PRICING_FAQ_ONE_TIME,
   PRICING_FAQ_MONTHLY
 } from '../constants';
-import { Check, ShieldCheck, ChevronDown, Minus, Info, Calendar, Zap, RefreshCw } from 'lucide-react';
+import { Check, ShieldCheck, ChevronDown, Minus, Info, Calendar, Zap, RefreshCw, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 import { PricingToggle } from '../components/PricingToggle';
@@ -32,7 +32,7 @@ export const Pricing: React.FC = () => {
       {
         "@type": "WebPage",
         "name": "Pricing & Packages | Axrategy",
-        "description": "Website + AI automation packages from $3,500. Clear pricing, no surprises.",
+        "description": "Website + AI automation packages starting at $149/month. Flexible pricing, no surprises.",
         "publisher": {
           "@type": "Organization",
           "name": "Axrategy"
@@ -56,7 +56,7 @@ export const Pricing: React.FC = () => {
     <>
       <SEO
         title="Pricing & Packages"
-        description="Website + AI automation packages from $3,500. No monthly fees to us. Own everything. 4-6 week delivery. Clear pricing, no surprises."
+        description="Website + AI automation packages starting at $149/month or $3,500 one-time. Flexible pricing, 4-6 week delivery. No surprises."
         schema={pricingSchema}
       />
 
@@ -492,6 +492,27 @@ export const Pricing: React.FC = () => {
             </p>
           </div>
         </div>
+      </Section>
+
+      <Section className="pt-0">
+        <Container size="lg">
+          <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] border border-gray-200 dark:border-gray-800 p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
+            <div className="flex-grow">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                Want something smaller or more specific?
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                Browse our standalone products - from $37 templates to $1,497 done-for-you services. No sales call needed.
+              </p>
+            </div>
+            <NavLink
+              to="/products"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all whitespace-nowrap flex-shrink-0"
+            >
+              Browse Products <ArrowRight size={18} />
+            </NavLink>
+          </div>
+        </Container>
       </Section>
 
       <Section className="pb-32 pt-0">
