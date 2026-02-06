@@ -8,6 +8,7 @@ import {
   MessageSquare,
   Receipt,
   GraduationCap,
+  Gift,
   LogOut,
   Menu,
   X,
@@ -76,6 +77,7 @@ export const Portal: React.FC = () => {
     { to: '/portal/messages', icon: <MessageSquare size={20} />, label: 'Messages', badge: unreadCount },
     { to: '/portal/invoices', icon: <Receipt size={20} />, label: 'Invoices' },
     { to: '/portal/training', icon: <GraduationCap size={20} />, label: 'Training' },
+    { to: '/portal/referrals', icon: <Gift size={20} />, label: 'Referrals' },
   ];
 
   if (isLoading) {
@@ -282,6 +284,7 @@ function getPageTitle(pathname: string): string {
     '/portal/messages': 'Messages',
     '/portal/invoices': 'Invoices',
     '/portal/training': 'Training Center',
+    '/portal/referrals': 'Referral Program',
   };
   return titles[pathname] || 'Client Portal';
 }

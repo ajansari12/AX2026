@@ -5,6 +5,7 @@ import { Product } from '../../types';
 import { ProductIcon } from './ProductIcon';
 import { Check, ArrowLeft, Calendar, ArrowRight, Repeat, Shield, Clock, Zap } from 'lucide-react';
 import { useProducts } from '../../hooks/useProducts';
+import { useAbandonedCartTracker } from '../../hooks/useAbandonedCart';
 
 const WebsiteAuditPreview = lazy(() =>
   import('../audit/WebsiteAuditPreview').then((m) => ({ default: m.WebsiteAuditPreview }))
@@ -56,6 +57,7 @@ const LoadingFallback = () => (
 );
 
 export const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBookCall, onCheckout }) => {
+  useAbandonedCartTracker(product.slug, product.name);
   const { allProducts } = useProducts();
   const related = allProducts
     .filter((p) => p.id !== product.id && p.category === product.category)

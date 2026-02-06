@@ -143,6 +143,10 @@ export function useCalBooking(eventTypeId: number = 0) {
         // Create lead record from calendar booking
         if (isSupabaseConfigured) {
           try {
+            const bkParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+            const bkUtmSource = bkParams?.get('utm_source') || sessionStorage.getItem('ax-utm-source') || null;
+            const bkUtmMedium = bkParams?.get('utm_medium') || sessionStorage.getItem('ax-utm-medium') || null;
+            const bkUtmCampaign = bkParams?.get('utm_campaign') || sessionStorage.getItem('ax-utm-campaign') || null;
             await supabase.from('leads').insert({
               name: bookingData.attendee.name,
               email: bookingData.attendee.email,
@@ -150,6 +154,9 @@ export function useCalBooking(eventTypeId: number = 0) {
               message: bookingData.notes || 'Booked via calendar',
               source: 'calendar_booking',
               status: 'new',
+              utm_source: bkUtmSource,
+              utm_medium: bkUtmMedium,
+              utm_campaign: bkUtmCampaign,
             });
           } catch (leadErr) {
             // Silent fail - don't block booking success for lead creation failure

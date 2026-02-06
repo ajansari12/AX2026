@@ -13,11 +13,19 @@ export function useNewsletter(): UseNewsletterReturn {
     setIsSubmitting(true);
 
     try {
+      const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+      const utmSource = params?.get('utm_source') || sessionStorage.getItem('ax-utm-source') || null;
+      const utmMedium = params?.get('utm_medium') || sessionStorage.getItem('ax-utm-medium') || null;
+      const utmCampaign = params?.get('utm_campaign') || sessionStorage.getItem('ax-utm-campaign') || null;
+
       const { error } = await supabase.from('newsletter_subscribers').upsert(
         {
           email,
           source,
           is_active: true,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
         },
         {
           onConflict: 'email',

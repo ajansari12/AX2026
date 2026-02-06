@@ -19,6 +19,7 @@ import {
   Search,
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { PortalOnboarding } from '../components/PortalOnboarding';
 import { useClientAuth } from '../hooks/useClientAuth';
 import {
   useClientProjects,
@@ -151,6 +152,8 @@ export const PortalDashboard: React.FC = () => {
       />
 
       <div className="max-w-7xl mx-auto space-y-8">
+        <PortalOnboarding />
+
         {/* Welcome section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

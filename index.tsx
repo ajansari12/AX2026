@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './src/index.css';
 import App from './App';
 
+if (typeof window !== 'undefined') {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    utmKeys.forEach(key => {
+      const val = params.get(key);
+      if (val) sessionStorage.setItem(`ax-${key.replace('_', '-')}`, val);
+    });
+  } catch (_) {}
+}
+
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean; error: Error | null }

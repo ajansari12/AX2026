@@ -47,6 +47,9 @@ const PortalDocuments = lazy(() => import('./pages/PortalDocuments').then(m => (
 const PortalMessages = lazy(() => import('./pages/PortalMessages').then(m => ({ default: m.PortalMessages })));
 const PortalInvoices = lazy(() => import('./pages/PortalInvoices').then(m => ({ default: m.PortalInvoices })));
 const PortalTraining = lazy(() => import('./pages/PortalTraining').then(m => ({ default: m.PortalTraining })));
+const PortalReferrals = lazy(() => import('./pages/PortalReferrals').then(m => ({ default: m.PortalReferrals })));
+const ROICalculatorPage = lazy(() => import('./pages/ROICalculatorPage').then(m => ({ default: m.ROICalculatorPage })));
+const HelpCenter = lazy(() => import('./pages/HelpCenter').then(m => ({ default: m.HelpCenter })));
 
 // Initialize monitoring on app load
 if (typeof window !== 'undefined') {
@@ -101,6 +104,7 @@ const App: React.FC = () => {
               <Route path="messages" element={<PortalMessages />} />
               <Route path="invoices" element={<PortalInvoices />} />
               <Route path="training" element={<PortalTraining />} />
+              <Route path="referrals" element={<PortalReferrals />} />
             </Route>
 
             <Route
@@ -130,6 +134,8 @@ const App: React.FC = () => {
                       <Route path="/terms" element={<Terms />} />
                       <Route path="/privacy" element={<Privacy />} />
                       <Route path="/admin" element={<Admin />} />
+                      <Route path="/roi-calculator" element={<ROICalculatorPage />} />
+                      <Route path="/help" element={<HelpCenter />} />
 
                       <Route path="/for-dentists" element={<ForDentists />} />
                       <Route path="/for-lawyers" element={<ForLawyers />} />

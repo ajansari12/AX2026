@@ -80,28 +80,39 @@ export function captureError(error: Error | unknown, context: ErrorContext = {})
   }
 }
 
-// Flush errors to backend/service
 async function flushErrors(): Promise<void> {
   if (errorQueue.length === 0) return;
 
   const errors = [...errorQueue];
   errorQueue.length = 0;
 
-  try {
-    // Send to your error tracking endpoint
-    // Replace with actual Sentry/LogRocket/etc. integration
-    const endpoint = '/api/errors';
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseKey) return;
 
-    await fetch(endpoint, {
+  try {
+    const rows = errors.map(e => ({
+      error_message: e.message.slice(0, 2000),
+      error_stack: e.stack?.slice(0, 4000) || null,
+      component: e.context.component || e.context.page || null,
+      url: e.url,
+      user_agent: e.userAgent,
+      severity: 'error',
+      metadata: e.context.extra || {},
+    }));
+
+    await fetch(`${supabaseUrl}/rest/v1/error_logs`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ errors }),
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify(rows),
       keepalive: true,
-    }).catch(() => {
-      // Silent fail - don't want error tracking to cause errors
-    });
+    }).catch(() => {});
   } catch {
-    // Re-add errors to queue on failure
     errorQueue.unshift(...errors);
   }
 }

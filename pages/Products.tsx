@@ -6,6 +6,7 @@ import { useProducts, useProduct } from '../hooks/useProducts';
 import { ProductCategory } from '../types';
 import { ProductCard } from '../components/products/ProductCard';
 import { ProductDetail } from '../components/products/ProductDetail';
+import { ProductBundles } from '../components/products/ProductBundles';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 import { Calendar, ArrowRight, Sparkles, Repeat, Wrench } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -90,6 +91,14 @@ const ProductCatalog: React.FC = () => {
                 </FadeIn>
               ))}
             </div>
+          </Container>
+        </Section>
+      )}
+
+      {activeCategory === 'all' && (
+        <Section className="pt-4 pb-0">
+          <Container size="lg">
+            <ProductBundles />
           </Container>
         </Section>
       )}

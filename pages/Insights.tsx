@@ -7,6 +7,7 @@ import { useBlogPosts, useBlogPost, BlogPost as DBBlogPost } from '../hooks/useB
 import { ArrowLeft, Clock, Calendar, Search, Twitter, Linkedin, Link2, Loader2 } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { IllustratedAvatar } from '../components/IllustratedAvatar';
+import { InlineBlogCTA } from '../components/InlineBlogCTA';
 
 interface DisplayPost {
   id: string;
@@ -100,23 +101,34 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
     );
   }
 
+  const wordCount = post.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
     "description": post.excerpt,
-    "image": post.image,
+    "image": `https://axrategy.com${post.image}`,
     "datePublished": post.date,
+    "dateModified": post.date,
+    "wordCount": wordCount,
+    "articleSection": post.category,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://axrategy.com/insights/${post.slug}`
+    },
     "author": {
       "@type": "Person",
-      "name": post.author.name
+      "name": post.author.name,
+      "jobTitle": post.author.role,
+      "url": "https://axrategy.com/about"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Axrategy",
+      "url": "https://axrategy.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://axrategy.com/logo.png"
+        "url": "https://axrategy.com/favicon.svg"
       }
     }
   };
@@ -221,6 +233,9 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
                 </React.Fragment>
               ))}
             </div>
+            <div className="mt-12 not-prose">
+              <InlineBlogCTA />
+            </div>
           </div>
         </div>
 
@@ -281,6 +296,18 @@ export const Insights: React.FC = () => {
       <SEO
         title="Insights & Strategies"
         description="Practical guides on AI, automation, and conversion optimization for small business owners. Scripts, templates, and step-by-step walkthroughs."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "name": "Axrategy Insights",
+          "description": "Practical guides on AI, automation, and conversion optimization for small business owners.",
+          "url": "https://axrategy.com/insights",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Axrategy",
+            "url": "https://axrategy.com"
+          }
+        }}
       />
 
       <Section className="pt-32 pb-12">
