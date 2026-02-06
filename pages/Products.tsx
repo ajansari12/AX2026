@@ -197,6 +197,30 @@ const ProductDetailView: React.FC<{ slug: string }> = ({ slug }) => {
   const { product, isLoading, error } = useProduct(slug);
   const bookingModal = useBookingModal();
 
+  const handleCheckout = async (email: string) => {
+    if (!product) return;
+    try {
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/product-checkout`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          productSlug: product.slug,
+          customerEmail: email,
+        }),
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+    }
+  };
+
   if (isLoading) {
     return (
       <Section className="pt-32 md:pt-48">
@@ -228,7 +252,7 @@ const ProductDetailView: React.FC<{ slug: string }> = ({ slug }) => {
   return (
     <>
       <SEO title={product.name} description={product.tagline} />
-      <ProductDetail product={product} onBookCall={bookingModal.open} />
+      <ProductDetail product={product} onBookCall={bookingModal.open} onCheckout={handleCheckout} />
       <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );

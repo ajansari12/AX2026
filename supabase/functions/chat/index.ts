@@ -125,10 +125,18 @@ interface ChatMessage {
   content: string;
 }
 
+interface DemoContext {
+  businessName: string;
+  industry: string;
+  primaryService: string;
+  demoMode: true;
+}
+
 interface RequestBody {
   messages: ChatMessage[];
   conversationId?: string;
   visitorId: string;
+  demoContext?: DemoContext;
 }
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
@@ -219,7 +227,7 @@ Deno.serve(async (req: Request) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const body: RequestBody = await req.json();
-    const { messages, conversationId, visitorId } = body;
+    const { messages, conversationId, visitorId, demoContext } = body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(
@@ -228,11 +236,16 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    const isDemo = !!demoContext?.demoMode;
+
     let convId = conversationId;
     if (!convId) {
       const { data: newConv, error: convError } = await supabase
         .from('chat_conversations')
-        .insert({ visitor_id: visitorId })
+        .insert({
+          visitor_id: visitorId,
+          ...(isDemo ? { source: 'product_demo' } : {}),
+        })
         .select('id')
         .single();
 
@@ -243,39 +256,63 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    const lastUserMessage = messages[messages.length - 1];
-    if (convId && lastUserMessage.role === 'user') {
-      await supabase.from('chat_messages').insert({
-        conversation_id: convId,
-        role: 'user',
-        content: lastUserMessage.content,
-      });
+    if (!isDemo) {
+      const lastUserMessage = messages[messages.length - 1];
+      if (convId && lastUserMessage.role === 'user') {
+        await supabase.from('chat_messages').insert({
+          conversation_id: convId,
+          role: 'user',
+          content: lastUserMessage.content,
+        });
 
-      const capturedEmail = extractEmail(lastUserMessage.content);
-      if (capturedEmail) {
-        await supabase
-          .from('chat_conversations')
-          .update({ email: capturedEmail })
-          .eq('id', convId);
+        const capturedEmail = extractEmail(lastUserMessage.content);
+        if (capturedEmail) {
+          await supabase
+            .from('chat_conversations')
+            .update({ email: capturedEmail })
+            .eq('id', convId);
 
-        await createLead(supabase, capturedEmail, convId, messages);
+          await createLead(supabase, capturedEmail, convId, messages);
+        }
       }
     }
 
-    const hasBuyingIntent = detectBuyingIntent(messages);
-    const hasProvidedEmail = messages.some(m => extractEmail(m.content));
-    
-    let enhancedSystemPrompt = SYSTEM_PROMPT;
-    if (hasBuyingIntent && !hasProvidedEmail && messages.length >= 4) {
-      enhancedSystemPrompt += `\n\n## CURRENT CONTEXT\nThis visitor is showing buying interest. After answering their current question, naturally ask for their email so someone can reach out with more details. Keep it casual and helpful, not pushy.`;
+    let systemPrompt: string;
+    let maxTokens = 1024;
+
+    if (isDemo && demoContext) {
+      systemPrompt = `You are the AI front-desk assistant for ${demoContext.businessName}, a ${demoContext.industry} business that specializes in ${demoContext.primaryService}.
+
+## Your Role
+- Answer all questions as if you are the friendly, knowledgeable front-desk assistant for this business
+- Help visitors book appointments, answer FAQs about services, and provide a warm professional experience
+- You know common details about the ${demoContext.industry} industry and can answer typical questions
+- Be conversational, helpful, and concise (2-3 sentences per response)
+- If someone asks about pricing, give realistic but general ranges for the ${demoContext.industry} industry
+- If someone wants to book, confirm their preferred date/time and say you'll get them scheduled
+- Always represent ${demoContext.businessName} positively and professionally
+
+## Important
+- This is a DEMO of an AI chat widget product by Axrategy
+- Keep responses short and snappy to showcase the conversational ability
+- Be impressively helpful to demonstrate the product value`;
+      maxTokens = 512;
+    } else {
+      const hasBuyingIntent = detectBuyingIntent(messages);
+      const hasProvidedEmail = messages.some(m => extractEmail(m.content));
+
+      systemPrompt = SYSTEM_PROMPT;
+      if (hasBuyingIntent && !hasProvidedEmail && messages.length >= 4) {
+        systemPrompt += `\n\n## CURRENT CONTEXT\nThis visitor is showing buying interest. After answering their current question, naturally ask for their email so someone can reach out with more details. Keep it casual and helpful, not pushy.`;
+      }
     }
 
     const anthropic = new Anthropic({ apiKey: anthropicApiKey });
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      system: enhancedSystemPrompt,
+      max_tokens: maxTokens,
+      system: systemPrompt,
       messages: messages.map(m => ({
         role: m.role,
         content: m.content,
