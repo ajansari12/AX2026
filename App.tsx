@@ -50,6 +50,7 @@ const PortalTraining = lazy(() => import('./pages/PortalTraining').then(m => ({ 
 const PortalReferrals = lazy(() => import('./pages/PortalReferrals').then(m => ({ default: m.PortalReferrals })));
 const ROICalculatorPage = lazy(() => import('./pages/ROICalculatorPage').then(m => ({ default: m.ROICalculatorPage })));
 const HelpCenter = lazy(() => import('./pages/HelpCenter').then(m => ({ default: m.HelpCenter })));
+const BundleDetail = lazy(() => import('./pages/BundleDetail').then(m => ({ default: m.BundleDetail })));
 
 // Initialize monitoring on app load
 if (typeof window !== 'undefined') {
@@ -122,6 +123,7 @@ const App: React.FC = () => {
 
                       <Route path="/pricing" element={<Pricing />} />
                       <Route path="/products" element={<Products />} />
+                      <Route path="/products/bundle/:bundleSlug" element={<BundleDetail />} />
                       <Route path="/products/:slug" element={<Products />} />
                       <Route path="/about" element={<About />} />
 

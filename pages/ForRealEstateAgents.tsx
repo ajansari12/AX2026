@@ -4,6 +4,7 @@ import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { Check, Calendar, Phone, MessageSquare, Home, Users, ArrowRight, Clock, Zap } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { RelatedArticles } from '../components/RelatedArticles';
 
 export const ForRealEstateAgents: React.FC = () => {
   const triggerBookingModal = useTriggerBookingModal();
@@ -235,6 +236,8 @@ export const ForRealEstateAgents: React.FC = () => {
           </div>
         </Container>
       </Section>
+
+      <RelatedArticles slugs={['realtor-speed-to-lead', 'conversion-first-design', 'speed-to-lead-rule']} />
 
       <Section>
         <Container size="md" className="text-center">

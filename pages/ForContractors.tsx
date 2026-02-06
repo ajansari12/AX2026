@@ -4,6 +4,7 @@ import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { Check, Calendar, FileText, CreditCard, MessageSquare, FolderOpen, ArrowRight, Clock, Hammer } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { RelatedArticles } from '../components/RelatedArticles';
 
 export const ForContractors: React.FC = () => {
   const triggerBookingModal = useTriggerBookingModal();
@@ -235,6 +236,8 @@ export const ForContractors: React.FC = () => {
           </div>
         </Container>
       </Section>
+
+      <RelatedArticles slugs={['construction-crm', 'automating-boring-stuff', 'chaos-to-crm']} />
 
       <Section>
         <Container size="md" className="text-center">

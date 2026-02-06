@@ -4,6 +4,7 @@ import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { Check, Calendar, Phone, MessageSquare, Users, ArrowRight, Clock, CalendarCheck, Activity } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { RelatedArticles } from '../components/RelatedArticles';
 
 export const ForChiropractors: React.FC = () => {
   const triggerBookingModal = useTriggerBookingModal();
@@ -242,6 +243,8 @@ export const ForChiropractors: React.FC = () => {
           </div>
         </Container>
       </Section>
+
+      <RelatedArticles slugs={['dental-clinic-automation', 'speed-to-lead-rule', 'reactivate-dead-leads']} />
 
       <Section>
         <Container size="md" className="text-center">

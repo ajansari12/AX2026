@@ -4,6 +4,7 @@ import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { Check, Calendar, Phone, MessageSquare, FileText, ArrowRight, Clock, Shield, RefreshCw } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { RelatedArticles } from '../components/RelatedArticles';
 
 export const ForInsuranceAgents: React.FC = () => {
   const triggerBookingModal = useTriggerBookingModal();
@@ -235,6 +236,8 @@ export const ForInsuranceAgents: React.FC = () => {
           </div>
         </Container>
       </Section>
+
+      <RelatedArticles slugs={['ai-sales-agents-guide', 'reactivate-dead-leads', 'client-portal-reduces-churn']} />
 
       <Section>
         <Container size="md" className="text-center">

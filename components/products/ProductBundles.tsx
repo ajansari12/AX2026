@@ -129,7 +129,7 @@ export const ProductBundles: React.FC = () => {
                       )}
                     </div>
                     <NavLink
-                      to={`/products/${products[0]?.slug || ''}`}
+                      to={`/products/bundle/${bundle.slug}`}
                       className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
                       View <ArrowRight size={14} />
