@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ExitIntentModal } from './components/UI';
 import { ChatWidget } from './components/ChatWidget';
+import { SectionErrorBoundary } from './components/ErrorBoundary';
 import { SkipLinks } from './components/a11y/SkipLinks';
 import { I18nProvider } from './lib/i18n';
 import { initMonitoring } from './lib/monitoring';
@@ -152,8 +153,12 @@ const App: React.FC = () => {
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>
-                  <ExitIntentModal />
-                  <ChatWidget />
+                  <SectionErrorBoundary section="promotions">
+                    <ExitIntentModal />
+                  </SectionErrorBoundary>
+                  <SectionErrorBoundary section="chat">
+                    <ChatWidget />
+                  </SectionErrorBoundary>
                 </Layout>
               }
             />

@@ -6,6 +6,7 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-sansation: 'Sansation', sans-serif;
 
+  /* Neutral / Gray ramp */
   --color-gray-50: #fafafa;
   --color-gray-100: #f4f4f5;
   --color-gray-200: #e4e4e7;
@@ -18,14 +19,49 @@
   --color-gray-900: #18181b;
   --color-gray-950: #09090b;
 
+  /* Primary / Brand */
   --color-brand-50: #f0f9ff;
   --color-brand-100: #e0f2fe;
+  --color-brand-200: #bae6fd;
+  --color-brand-300: #7dd3fc;
+  --color-brand-400: #38bdf8;
   --color-brand-500: #0ea5e9;
   --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+  --color-brand-800: #075985;
   --color-brand-900: #0c4a6e;
 
+  /* Accent / Emerald */
+  --color-accent-50: #ecfdf5;
+  --color-accent-100: #d1fae5;
+  --color-accent-200: #a7f3d0;
+  --color-accent-300: #6ee7b7;
+  --color-accent-400: #34d399;
   --color-accent-500: #10b981;
+  --color-accent-600: #059669;
+  --color-accent-700: #047857;
+  --color-accent-800: #065f46;
+  --color-accent-900: #064e3b;
 
+  /* Success */
+  --color-success-50: #f0fdf4;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+
+  /* Warning */
+  --color-warning-50: #fffbeb;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+
+  /* Error */
+  --color-error-50: #fef2f2;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+
+  /* Typography */
   --letter-spacing-tight: -0.025em;
   --letter-spacing-tighter: -0.04em;
 
@@ -34,17 +70,36 @@
 }
 
 @layer base {
+  :root {
+    --surface-primary: var(--color-gray-50);
+    --surface-elevated: #ffffff;
+    --surface-sunken: var(--color-gray-100);
+    --text-primary: var(--color-gray-900);
+    --text-secondary: var(--color-gray-500);
+    --text-muted: var(--color-gray-400);
+    --border-default: var(--color-gray-200);
+    --border-subtle: var(--color-gray-100);
+    --ring-focus: var(--color-gray-900);
+  }
+
+  .dark {
+    --surface-primary: var(--color-gray-950);
+    --surface-elevated: var(--color-gray-900);
+    --surface-sunken: var(--color-gray-800);
+    --text-primary: var(--color-gray-100);
+    --text-secondary: var(--color-gray-400);
+    --text-muted: var(--color-gray-500);
+    --border-default: var(--color-gray-800);
+    --border-subtle: var(--color-gray-800);
+    --ring-focus: #ffffff;
+  }
+
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--color-gray-50);
-    color: var(--color-gray-900);
+    background-color: var(--surface-primary);
+    color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  .dark body {
-    background-color: var(--color-gray-950);
-    color: var(--color-gray-100);
   }
 
   .font-sans {

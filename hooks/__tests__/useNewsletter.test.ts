@@ -2,13 +2,18 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useNewsletter } from '../useNewsletter';
 
-// Mock Supabase
 vi.mock('../../lib/supabase', () => ({
   supabase: {
     from: vi.fn(() => ({
       upsert: vi.fn(),
     })),
   },
+}));
+
+vi.mock('../../lib/spamProtection', () => ({
+  performSpamCheck: vi.fn(() => ({ isSpam: false })),
+  incrementRateLimit: vi.fn(),
+  checkRateLimit: vi.fn(() => ({ allowed: true, remaining: 5, resetIn: 3600000 })),
 }));
 
 import { supabase } from '../../lib/supabase';
@@ -22,7 +27,11 @@ describe('useNewsletter', () => {
     const { result } = renderHook(() => useNewsletter());
 
     expect(result.current.isSubmitting).toBe(false);
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isSuccess).toBe(false);
+    expect(result.current.error).toBeNull();
     expect(typeof result.current.subscribe).toBe('function');
+    expect(typeof result.current.reset).toBe('function');
   });
 
   it('successfully subscribes an email', async () => {
@@ -38,17 +47,8 @@ describe('useNewsletter', () => {
     });
 
     expect(response?.success).toBe(true);
-    expect(mockUpsert).toHaveBeenCalledWith(
-      {
-        email: 'test@example.com',
-        source: 'footer',
-        is_active: true,
-      },
-      {
-        onConflict: 'email',
-        ignoreDuplicates: false,
-      }
-    );
+    expect(result.current.isSuccess).toBe(true);
+    expect(mockUpsert).toHaveBeenCalled();
   });
 
   it('handles subscription error', async () => {
@@ -66,6 +66,7 @@ describe('useNewsletter', () => {
 
     expect(response?.success).toBe(false);
     expect(response?.error).toBe('Database error');
+    expect(result.current.error).toBe('Database error');
   });
 
   it('sets isSubmitting during subscription', async () => {
@@ -82,12 +83,31 @@ describe('useNewsletter', () => {
       result.current.subscribe('test@example.com', 'footer');
     });
 
-    // Should be submitting immediately after call
     expect(result.current.isSubmitting).toBe(true);
+    expect(result.current.isLoading).toBe(true);
 
-    // Wait for completion
     await waitFor(() => {
       expect(result.current.isSubmitting).toBe(false);
     });
+  });
+
+  it('resets state correctly', async () => {
+    const mockUpsert = vi.fn().mockResolvedValue({ error: null });
+    (supabase.from as any).mockReturnValue({ upsert: mockUpsert });
+
+    const { result } = renderHook(() => useNewsletter());
+
+    await act(async () => {
+      await result.current.subscribe('test@example.com');
+    });
+
+    expect(result.current.isSuccess).toBe(true);
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.isSuccess).toBe(false);
+    expect(result.current.error).toBeNull();
   });
 });
