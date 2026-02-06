@@ -2,7 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Product } from '../../types';
 import { ProductIcon } from './ProductIcon';
-import { ArrowRight, Repeat, Zap } from 'lucide-react';
+import { ArrowRight, Repeat, Zap, Sparkles } from 'lucide-react';
+
+const INTERACTIVE_SLUGS = [
+  'website-teardown-report', 'email-sequence-templates', 'ai-chat-widget',
+  'speed-to-lead', 'appointment-reminders', 'review-generation',
+  'gbp-optimization', 'automation-playbook', 'diy-automation-bundle',
+  'crm-quickstart', 'landing-page-sprint', 'analytics-setup',
+];
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +17,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, featured }) => {
+  const hasPreview = INTERACTIVE_SLUGS.includes(product.slug);
   const categoryLabel = {
     micro_product: 'Digital Product',
     standalone_subscription: 'Monthly Subscription',
@@ -35,6 +43,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured }) =
         {product.isFeatured && (
           <div className="absolute -top-3 right-6 bg-gray-900 dark:bg-white text-white dark:text-black px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
             Popular
+          </div>
+        )}
+        {hasPreview && !product.isFeatured && (
+          <div className="absolute -top-3 right-6 bg-emerald-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+            <Sparkles size={10} />
+            Try It Free
           </div>
         )}
 

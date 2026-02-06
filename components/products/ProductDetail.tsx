@@ -15,6 +15,33 @@ const EmailTemplatePreview = lazy(() =>
 const ChatWidgetDemo = lazy(() =>
   import('../demo/ChatWidgetDemo').then((m) => ({ default: m.ChatWidgetDemo }))
 );
+const SpeedToLeadDemo = lazy(() =>
+  import('../previews/SpeedToLeadDemo').then((m) => ({ default: m.SpeedToLeadDemo }))
+);
+const ReminderSimulator = lazy(() =>
+  import('../previews/ReminderSimulator').then((m) => ({ default: m.ReminderSimulator }))
+);
+const ReviewFlowDemo = lazy(() =>
+  import('../previews/ReviewFlowDemo').then((m) => ({ default: m.ReviewFlowDemo }))
+);
+const GBPAuditPreview = lazy(() =>
+  import('../previews/GBPAuditPreview').then((m) => ({ default: m.GBPAuditPreview }))
+);
+const AutomationQuiz = lazy(() =>
+  import('../previews/AutomationQuiz').then((m) => ({ default: m.AutomationQuiz }))
+);
+const BundleSelector = lazy(() =>
+  import('../previews/BundleSelector').then((m) => ({ default: m.BundleSelector }))
+);
+const CRMWizard = lazy(() =>
+  import('../previews/CRMWizard').then((m) => ({ default: m.CRMWizard }))
+);
+const LandingPagePreview = lazy(() =>
+  import('../previews/LandingPagePreview').then((m) => ({ default: m.LandingPagePreview }))
+);
+const AnalyticsCheck = lazy(() =>
+  import('../previews/AnalyticsCheck').then((m) => ({ default: m.AnalyticsCheck }))
+);
 
 interface ProductDetailProps {
   product: Product;
@@ -34,7 +61,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBookCal
     .filter((p) => p.id !== product.id && p.category === product.category)
     .slice(0, 3);
 
-  const hasInteractivePreview = ['website-teardown-report', 'email-sequence-templates', 'ai-chat-widget'].includes(product.slug);
+  const hasInteractivePreview = [
+    'website-teardown-report', 'email-sequence-templates', 'ai-chat-widget',
+    'speed-to-lead', 'appointment-reminders', 'review-generation',
+    'gbp-optimization', 'automation-playbook', 'diy-automation-bundle',
+    'crm-quickstart', 'landing-page-sprint', 'analytics-setup',
+  ].includes(product.slug);
 
   const categoryLabel = {
     micro_product: 'Digital Product',
@@ -89,6 +121,33 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBookCal
                 )}
                 {product.slug === 'ai-chat-widget' && (
                   <ChatWidgetDemo onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'speed-to-lead' && (
+                  <SpeedToLeadDemo onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'appointment-reminders' && (
+                  <ReminderSimulator onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'review-generation' && (
+                  <ReviewFlowDemo onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'gbp-optimization' && (
+                  <GBPAuditPreview onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'automation-playbook' && (
+                  <AutomationQuiz onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'diy-automation-bundle' && (
+                  <BundleSelector onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'crm-quickstart' && (
+                  <CRMWizard onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'landing-page-sprint' && (
+                  <LandingPagePreview onCheckout={handleCheckout} />
+                )}
+                {product.slug === 'analytics-setup' && (
+                  <AnalyticsCheck onCheckout={handleCheckout} />
                 )}
               </Suspense>
 
