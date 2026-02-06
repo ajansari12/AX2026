@@ -6,7 +6,7 @@ import { TimeSlotGrid } from './TimeSlotGrid';
 import { BookingForm } from './BookingForm';
 import { BookingConfirmation } from './BookingConfirmation';
 import { CalEmbed } from './CalEmbed';
-import { Calendar, ExternalLink } from 'lucide-react';
+import { Calendar, ExternalLink, Loader2 } from 'lucide-react';
 
 interface CustomCalendarProps {
   eventTypeId?: number;
@@ -27,6 +27,7 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
     isBooking,
     error,
     apiUnavailable,
+    isInitializing,
     bookingState,
     fetchSlots,
     createBooking,
@@ -78,7 +79,7 @@ export const CustomCalendar: React.FC<CustomCalendarProps> = ({
     ? getSlotsForDate(bookingState.selectedDate)
     : [];
 
-  if (apiUnavailable) {
+  if (apiUnavailable && !isInitializing) {
     return (
       <div className={`bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden ${className}`}>
         <CalEmbed calLink="axrategy/15min" />

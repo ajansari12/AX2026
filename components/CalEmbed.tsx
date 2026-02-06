@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { Calendar, ExternalLink } from 'lucide-react';
+import { useEffect, useRef, useId, useState } from 'react';
+import { Calendar, ExternalLink, Loader2 } from 'lucide-react';
 
 interface CalEmbedProps {
   calLink?: string;
@@ -17,43 +17,105 @@ declare global {
   }
 }
 
+let calScriptLoaded = false;
+let calScriptLoading = false;
+const calScriptCallbacks: (() => void)[] = [];
+
+function loadCalScript(callback: () => void) {
+  if (calScriptLoaded && window.Cal) {
+    callback();
+    return;
+  }
+
+  calScriptCallbacks.push(callback);
+
+  if (calScriptLoading) {
+    return;
+  }
+
+  calScriptLoading = true;
+
+  const existingScript = document.querySelector('script[src*="cal.com/embed/embed.js"]');
+  if (existingScript) {
+    calScriptLoaded = true;
+    calScriptLoading = false;
+    calScriptCallbacks.forEach(cb => cb());
+    calScriptCallbacks.length = 0;
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'https://app.cal.com/embed/embed.js';
+  script.async = true;
+
+  script.onload = () => {
+    calScriptLoaded = true;
+    calScriptLoading = false;
+    if (window.Cal) {
+      window.Cal('init', { origin: 'https://cal.com' });
+    }
+    calScriptCallbacks.forEach(cb => cb());
+    calScriptCallbacks.length = 0;
+  };
+
+  script.onerror = () => {
+    calScriptLoading = false;
+    calScriptCallbacks.length = 0;
+  };
+
+  document.head.appendChild(script);
+}
+
 export const CalEmbed: React.FC<CalEmbedProps> = ({
   calLink = 'axrategy/15min',
   className = '',
 }) => {
+  const containerId = useId();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const initializedRef = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://app.cal.com/embed/embed.js';
-    script.async = true;
-    document.head.appendChild(script);
+    if (initializedRef.current) return;
 
-    script.onload = () => {
-      if (window.Cal) {
-        window.Cal('init', { origin: 'https://cal.com' });
-        window.Cal('inline', {
-          elementOrSelector: '#cal-embed-container',
-          calLink: calLink,
-          layout: 'month_view',
-        });
-        window.Cal('ui', {
-          styles: { branding: { brandColor: '#2563eb' } },
-          hideEventTypeDetails: false,
-          layout: 'month_view',
-        });
-      }
+    const initializeEmbed = () => {
+      if (!window.Cal || !containerRef.current) return;
+
+      initializedRef.current = true;
+      setIsLoading(false);
+
+      window.Cal('inline', {
+        elementOrSelector: containerRef.current,
+        calLink: calLink,
+        layout: 'month_view',
+      });
+
+      window.Cal('ui', {
+        styles: { branding: { brandColor: '#2563eb' } },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      });
     };
 
-    return () => {
-      script.remove();
-    };
-  }, [calLink]);
+    loadCalScript(initializeEmbed);
+  }, [calLink, containerId]);
 
   return (
     <div className={className}>
       <div
-        id="cal-embed-container"
-        className="min-h-[550px] w-full rounded-2xl overflow-hidden bg-white dark:bg-gray-800"
-      />
+        ref={containerRef}
+        id={`cal-embed-${containerId.replace(/:/g, '-')}`}
+        className="min-h-[550px] w-full rounded-2xl overflow-hidden bg-white dark:bg-gray-800 relative"
+      >
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-3">
+              <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+              <span className="text-sm text-gray-500">Loading calendar...</span>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="mt-4 text-center">
         <a
           href={`https://cal.com/${calLink}`}
@@ -74,25 +136,14 @@ export const CalButton: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ calLink = 'axrategy/15min', children, className = '' }) => {
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://app.cal.com/embed/embed.js';
-    script.async = true;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      if (window.Cal) {
-        window.Cal('init', { origin: 'https://cal.com' });
-      }
-    };
-
-    return () => {
-      script.remove();
-    };
+    loadCalScript(() => setIsReady(true));
   }, []);
 
   const handleClick = () => {
-    if (window.Cal) {
+    if (isReady && window.Cal) {
       window.Cal('modal', {
         calLink: calLink,
         layout: 'month_view',

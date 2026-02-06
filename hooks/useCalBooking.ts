@@ -63,6 +63,7 @@ export function useCalBooking(eventTypeId: number = 0) {
   const [isBooking, setIsBooking] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [apiUnavailable, setApiUnavailable] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [bookingState, setBookingState] = useState<BookingState>({
     selectedDate: null,
     selectedTime: null,
@@ -113,6 +114,7 @@ export function useCalBooking(eventTypeId: number = 0) {
       setApiUnavailable(true);
     } finally {
       setIsLoadingSlots(false);
+      setIsInitializing(false);
     }
   }, [apiUnavailable]);
 
@@ -248,6 +250,7 @@ export function useCalBooking(eventTypeId: number = 0) {
     isBooking,
     error,
     apiUnavailable,
+    isInitializing,
     bookingState,
     eventTypeId,
     fetchSlots,
