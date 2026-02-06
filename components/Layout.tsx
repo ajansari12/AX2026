@@ -5,6 +5,8 @@ import { Menu, X, ArrowRight, CheckCircle2, Moon, Sun, Calendar, ChevronDown, St
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { useNewsletter } from '../hooks/useNewsletter';
+import { Breadcrumbs } from './Breadcrumbs';
+import { CommandPalette } from './CommandPalette';
 
 const NAV_LINKS = [
   { name: 'Services', path: '/services' },
@@ -169,14 +171,15 @@ export const Header: React.FC = () => {
 
         {/* Desktop CTAs & Theme Toggle */}
         <div className="hidden md:flex items-center gap-4">
-          <button 
+          <CommandPalette />
+          <button
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-gray-600 dark:text-gray-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          
+
           <NavLink to="/contact" className={`text-sm font-medium transition-colors ${scrolled ? 'hidden lg:block' : ''} text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-md`}>
             Get a Quote
           </NavLink>
@@ -191,14 +194,14 @@ export const Header: React.FC = () => {
 
         {/* Mobile Toggle & Menu Button */}
         <div className="flex items-center gap-4 md:hidden">
-          <button 
+          <button
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-gray-600 dark:text-gray-400 transition-colors"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <button 
+          <button
             className="p-2 text-gray-900 dark:text-white z-50 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-lg"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -420,12 +423,23 @@ export const Footer: React.FC = () => {
   );
 };
 
+const LayoutBreadcrumbs: React.FC = () => {
+  const { pathname } = useLocation();
+  if (pathname === '/') return null;
+  return (
+    <div className="max-w-7xl mx-auto px-6 pt-24 pb-0">
+      <Breadcrumbs />
+    </div>
+  );
+};
+
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const triggerBookingModal = useTriggerBookingModal();
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300">
       <Header />
+      <LayoutBreadcrumbs />
       <main className="flex-grow">{children}</main>
       <Footer />
       {/* Mobile Floating CTA - High Z-index */}

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar, RefreshCw } from 'lucide-react';
+import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
@@ -12,10 +12,12 @@ import { PricingToggle } from '../components/PricingToggle';
 import { PricingMode } from '../types';
 import { HeroDashboard } from '../components/HeroDashboard';
 import { IllustratedAvatar, AnonymousAvatar } from '../components/IllustratedAvatar';
+import { ServiceQuiz } from '../components/ServiceQuiz';
 
 export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
+  const [showQuiz, setShowQuiz] = useState(false);
   const { caseStudies, isLoading: caseStudiesLoading } = useCaseStudies();
 
   const schema = {
@@ -458,6 +460,26 @@ export const Home: React.FC = () => {
         </div>
       </Section>
 
+      {/* Quiz CTA */}
+      <Section className="pt-0">
+        <FadeIn>
+          <div className="bg-gray-50 dark:bg-gray-900/50 rounded-[2.5rem] p-10 md:p-16 text-center border border-gray-100 dark:border-gray-800">
+            <Sparkles className="w-10 h-10 text-emerald-500 mx-auto mb-6" />
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">Not sure where to start?</h2>
+            <p className="text-lg text-gray-500 dark:text-gray-400 mb-8 max-w-xl mx-auto leading-relaxed">
+              Answer 5 quick questions and we will recommend the best solution for your business.
+            </p>
+            <button
+              onClick={() => setShowQuiz(true)}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all hover:scale-105 active:scale-95 shadow-lg"
+            >
+              <Sparkles className="w-5 h-5" />
+              Take the 60-Second Quiz
+            </button>
+          </div>
+        </FadeIn>
+      </Section>
+
       {/* 8. FAQ */}
       <Section className="pt-0">
         <Container size="md">
@@ -514,6 +536,8 @@ export const Home: React.FC = () => {
         onClose={bookingModal.close}
         serviceInterest={bookingModal.serviceInterest}
       />
+
+      <ServiceQuiz isOpen={showQuiz} onClose={() => setShowQuiz(false)} />
     </>
   );
 };

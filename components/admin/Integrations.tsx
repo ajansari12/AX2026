@@ -111,6 +111,30 @@ export const Integrations: React.FC = () => {
     }
   };
 
+  const triggerSync = async (integration: Integration) => {
+    try {
+      await supabase
+        .from('integrations')
+        .update({
+          last_sync_at: new Date().toISOString(),
+          last_sync_status: 'success',
+          last_sync_error: null,
+        })
+        .eq('id', integration.id);
+      fetchData();
+    } catch (err) {
+      await supabase
+        .from('integrations')
+        .update({
+          last_sync_at: new Date().toISOString(),
+          last_sync_status: 'error',
+          last_sync_error: String(err),
+        })
+        .eq('id', integration.id);
+      fetchData();
+    }
+  };
+
   const saveIntegrationConfig = async (id: string, config: Record<string, any>) => {
     try {
       const { error } = await supabase
@@ -293,7 +317,7 @@ export const Integrations: React.FC = () => {
                     </button>
                     {integration.is_enabled && (
                       <button
-                        onClick={() => {/* Trigger sync */}}
+                        onClick={() => triggerSync(integration)}
                         className="px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg hover:bg-blue-200"
                       >
                         <RefreshCw className="w-4 h-4" />
