@@ -1,19 +1,24 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://axrategy.com/sitemap.xml
 
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: ChatGPT-User
-Disallow: /
+Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 User-agent: CCBot
-Disallow: /
+Allow: /
 
 User-agent: anthropic-ai
-Disallow: /
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
