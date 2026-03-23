@@ -16,6 +16,8 @@ interface LeadEmailPayload {
     message?: string;
     source: string;
     pricing_preference?: string;
+    leadId?: string;
+    industry?: string;
   };
 }
 
@@ -729,6 +731,22 @@ Deno.serve(async (req: Request) => {
       if (!confirmationResult.success) {
         console.error("Failed to send confirmation email:", confirmationResult.error);
       }
+
+      fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/automation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+        },
+        body: JSON.stringify({
+          action: "start_sequence",
+          leadId: lead.leadId,
+          leadEmail: lead.email,
+          leadName: lead.name,
+          industry: lead.industry || lead.service_interest,
+          metadata: { source: lead.source || "contact_form" },
+        }),
+      }).catch(console.error);
 
       return new Response(
         JSON.stringify({
