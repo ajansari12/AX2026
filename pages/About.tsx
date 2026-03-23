@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Section, FadeIn, Button } from '../components/UI';
+import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { NavLink } from 'react-router-dom';
-import { Database, Globe, Cpu, Workflow, Calendar } from 'lucide-react';
+import { Database, Globe, Cpu, Workflow, Calendar, CircleCheck as CheckCircle, Wrench, Zap, Check } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { GTADotMap } from '../components/GTADotMap';
 import { IllustratedAvatar } from '../components/IllustratedAvatar';
@@ -99,13 +99,73 @@ export const About: React.FC = () => {
            <div className="flex-1">
               <div className="mb-6 text-emerald-400 font-bold uppercase tracking-widest text-sm">Why I Started This</div>
               <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-relaxed text-white">
-                "I've seen too many small businesses pay for websites that sit there doing nothing. Every tool we build should bring in customers, save time, or both. If it doesn't, what's the point?"
+                "I kept asking myself: why are accountants and lawyers and dentists — smart, qualified professionals — losing clients to bad response times and clunky processes? The answer isn't that they're bad at business. The answer is they're working in their business, not on it. We exist to fix that."
               </h3>
               <p className="text-gray-300 font-medium text-lg">
                 — Ali Ansari, Founder
               </p>
            </div>
         </div>
+      </Section>
+
+      {/* Transparency: What we build vs. set up */}
+      <Section className="py-20 bg-gray-50 dark:bg-gray-900/30">
+        <Container size="lg">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              What we build vs. what we set up for you
+            </h2>
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+              We believe in being honest about how this works. Some things are built inside our platform. Others we set up using best-in-class external tools.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                  <CheckCircle className="text-emerald-600 dark:text-emerald-400" size={20} />
+                </div>
+                <h3 className="font-bold text-gray-900 dark:text-white text-lg">Built into our platform</h3>
+              </div>
+              {[
+                'AI chat assistant on your website (Claude-powered)',
+                'Website performance and SEO audit tool',
+                'Google Business Profile audit',
+                'Lead capture and pipeline management',
+                'Client portal (projects, invoices, messages)',
+                'Booking via Cal.com integration',
+                'Proposal generation and sending',
+              ].map(item => (
+                <div key={item} className="flex items-center gap-3 py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
+                  <Check size={16} className="text-emerald-500 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{item}</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <Wrench className="text-blue-600 dark:text-blue-400" size={20} />
+                </div>
+                <h3 className="font-bold text-gray-900 dark:text-white text-lg">Set up for you using partner tools</h3>
+              </div>
+              {[
+                'AI phone answering (via Vapi.ai — Automation & AI Partner plans)',
+                'SMS appointment reminders (via Twilio + Zapier)',
+                'Automated follow-up email sequences (configured per client)',
+                'CRM integration with existing tools (HubSpot, Pipedrive)',
+                'Review request automation',
+                'Custom reporting dashboards',
+              ].map(item => (
+                <div key={item} className="flex items-center gap-3 py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
+                  <Zap size={16} className="text-blue-500 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{item}</span>
+                </div>
+              ))}
+              <p className="text-xs text-gray-400 mt-4">These are configured during your onboarding using the best tools for your specific setup — not locked into one platform.</p>
+            </div>
+          </div>
+        </Container>
       </Section>
 
       {/* The Stack */}

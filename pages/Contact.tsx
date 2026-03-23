@@ -222,7 +222,7 @@ export const Contact: React.FC = () => {
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Got it!</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-                  Thanks for reaching out. We'll get back to you within a day to set up a time to talk.
+                  Ali will personally review this and get back to you within a few hours — not with a pitch, but with a direct answer to whether we can actually help. If it's a fit, we'll book a call.
                 </p>
                 <div className="space-y-4">
                   <button

@@ -131,9 +131,9 @@ export const ForDentists: React.FC = () => {
                 <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-6">
                   <Phone className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">AI That Answers Calls</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">AI Chat + Phone Assistant</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                  When you're with a patient, your AI answers. It schedules appointments, answers insurance questions, and sends follow-up info - instantly.
+                  AI chat assistant that responds to website inquiries 24/7 — and for clients on the Automation plan, we set up dedicated phone AI per business using our partner network.
                 </p>
                 <ul className="space-y-3">
                   {["Responds in under 8 seconds", "Handles scheduling questions", "Texts you for urgent matters"].map((item, i) => (

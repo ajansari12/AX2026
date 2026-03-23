@@ -134,7 +134,7 @@ export const ForLawyers: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">AI Intake Assistant</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                  Your AI answers calls 24/7, asks qualifying questions (accident date, injuries, insurance), and books consultations only with qualified prospects.
+                  AI chat assistant that responds to website inquiries 24/7 — and for clients on the Automation plan, we set up dedicated phone AI per business using our partner network. It qualifies leads before your time is ever involved.
                 </p>
                 <ul className="space-y-3">
                   {["Instant response, even at 2am", "Pre-qualifies before your time", "Gathers case details upfront"].map((item, i) => (

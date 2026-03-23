@@ -5,7 +5,7 @@ import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { useServices, useService } from '../hooks/useServices';
 import * as Icons from 'lucide-react';
-import { ArrowRight, CheckCircle2, ChevronDown, Clock, Users, Package, HelpCircle, Calendar } from 'lucide-react';
+import { ArrowRight, CircleCheck as CheckCircle2, ChevronDown, Clock, Users, Package, Circle as HelpCircle, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 
@@ -207,7 +207,7 @@ export const Services: React.FC = () => {
     <>
       <SEO
         title="Our Services"
-        description="AI assistants that answer calls 24/7. Websites that book clients. Automations that eliminate busywork. Done-for-you setup in 2-6 weeks."
+        description="AI chat assistant that responds to website inquiries 24/7. Websites that book clients. Automations that eliminate busywork. Done-for-you setup in 2-6 weeks."
       />
 
       <Section className="text-center pt-32 md:pt-48">

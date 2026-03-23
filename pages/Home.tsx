@@ -173,7 +173,7 @@ export const Home: React.FC = () => {
             </h1>
 
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-lg leading-relaxed">
-              We build AI systems that respond to every new lead in under 8 seconds, book appointments while you sleep, and follow up until they convert — so you stop losing clients to whoever picks up the phone first.
+              Axrategy builds AI + automation systems for service businesses — so leads respond in seconds, appointments book themselves, and your calendar fills without you lifting a phone.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 mb-12">
@@ -280,7 +280,7 @@ export const Home: React.FC = () => {
             {
               icon: Zap,
               title: "Answer Every Lead Instantly",
-              desc: "When someone calls or fills out a form, they get a response in seconds. Even at 2am. Even when you're with a client.",
+              desc: "When someone fills out a form or messages your site, they get a response in seconds via AI chat. Even at 2am. Even when you're with a client.",
               color: "text-orange-600 bg-orange-50 dark:bg-orange-500/10 dark:text-orange-400",
               link: "/services/ai-assistants"
             },
