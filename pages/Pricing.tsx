@@ -174,6 +174,19 @@ export const Pricing: React.FC = () => {
                       </div>
                     </div>
 
+                    <div className={`rounded-xl px-4 py-3 mb-5 border ${
+                      tier.isPopular
+                        ? 'bg-white/8 border-white/15 dark:bg-black/8 dark:border-black/15'
+                        : 'bg-gray-50 dark:bg-gray-800/60 border-gray-200 dark:border-gray-700'
+                    }`}>
+                      <p className={`text-sm font-bold mb-0.5 ${tier.isPopular ? 'text-white dark:text-gray-900' : 'text-gray-900 dark:text-white'}`}>
+                        Minimum investment: ${(parseInt(tier.monthlyPrice.replace(/[^0-9]/g, '')) * 6 + parseInt(tier.setupFee.replace(/[^0-9]/g, ''))).toLocaleString()} over 6 months
+                      </p>
+                      <p className={`text-xs leading-snug ${tier.isPopular ? 'text-gray-400 dark:text-gray-600' : 'text-gray-500 dark:text-gray-400'}`}>
+                        6-month engagement — enough time to see measurable results and ROI.
+                      </p>
+                    </div>
+
                     <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold mb-6 ${
                       tier.isPopular
                         ? 'bg-emerald-500/20 text-emerald-300 dark:text-emerald-700'
