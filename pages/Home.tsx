@@ -98,6 +98,14 @@ export const Home: React.FC = () => {
               "@type": "Answer",
               "text": "Absolutely. We set everything up and train you on how to use it. Most of it runs automatically anyway - that's the whole point."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "What is AI automation for small businesses?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AI automation for small businesses means replacing manual, repetitive tasks — answering inquiries, following up with leads, booking appointments, sending reminders — with software systems that run 24/7 without staff intervention. For a dental practice, this means a patient who submits a contact form at 11pm gets a response in seconds. For a law firm, this means every incoming lead is qualified and scheduled before a lawyer has to look at their phone."
+            }
           }
         ]
       }
@@ -202,6 +210,23 @@ export const Home: React.FC = () => {
                 See how we achieve these numbers &rarr;
              </NavLink>
           </div>
+        </div>
+      </section>
+
+      {/* 2b. AI Automation Explainer */}
+      <section className="py-20 px-6 bg-gray-50 dark:bg-gray-900/50 border-y border-gray-100 dark:border-gray-800">
+        <div className="max-w-3xl mx-auto">
+          <FadeIn>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+              What is AI automation for small businesses?
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-5">
+              AI automation for small businesses means replacing manual, repetitive tasks — answering inquiries, following up with leads, booking appointments, sending reminders — with software systems that run 24/7 without staff intervention.
+            </p>
+            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+              For a dental practice, this means a patient who submits a contact form at 11pm gets a response in seconds. For a law firm, this means every incoming lead is qualified and scheduled before a lawyer has to look at their phone.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
