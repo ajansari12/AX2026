@@ -63,6 +63,43 @@ export const Home: React.FC = () => {
           "opens": "09:00",
           "closes": "17:00"
         }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How long until I see results?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most projects are live in 4-6 weeks. You'll start seeing the difference as soon as everything is set up - more organized leads, automatic follow-ups, and time back in your day."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I own what you build?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to keep things running with us. We hand everything over with training videos."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What will this cost me each month after?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Just the basic tools - usually $50-150/month for things like hosting and your CRM. You pay those directly, no markup from us."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "I'm not very tech-savvy. Will I be able to use this?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Absolutely. We set everything up and train you on how to use it. Most of it runs automatically anyway - that's the whole point."
+            }
+          }
+        ]
       }
     ]
   };
