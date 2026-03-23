@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowRight, Check, Zap, Layers, BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, Zap, Layers, ChartBar as BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
@@ -97,7 +97,7 @@ export const Home: React.FC = () => {
             </h1>
 
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-lg leading-relaxed">
-              We set up simple systems that capture leads, follow up automatically, and book appointments for you. So you can focus on the work you actually love.
+              We build AI systems that respond to every new lead in under 8 seconds, book appointments while you sleep, and follow up until they convert — so you stop losing clients to whoever picks up the phone first.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 mb-12">
