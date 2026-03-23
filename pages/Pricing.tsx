@@ -76,13 +76,13 @@ export const Pricing: React.FC = () => {
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight tracking-tight">
               {pricingMode === 'one-time'
                 ? 'Know what you\'re paying upfront.'
-                : 'Start small. Grow together.'
+                : 'Pick your starting point. Own everything you build.'
               }
             </h1>
             <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
               {pricingMode === 'one-time'
                 ? 'One flat price per project. No hourly billing, no surprise invoices. You\'ll know the cost before we start.'
-                : 'Lower upfront investment with ongoing partnership. We stay invested in your success with continuous optimization.'
+                : 'No lock-in. No monthly fees to us after setup. Every system we build is yours.'
               }
             </p>
           </motion.div>
