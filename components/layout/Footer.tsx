@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Mail, Loader2, Check, Rss } from 'lucide-react';
+import { Mail, Loader as Loader2, Check, Rss } from 'lucide-react';
 import { useNewsletter } from '../../hooks/useNewsletter';
 
 export const Footer: React.FC = () => {
@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
               <span className="font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">
-              Simple tools that help small businesses grow.
+              AI systems that capture leads, book clients, and run while you sleep.
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
               Trusted by businesses across North America
