@@ -272,9 +272,9 @@ export const CASE_STUDIES: CaseStudy[] = [
 
 export const PRICING_TIERS: PricingTier[] = [
   {
-    name: 'Starter',
+    name: 'Foundation',
     price: '$3,500+',
-    description: 'Perfect if your website looks outdated or doesn\'t bring in any leads.',
+    description: 'For businesses starting their digital presence — get a professional website and the tools to be found online.',
     features: [
       'Professional 5-page website',
       'Contact and booking forms',
@@ -286,9 +286,9 @@ export const PRICING_TIERS: PricingTier[] = [
     isPopular: false
   },
   {
-    name: 'Growth',
+    name: 'AI Partner',
     price: '$7,500+',
-    description: 'For when you\'re too busy to follow up with every lead yourself.',
+    description: 'For businesses that want a full AI system with ongoing support — no lead falls through the cracks.',
     features: [
       'Full website (as many pages as you need)',
       'AI that answers calls and messages 24/7',
@@ -317,10 +317,10 @@ export const PRICING_TIERS: PricingTier[] = [
 
 export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   {
-    name: 'Starter',
+    name: 'Foundation',
     setupFee: '$500',
     monthlyPrice: '$149',
-    description: 'Get started with a professional website and basic automation. Lower upfront cost with ongoing support.',
+    description: 'For businesses starting their digital presence — a professional website with ongoing support included.',
     features: [
       'Professional 5-page website',
       'Contact and booking forms',
@@ -333,15 +333,15 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
       'Priority email support',
       'Hosting and maintenance included'
     ],
-    ctaText: 'Start Monthly Plan',
+    ctaText: 'Start Foundation Plan',
     isPopular: false,
     commitment: '6 months'
   },
   {
-    name: 'Professional',
+    name: 'Automation',
     setupFee: '$1,200',
     monthlyPrice: '$349',
-    description: 'Complete website plus AI and automation. We stay invested in your results.',
+    description: 'For businesses ready to automate lead follow-up — AI that works 24/7 so no prospect is ever missed.',
     features: [
       'Full website (unlimited pages)',
       'AI that answers calls and messages 24/7',
@@ -354,15 +354,15 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
       'New automation builds (2/month)',
       'Dedicated account manager'
     ],
-    ctaText: 'Start Professional Plan',
+    ctaText: 'Start Automation Plan',
     isPopular: true,
     commitment: '6 months'
   },
   {
-    name: 'Growth',
+    name: 'AI Partner',
     setupFee: '$2,500',
     monthlyPrice: '$649',
-    description: 'Enterprise-grade systems with white-glove service. We become your tech team.',
+    description: 'For businesses that want a full AI system with ongoing support — we become your dedicated tech team.',
     features: [
       'Custom client portal or app',
       'AI trained specifically for your business',
@@ -375,7 +375,7 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
       '24/7 priority support',
       'Quarterly roadmap planning'
     ],
-    ctaText: 'Start Growth Plan',
+    ctaText: 'Start AI Partner Plan',
     isPopular: false,
     commitment: '6 months'
   }
