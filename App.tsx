@@ -36,6 +36,12 @@ const ForChiropractors = lazy(() => import('./pages/ForChiropractors').then(m =>
 const ForInsuranceAgents = lazy(() => import('./pages/ForInsuranceAgents').then(m => ({ default: m.ForInsuranceAgents })));
 const ForFinancialAdvisors = lazy(() => import('./pages/ForFinancialAdvisors').then(m => ({ default: m.ForFinancialAdvisors })));
 const ForVeterinarians = lazy(() => import('./pages/ForVeterinarians').then(m => ({ default: m.ForVeterinarians })));
+const ForRestaurants = lazy(() => import('./pages/ForRestaurants').then(m => ({ default: m.ForRestaurants })));
+const ForHomeServices = lazy(() => import('./pages/ForHomeServices').then(m => ({ default: m.ForHomeServices })));
+const ForMedSpas = lazy(() => import('./pages/ForMedSpas').then(m => ({ default: m.ForMedSpas })));
+const ForMortgageBrokers = lazy(() => import('./pages/ForMortgageBrokers').then(m => ({ default: m.ForMortgageBrokers })));
+const ForAutoRepair = lazy(() => import('./pages/ForAutoRepair').then(m => ({ default: m.ForAutoRepair })));
+const ForGyms = lazy(() => import('./pages/ForGyms').then(m => ({ default: m.ForGyms })));
 
 const PortalLogin = lazy(() => import('./pages/PortalLogin').then(m => ({ default: m.PortalLogin })));
 const AuthCallback = lazy(() => import('./pages/AuthCallback').then(m => ({ default: m.AuthCallback })));
@@ -153,6 +159,12 @@ const App: React.FC = () => {
                       <Route path="/for-insurance-agents" element={<ForInsuranceAgents />} />
                       <Route path="/for-financial-advisors" element={<ForFinancialAdvisors />} />
                       <Route path="/for-veterinarians" element={<ForVeterinarians />} />
+                      <Route path="/for-restaurants" element={<ForRestaurants />} />
+                      <Route path="/for-home-services" element={<ForHomeServices />} />
+                      <Route path="/for-med-spas" element={<ForMedSpas />} />
+                      <Route path="/for-mortgage-brokers" element={<ForMortgageBrokers />} />
+                      <Route path="/for-auto-repair" element={<ForAutoRepair />} />
+                      <Route path="/for-gyms" element={<ForGyms />} />
 
                       <Route path="*" element={<NotFound />} />
                     </Routes>
