@@ -286,9 +286,9 @@ export const PRICING_TIERS: PricingTier[] = [
     isPopular: false
   },
   {
-    name: 'AI Partner',
+    name: 'Automation',
     price: '$7,500+',
-    description: 'For businesses that want a full AI system with ongoing support — no lead falls through the cracks.',
+    description: 'For businesses ready to automate lead follow-up — get everything built and handed over, no lead falls through the cracks.',
     features: [
       'Full website (as many pages as you need)',
       'AI that answers calls and messages 24/7',
@@ -300,9 +300,9 @@ export const PRICING_TIERS: PricingTier[] = [
     isPopular: true
   },
   {
-    name: 'Scale',
+    name: 'AI Partner',
     price: 'Custom',
-    description: 'For established businesses ready to run like a bigger company.',
+    description: 'For established businesses that want a fully custom AI system built for them — we become your dedicated tech team.',
     features: [
       'Custom client portal or app',
       'AI trained specifically for your business',
@@ -480,7 +480,7 @@ export const PRICING_FAQ_ONE_TIME = [
   { q: "Why does the price say '+' after it?", a: "Most projects hit the base price. Sometimes extra work like moving lots of old data adds a bit. You'll know the exact cost after a quick call - no surprises." },
   { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
   { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
-  { q: "What if I just need something small?", a: "Our monthly Starter plan begins at just $500 setup + $149/month. If you prefer a one-time payment, projects start at $3,500. Either way, we build complete solutions - not quick fixes." },
+  { q: "What if I just need something small?", a: "Our monthly Foundation plan begins at just $500 setup + $149/month. If you prefer a one-time payment, projects start at $3,500. Either way, we build complete solutions - not quick fixes." },
   { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." },
   { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
   { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },
@@ -502,7 +502,7 @@ export const PRICING_FAQ = [
   { q: "Why does the price say '+' after it?", a: "Most projects hit the base price. Sometimes extra work like moving lots of old data adds a bit. You'll know the exact cost after a quick call - no surprises." },
   { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
   { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
-  { q: "What if I just need something small?", a: "Our monthly Starter plan begins at just $500 setup + $149/month. If you prefer a one-time payment, projects start at $3,500. Either way, we build complete solutions - not quick fixes." },
+  { q: "What if I just need something small?", a: "Our monthly Foundation plan begins at just $500 setup + $149/month. If you prefer a one-time payment, projects start at $3,500. Either way, we build complete solutions - not quick fixes." },
   { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." },
   { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
   { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },

@@ -407,7 +407,7 @@ export const Pricing: React.FC = () => {
               <div role="rowgroup" className="bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
                 <div role="row" className="grid grid-cols-4 p-6">
                   <div role="columnheader" className="col-span-1"></div>
-                  {(pricingMode === 'one-time' ? ['Foundation', 'AI Partner', 'Scale'] : ['Foundation', 'Automation', 'AI Partner']).map((h, i) => (
+                  {(pricingMode === 'one-time' ? ['Foundation', 'Automation', 'AI Partner'] : ['Foundation', 'Automation', 'AI Partner']).map((h, i) => (
                     <div
                       key={i}
                       role="columnheader"
