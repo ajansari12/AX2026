@@ -152,6 +152,13 @@ export const Header: React.FC = () => {
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
+          <NavLink
+            to="/ai-audit"
+            className="flex items-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+          >
+            Free AI Audit
+            <span className="text-xs px-1.5 py-0.5 bg-emerald-500 text-white rounded-full font-bold leading-none">Free</span>
+          </NavLink>
           <NavLink to="/contact" className={`text-sm font-medium transition-colors ${scrolled ? 'hidden lg:block' : ''} text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-md`}>
             Get a Quote
           </NavLink>
@@ -244,6 +251,14 @@ export const Header: React.FC = () => {
                   <Calendar size={20} />
                   Book a Call
                 </button>
+                <NavLink
+                  onClick={() => setIsOpen(false)}
+                  to="/ai-audit"
+                  className="w-full text-center py-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 font-bold text-lg flex items-center justify-center gap-2 border border-emerald-200 dark:border-emerald-800"
+                >
+                  Free AI Audit
+                  <span className="text-xs px-1.5 py-0.5 bg-emerald-500 text-white rounded-full font-bold leading-none">Free</span>
+                </NavLink>
                 <NavLink onClick={() => setIsOpen(false)} to="/contact" className="w-full text-center py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-bold text-lg">
                   Get a Quote
                 </NavLink>

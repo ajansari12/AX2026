@@ -690,6 +690,29 @@ export const Home: React.FC = () => {
         </Container>
       </Section>
 
+      <Section className="py-20 text-center bg-gray-50 dark:bg-gray-900/30">
+        <Container size="md">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest mb-8 border border-emerald-100 dark:border-emerald-800">
+            Free · No Commitment · 2 Minutes
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+            See your automation potential.
+          </h2>
+          <p className="text-xl text-gray-500 dark:text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed">
+            Answer 6 questions. We'll calculate exactly how much time and revenue you could recover.
+          </p>
+          <NavLink
+            to="/ai-audit"
+            className="inline-flex items-center gap-2 px-10 py-5 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg"
+          >
+            <Zap size={20} />
+            Run My Free AI Audit
+            <ArrowRight size={18} />
+          </NavLink>
+          <p className="text-sm text-gray-400 mt-4">No email required to see your results</p>
+        </Container>
+      </Section>
+
       {/* 9. Final CTA */}
       <Section className="pb-32">
         <div className="bg-black dark:bg-gray-900 rounded-[3rem] p-12 md:p-32 text-center relative overflow-hidden shadow-2xl dark:shadow-emerald-900/10 border border-transparent dark:border-white/5">

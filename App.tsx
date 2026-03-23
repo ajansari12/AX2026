@@ -52,6 +52,7 @@ const PortalReferrals = lazy(() => import('./pages/PortalReferrals').then(m => (
 const ROICalculatorPage = lazy(() => import('./pages/ROICalculatorPage').then(m => ({ default: m.ROICalculatorPage })));
 const HelpCenter = lazy(() => import('./pages/HelpCenter').then(m => ({ default: m.HelpCenter })));
 const BundleDetail = lazy(() => import('./pages/BundleDetail').then(m => ({ default: m.BundleDetail })));
+const AISystemsAudit = lazy(() => import('./pages/AISystemsAudit').then(m => ({ default: m.AISystemsAudit })));
 
 // Initialize monitoring on app load
 if (typeof window !== 'undefined') {
@@ -141,6 +142,7 @@ const App: React.FC = () => {
                       <Route path="/admin" element={<Admin />} />
                       <Route path="/roi-calculator" element={<ROICalculatorPage />} />
                       <Route path="/help" element={<HelpCenter />} />
+                      <Route path="/ai-audit" element={<AISystemsAudit />} />
 
                       <Route path="/for-dentists" element={<ForDentists />} />
                       <Route path="/for-lawyers" element={<ForLawyers />} />

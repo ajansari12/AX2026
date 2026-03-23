@@ -249,13 +249,13 @@ export const Pricing: React.FC = () => {
               Not sure which plan is right?
             </h2>
             <p className="text-lg text-gray-300 dark:text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
-              Get a Free AI Systems Audit. We'll analyze your business and show you exactly which automations would generate the most return — no commitment required.
+              Answer 6 questions. See your Automation Score and top 3 recommendations in 2 minutes — no email required.
             </p>
             <NavLink
-              to="/contact?subject=Free+AI+Audit+Request"
+              to="/ai-audit"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-bold rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-base shadow-lg hover:shadow-xl active:scale-95"
             >
-              Get My Free Audit <ArrowRight size={18} />
+              Get My Free AI Audit <ArrowRight size={18} />
             </NavLink>
           </div>
         </Container>
