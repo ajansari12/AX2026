@@ -6,6 +6,7 @@ export interface BlogAuthor {
   name: string;
   role: string;
   avatar_url: string;
+  bio: string;
 }
 
 export interface BlogPost {
@@ -58,7 +59,8 @@ export function useBlogPosts(options?: { featured?: boolean; limit?: number }): 
             id,
             name,
             role,
-            avatar_url
+            avatar_url,
+            bio
           )
         `)
         .eq('status', 'published')
@@ -95,6 +97,7 @@ export function useBlogPosts(options?: { featured?: boolean; limit?: number }): 
           name: post.authors?.name || 'Unknown Author',
           role: post.authors?.role || '',
           avatar_url: post.authors?.avatar_url || '',
+          bio: post.authors?.bio || '',
         },
       }));
 
@@ -145,7 +148,8 @@ export function useBlogPost(slug: string) {
               id,
               name,
               role,
-              avatar_url
+              avatar_url,
+              bio
             )
           `)
           .eq('slug', slug)
@@ -174,6 +178,7 @@ export function useBlogPost(slug: string) {
               name: (data.authors as any)?.name || 'Unknown Author',
               role: (data.authors as any)?.role || '',
               avatar_url: (data.authors as any)?.avatar_url || '',
+              bio: (data.authors as any)?.bio || '',
             },
           });
         } else {

@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { Section, FadeIn, Button, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { BLOG_POSTS } from '../constants';
 import { useBlogPosts, useBlogPost, BlogPost as DBBlogPost } from '../hooks/useBlogPosts';
-import { ArrowLeft, Clock, Calendar, Search, Twitter, Linkedin, Link2, Loader2 } from 'lucide-react';
+import { Clock, Calendar, Search, Twitter, Linkedin, Link2, Loader as Loader2 } from 'lucide-react';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { IllustratedAvatar } from '../components/IllustratedAvatar';
 import { InlineBlogCTA } from '../components/InlineBlogCTA';
@@ -23,6 +24,7 @@ interface DisplayPost {
     name: string;
     role: string;
     avatar: string;
+    bio: string;
   };
   featured?: boolean;
 }
@@ -41,6 +43,7 @@ const mapDBPostToDisplay = (post: DBBlogPost): DisplayPost => ({
     name: post.author.name,
     role: post.author.role,
     avatar: post.author.avatar_url,
+    bio: post.author.bio,
   },
   featured: post.featured,
 });
@@ -59,6 +62,7 @@ const mapConstantToDisplay = (post: typeof BLOG_POSTS[0]): DisplayPost => ({
     name: post.author.name,
     role: post.author.role,
     avatar: post.author.avatar,
+    bio: '',
   },
   featured: post.featured,
 });
@@ -120,6 +124,7 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
       "@type": "Person",
       "name": post.author.name,
       "jobTitle": post.author.role,
+      "description": post.author.bio || undefined,
       "url": "https://axrategy.com/about"
     },
     "publisher": {
@@ -133,9 +138,9 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
     }
   };
 
-  const relatedPosts = allPosts
-    .filter(p => p.category === post.category && p.id !== post.id)
-    .slice(0, 3);
+  const sameCategoryPosts = allPosts.filter(p => p.category === post.category && p.id !== post.id);
+  const otherPosts = allPosts.filter(p => p.category !== post.category && p.id !== post.id);
+  const relatedPosts = [...sameCategoryPosts, ...otherPosts].slice(0, 3);
 
   const toc = post.content.match(/<h2>(.*?)<\/h2>/g)?.map(tag => tag.replace(/<\/?h2>/g, '')) || [];
 
@@ -151,9 +156,13 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
 
       <Section className="pt-32 pb-16 border-b border-gray-100 dark:border-gray-800">
         <Container size="lg">
-          <NavLink to="/insights" className="inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-black dark:hover:text-white mb-10 transition-colors">
-            <ArrowLeft size={16} /> Back to Insights
-          </NavLink>
+          <Breadcrumbs
+            items={[
+              { label: 'Insights', path: '/insights' },
+              { label: post.title },
+            ]}
+            className="mb-10"
+          />
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest rounded-full mb-8">
               {post.category}
@@ -236,13 +245,31 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
             <div className="mt-12 not-prose">
               <InlineBlogCTA />
             </div>
+
+            {post.author.name && (
+              <div className="mt-12 not-prose border-t border-gray-100 dark:border-gray-800 pt-10">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">About the Author</p>
+                <div className="flex items-start gap-5">
+                  <div className="flex-shrink-0">
+                    <IllustratedAvatar name={post.author.name} size="lg" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-gray-900 dark:text-white leading-none">{post.author.name}</p>
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400 font-semibold mt-1 mb-3">{post.author.role}</p>
+                    {post.author.bio && (
+                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{post.author.bio}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {relatedPosts.length > 0 && (
           <div className="max-w-4xl mx-auto mt-24 border-t border-gray-100 dark:border-gray-800 pt-20">
             <div className="flex items-center justify-between mb-10">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Read Next</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Related Articles</h3>
               <NavLink to="/insights" className="text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline">View All</NavLink>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -252,7 +279,8 @@ const PostDetailView: React.FC<{ slug: string }> = ({ slug }) => {
                     <img src={rp.image} alt={rp.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   </div>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{rp.category}</p>
-                  <h4 className="font-bold text-gray-900 dark:text-white leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{rp.title}</h4>
+                  <h4 className="font-bold text-gray-900 dark:text-white leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2">{rp.title}</h4>
+                  <p className="text-xs text-gray-400 font-medium">{rp.date} &middot; {rp.readTime}</p>
                 </NavLink>
               ))}
             </div>
