@@ -108,6 +108,37 @@ export const Home: React.FC = () => {
             }
           }
         ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "How Axrategy Works",
+        "description": "Our 4-step process to automate your business, build your website, and give you full ownership with no ongoing fees.",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "We Figure Out the Problem",
+            "text": "A quick call to understand what's eating up your time and where automation or a better website will have the biggest impact."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "We Map Out the Fix",
+            "text": "You'll see exactly what we're building before we start — a clear blueprint so there are no surprises."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "We Build It For You",
+            "text": "Website, automations, AI — whatever you need. We handle all the technical work so you don't have to."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "It's Yours Forever",
+            "text": "Full ownership, training, and no monthly fees to us. The website, the code, all the accounts — it's all yours."
+          }
+        ]
       }
     ]
   };
