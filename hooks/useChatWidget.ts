@@ -75,7 +75,7 @@ export function useChatWidget() {
   }, [sendMessage]);
 
   const handleBookCall = useCallback(() => {
-    window.open('/#/contact', '_self');
+    window.open('/contact', '_self');
     setIsOpen(false);
   }, []);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ExitIntentModal } from './components/UI';
 import { ChatWidget } from './components/ChatWidget';
@@ -116,6 +116,8 @@ const App: React.FC = () => {
                   <main id="main-content">
                     <Routes>
                       <Route path="/" element={<Home />} />
+                      <Route path="/services/ai-workflow-automation" element={<Navigate to="/services/ai-assistants" replace />} />
+                      <Route path="/services/no-code-low-code-solutions" element={<Navigate to="/services" replace />} />
                       <Route path="/services" element={<Services />} />
                       <Route path="/services/:slug" element={<Services />} />
 

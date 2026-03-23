@@ -56,7 +56,7 @@ export const Pricing: React.FC = () => {
     <>
       <SEO
         title="Pricing & Packages"
-        description="Website + AI automation packages starting at $149/month or $3,500 one-time. Flexible pricing, 4-6 week delivery. No surprises."
+        description="AI automation systems starting at $397/month or $4,500 one-time. Built for your specific industry. You own everything."
         schema={pricingSchema}
       />
 

@@ -24,10 +24,10 @@ Contact: hello@axrategy.com | Website: axrategy.com | Booking: cal.com/axrategy/
 
 ## Services We Offer
 
-1. **AI That Answers For You** - 2-3 weeks
-   - AI assistant responds instantly to calls/messages 24/7
-   - Answers FAQs, books appointments, qualifies leads
-   - Sounds natural, handles objections
+1. **AI Chat Assistant** - 2-3 weeks
+   - AI assistant responds instantly to website messages 24/7
+   - Handles FAQs, booking questions, qualifies leads
+   - For phone call AI, we set up a dedicated phone system per client (ask us)
    - Best for: Clinics, Agencies, Realtors, Service businesses
 
 2. **Automatic Follow-Ups** - 3-5 weeks
@@ -63,18 +63,17 @@ Contact: hello@axrategy.com | Website: axrategy.com | Booking: cal.com/axrategy/
 ## Pricing Options
 
 ### MONTHLY PARTNERSHIP (Most popular - ongoing optimization & support)
-- **Starter ($500 setup + $149/mo)**: Professional website, contact forms, monthly updates, hosting included
-- **Professional ($1,200 setup + $349/mo)**: Website + AI assistant + CRM + bi-weekly strategy calls (Most Popular)
-- **Growth ($2,500 setup + $649/mo)**: Full stack + dedicated support + weekly calls + priority response
+- **Foundation ($997 setup + $397/mo)**: Professional website, contact forms, monthly updates, hosting management included
+- **Automation ($1,997 setup + $697/mo)**: Website + AI chat assistant + CRM + bi-weekly strategy calls (Most Popular)
+- **AI Partner ($3,500 setup + $1,197/mo)**: Full stack + dedicated account manager + weekly calls + priority 1-hour response
 - All monthly plans have a 6-month minimum commitment
 
 ### ONE-TIME PAYMENT (Own everything, no monthly fees to us)
-- **Starter ($3,500+)**: Professional website, contact forms, 30 days support
-- **Growth ($7,500+)**: Website + AI assistant + CRM + automation, 90 days support
-- **Scale (Custom)**: Custom portal/app + advanced AI + dedicated support
-- Payment: 50% upfront, 50% at launch. Larger projects can split into more payments.
+- **Foundation ($4,500+)**: Professional website, contact forms, 30 days support, full code ownership
+- **Automation ($11,500+)**: Website + AI assistant + CRM + automation + 90 days support
+- **AI Partner (Custom)**: Custom portal/app + advanced AI + dedicated support
 
-When asked about pricing, ALWAYS mention the monthly option first since it has a lower barrier to entry. Many visitors are surprised to learn they can get started for as little as $500 + $149/month.
+When asked about pricing, always present the monthly option first since it has a lower barrier to entry. The most common starting point is the Automation monthly plan at $1,997 setup + $697/month.
 
 ## Process (6 weeks typical)
 1. **Week 1**: Free discovery call to understand your business and goals
@@ -90,12 +89,10 @@ When asked about pricing, ALWAYS mention the monthly option first since it has a
 - **Real support**: 30-90 days included support, not just a handoff
 
 ## Success Stories (Real Results)
-- Dental clinic: 47 new appointments/month with AI assistant
-- Law firm: 3x faster client intake with portal
-- Contractor: $127K additional revenue from automated follow-ups
-- Consultant: 2x bookings with new website
-- Real estate: $2M in closed deals attributed to automation
-- E-commerce: 156% increase in repeat purchases
+- Dental clinic: 30% reduction in no-shows = $32K saved annually
+- Automation systems: Leads responded to in under 8 seconds (vs hours manually)
+- Client intake: 3x faster document collection with portal vs email
+- AI chat: Available 24/7, never misses an inquiry
 
 ## Tone Guidelines
 - Be friendly and helpful, not salesy
@@ -279,6 +276,7 @@ Deno.serve(async (req: Request) => {
 
     let systemPrompt: string;
     let maxTokens = 1024;
+    let hasProvidedEmail = false;
 
     if (isDemo && demoContext) {
       systemPrompt = `You are the AI front-desk assistant for ${demoContext.businessName}, a ${demoContext.industry} business that specializes in ${demoContext.primaryService}.
@@ -299,7 +297,7 @@ Deno.serve(async (req: Request) => {
       maxTokens = 512;
     } else {
       const hasBuyingIntent = detectBuyingIntent(messages);
-      const hasProvidedEmail = messages.some(m => extractEmail(m.content));
+      hasProvidedEmail = messages.some(m => extractEmail(m.content) !== null);
 
       systemPrompt = SYSTEM_PROMPT;
       if (hasBuyingIntent && !hasProvidedEmail && messages.length >= 4) {

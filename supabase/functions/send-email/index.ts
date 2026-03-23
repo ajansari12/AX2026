@@ -76,8 +76,8 @@ interface ResourceDownloadEmailPayload {
 type EmailPayload = LeadEmailPayload | BookingEmailPayload | DailyDigestPayload | LeadStatusChangePayload | ProposalEmailPayload | ResourceDownloadEmailPayload;
 
 // Admin notification email address
-const ADMIN_EMAIL = "hi@axrategy.com";
-const FROM_EMAIL = "Axrategy <noreply@axrategy.com>";
+const ADMIN_EMAIL = "hello@axrategy.com";
+const FROM_EMAIL = "Axrategy <hello@axrategy.com>";
 
 function generateAdminEmailHtml(lead: LeadEmailPayload["lead"]): string {
   const pricingLabel = lead.pricing_preference === 'one_time' ? 'One-time (Own Everything)'

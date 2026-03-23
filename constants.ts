@@ -273,8 +273,8 @@ export const CASE_STUDIES: CaseStudy[] = [
 export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'Foundation',
-    price: '$3,500+',
-    description: 'For businesses starting their digital presence — get a professional website and the tools to be found online.',
+    price: '$4,500+',
+    description: 'A professional website and local SEO setup. Full ownership from day one — code, accounts, everything.',
     features: [
       'Professional 5-page website',
       'Contact and booking forms',
@@ -287,8 +287,8 @@ export const PRICING_TIERS: PricingTier[] = [
   },
   {
     name: 'Automation',
-    price: '$7,500+',
-    description: 'For businesses ready to automate lead follow-up — get everything built and handed over, no lead falls through the cracks.',
+    price: '$11,500+',
+    description: 'Your complete AI + automation system. Website, AI chat assistant, CRM setup, follow-up sequences, and 90 days of post-launch support.',
     features: [
       'Full website (as many pages as you need)',
       'AI that answers calls and messages 24/7',
@@ -318,8 +318,8 @@ export const PRICING_TIERS: PricingTier[] = [
 export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   {
     name: 'Foundation',
-    setupFee: '$500',
-    monthlyPrice: '$149',
+    setupFee: '$997',
+    monthlyPrice: '$397',
     description: 'For businesses starting their digital presence — a professional website with ongoing support included.',
     features: [
       'Professional 5-page website',
@@ -339,8 +339,8 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   },
   {
     name: 'Automation',
-    setupFee: '$1,200',
-    monthlyPrice: '$349',
+    setupFee: '$1,997',
+    monthlyPrice: '$697',
     description: 'For businesses ready to automate lead follow-up — AI that works 24/7 so no prospect is ever missed.',
     features: [
       'Full website (unlimited pages)',
@@ -360,8 +360,8 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   },
   {
     name: 'AI Partner',
-    setupFee: '$2,500',
-    monthlyPrice: '$649',
+    setupFee: '$3,500',
+    monthlyPrice: '$1,197',
     description: 'For businesses that want a full AI system with ongoing support — we become your dedicated tech team.',
     features: [
       'Custom client portal or app',
