@@ -3,7 +3,7 @@ import { Section, Container, FadeIn } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
 import { supabase } from '../lib/supabase';
-import { Zap, Clock, DollarSign, TrendingUp, Check, ArrowRight, Calendar, CircleCheck as CheckCircle, Loader as Loader2 } from 'lucide-react';
+import { Zap, Clock, DollarSign, TrendingUp, Check, ArrowRight, Calendar, CircleCheck as CheckCircle, Loader as Loader2, TriangleAlert as AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const INDUSTRY_DATA: Record<string, { hoursSaved: number; hourlyValue: number; leadValue: number; label: string }> = {
@@ -78,6 +78,13 @@ interface AuditFormData {
   websiteUrl: string;
 }
 
+interface AiAnalysis {
+  headline: string;
+  insight: string;
+  topRecommendation: { title: string; description: string; effort: string; impact: string; timeline: string };
+  riskIfDelayed: string;
+}
+
 interface AuditResults {
   score: number;
   hoursSaved: number;
@@ -85,6 +92,7 @@ interface AuditResults {
   opportunityText: string;
   recommendations: { title: string; desc: string; effort: string; impact: string; timeline: string }[];
   scoreBreakdown: { label: string; score: number; max: number }[];
+  aiAnalysis?: AiAnalysis | null;
 }
 
 type Step = 'form' | 'analyzing' | 'results';
@@ -204,7 +212,32 @@ export const AISystemsAudit: React.FC = () => {
       console.log('Could not save audit result');
     }
 
-    setResults(auditResults);
+    let aiAnalysis: AiAnalysis | null = null;
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const aiResponse = await fetch(`${supabaseUrl}/functions/v1/ai-audit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+        },
+        body: JSON.stringify({
+          ...formData,
+          score,
+          monthlyImpact,
+          hoursSaved,
+        }),
+      });
+      if (aiResponse.ok) {
+        const aiData = await aiResponse.json();
+        if (aiData.success) aiAnalysis = aiData.analysis;
+      }
+    } catch (e) {
+      console.warn('AI analysis unavailable, using defaults', e);
+    }
+
+    setResults({ ...auditResults, aiAnalysis });
     setStep('results');
   }, [formData]);
 
@@ -588,6 +621,37 @@ export const AISystemsAudit: React.FC = () => {
                     ))}
                   </div>
                 </div>
+
+                {results.aiAnalysis && (
+                  <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 rounded-2xl p-6 md:p-8 text-white dark:text-gray-900">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                      <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 dark:text-emerald-600">AI Analysis — Personalized for You</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold mb-4">{results.aiAnalysis.headline}</h3>
+                    <p className="text-gray-300 dark:text-gray-600 mb-6 leading-relaxed">{results.aiAnalysis.insight}</p>
+
+                    <div className="bg-white/10 dark:bg-black/10 rounded-xl p-5 mb-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-xs font-bold uppercase tracking-wide text-emerald-400 dark:text-emerald-600">Top Priority</span>
+                      </div>
+                      <h4 className="font-bold text-lg mb-2">{results.aiAnalysis.topRecommendation.title}</h4>
+                      <p className="text-sm text-gray-300 dark:text-gray-600 mb-4">{results.aiAnalysis.topRecommendation.description}</p>
+                      <div className="flex gap-3 flex-wrap">
+                        <span className="text-xs px-2 py-1 bg-white/20 dark:bg-black/20 rounded-full">Effort: {results.aiAnalysis.topRecommendation.effort}</span>
+                        <span className="text-xs px-2 py-1 bg-white/20 dark:bg-black/20 rounded-full">Impact: {results.aiAnalysis.topRecommendation.impact}</span>
+                        <span className="text-xs px-2 py-1 bg-white/20 dark:bg-black/20 rounded-full">{results.aiAnalysis.topRecommendation.timeline}</span>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-white/20 dark:border-black/20 pt-5">
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle size={15} className="text-amber-300 dark:text-amber-700 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-amber-300 dark:text-amber-700 font-medium">{results.aiAnalysis.riskIfDelayed}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Your Top 3 Recommendations</h3>
