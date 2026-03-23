@@ -63,17 +63,17 @@ Contact: hello@axrategy.com | Website: axrategy.com | Booking: cal.com/axrategy/
 ## Pricing Options
 
 ### MONTHLY PARTNERSHIP (Most popular - ongoing optimization & support)
-- **Foundation ($997 setup + $397/mo)**: Professional website, contact forms, monthly updates, hosting management included
-- **Automation ($1,997 setup + $697/mo)**: Website + AI chat assistant + CRM + bi-weekly strategy calls (Most Popular)
-- **AI Partner ($3,500 setup + $1,197/mo)**: Full stack + dedicated account manager + weekly calls + priority 1-hour response
+- **Foundation ($297 setup + $197/mo)**: Professional website, contact forms, monthly updates, hosting management included
+- **Automation ($797 setup + $397/mo)**: Website + AI chat assistant + CRM + bi-weekly strategy calls (Most Popular)
+- **AI Partner ($1,497 setup + $797/mo)**: Full stack + dedicated account manager + weekly calls + priority 1-hour response
 - All monthly plans have a 6-month minimum commitment
 
 ### ONE-TIME PAYMENT (Own everything, no monthly fees to us)
-- **Foundation ($4,500+)**: Professional website, contact forms, 30 days support, full code ownership
-- **Automation ($11,500+)**: Website + AI assistant + CRM + automation + 90 days support
+- **Foundation ($2,500+)**: Professional website, contact forms, 30 days support, full code ownership
+- **Automation ($5,500+)**: Website + AI assistant + CRM + automation + 90 days support
 - **AI Partner (Custom)**: Custom portal/app + advanced AI + dedicated support
 
-When asked about pricing, always present the monthly option first since it has a lower barrier to entry. The most common starting point is the Automation monthly plan at $1,997 setup + $697/month.
+When asked about pricing, always present the monthly option first since it has a lower barrier to entry. The most common starting point is the Automation monthly plan at $797 setup + $397/month.
 
 ## Process (6 weeks typical)
 1. **Week 1**: Free discovery call to understand your business and goals

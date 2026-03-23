@@ -32,7 +32,7 @@ export const Pricing: React.FC = () => {
       {
         "@type": "WebPage",
         "name": "Pricing & Packages | Axrategy",
-        "description": "Website + AI automation packages starting at $149/month. Flexible pricing, no surprises.",
+        "description": "AI automation for small businesses starting at $197/mo. No lock-in after 6 months. Built for Canadian and North American SMBs.",
         "publisher": {
           "@type": "Organization",
           "name": "Axrategy"
@@ -56,7 +56,7 @@ export const Pricing: React.FC = () => {
     <>
       <SEO
         title="Pricing & Packages"
-        description="AI automation systems starting at $397/month or $4,500 one-time. Built for your specific industry. You own everything."
+        description="AI automation for small businesses starting at $197/mo. No lock-in after 6 months. Built for Canadian and North American SMBs."
         schema={pricingSchema}
       />
 
@@ -341,7 +341,7 @@ export const Pricing: React.FC = () => {
             <div className="flex-1">
               <p className="font-bold text-gray-900 dark:text-white mb-1">Not ready for a full plan?</p>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
-                Start with our standalone AI Receptionist at $299/month. No consulting required — just an AI trained for your business, live on your website in 48 hours.
+                Start with our standalone AI Receptionist at $99/month. No consulting required — just an AI trained for your business, live on your website in 48 hours.
               </p>
             </div>
             <NavLink

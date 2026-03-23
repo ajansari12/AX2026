@@ -232,7 +232,7 @@ export const ChatWidgetDemo: React.FC<ChatWidgetDemoProps> = ({ onCheckout }) =>
                 exit={{ y: -40, opacity: 0 }}
                 className="absolute top-0 left-0 right-0 z-20 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-medium text-center py-2 px-4"
               >
-                This is a live AI assistant — trained for your business. Get it on your site starting at $299/mo
+                This is a live AI assistant — trained for your business. Get it on your site starting at $99/mo — no setup fee, live in 48 hours
               </motion.div>
             )}
           </AnimatePresence>
@@ -451,7 +451,7 @@ export const ChatWidgetDemo: React.FC<ChatWidgetDemoProps> = ({ onCheckout }) =>
                   disabled={!email.trim()}
                   className="w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all active:scale-95 text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Get This for My Business — $299/mo
+                  Get This for My Business — $99/mo
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <button

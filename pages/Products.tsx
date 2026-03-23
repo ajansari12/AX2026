@@ -92,7 +92,7 @@ const ProductCatalog: React.FC = () => {
                 to="/products/ai-chat-widget"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-transparent border border-gray-700 text-gray-300 font-semibold rounded-2xl hover:border-gray-500 hover:text-white transition-all text-sm whitespace-nowrap"
               >
-                Get It On My Site — $299/mo
+                Get It On My Site — $99/mo
               </NavLink>
             </div>
           </motion.div>

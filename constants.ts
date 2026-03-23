@@ -273,7 +273,7 @@ export const CASE_STUDIES: CaseStudy[] = [
 export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'Foundation',
-    price: '$4,500+',
+    price: '$2,500+',
     description: 'A professional website and local SEO setup. Full ownership from day one — code, accounts, everything.',
     features: [
       'Professional 5-page website',
@@ -287,7 +287,7 @@ export const PRICING_TIERS: PricingTier[] = [
   },
   {
     name: 'Automation',
-    price: '$11,500+',
+    price: '$5,500+',
     description: 'Your complete AI + automation system. Website, AI chat assistant, CRM setup, follow-up sequences, and 90 days of post-launch support.',
     features: [
       'Full website (as many pages as you need)',
@@ -318,8 +318,8 @@ export const PRICING_TIERS: PricingTier[] = [
 export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   {
     name: 'Foundation',
-    setupFee: '$997',
-    monthlyPrice: '$397',
+    setupFee: '$297',
+    monthlyPrice: '$197',
     description: 'For businesses starting their digital presence — a professional website with ongoing support included.',
     features: [
       'Professional 5-page website',
@@ -339,8 +339,8 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   },
   {
     name: 'Automation',
-    setupFee: '$1,997',
-    monthlyPrice: '$697',
+    setupFee: '$797',
+    monthlyPrice: '$397',
     description: 'For businesses ready to automate lead follow-up — AI that works 24/7 so no prospect is ever missed.',
     features: [
       'Full website (unlimited pages)',
@@ -360,8 +360,8 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
   },
   {
     name: 'AI Partner',
-    setupFee: '$3,500',
-    monthlyPrice: '$1,197',
+    setupFee: '$1,497',
+    monthlyPrice: '$797',
     description: 'For businesses that want a full AI system with ongoing support — we become your dedicated tech team.',
     features: [
       'Custom client portal or app',
@@ -480,7 +480,7 @@ export const PRICING_FAQ_ONE_TIME = [
   { q: "Why does the price say '+' after it?", a: "Most projects hit the base price. Sometimes extra work like moving lots of old data adds a bit. You'll know the exact cost after a quick call - no surprises." },
   { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
   { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
-  { q: "What if I just need something small?", a: "Our monthly Foundation plan begins at just $500 setup + $149/month. If you prefer a one-time payment, projects start at $3,500. Either way, we build complete solutions - not quick fixes." },
+  { q: "What if I just need something small?", a: "Our monthly Foundation plan begins at just $297 setup + $197/month. If you prefer a one-time payment, projects start at $2,500. Either way, we build complete solutions - not quick fixes." },
   { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." },
   { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
   { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },
@@ -502,7 +502,7 @@ export const PRICING_FAQ = [
   { q: "Why does the price say '+' after it?", a: "Most projects hit the base price. Sometimes extra work like moving lots of old data adds a bit. You'll know the exact cost after a quick call - no surprises." },
   { q: "Can I pay in installments?", a: "Yes. Half upfront, half when we launch. For bigger projects, we can break it into more payments." },
   { q: "What will I pay each month after?", a: "Nothing to us. You'll pay directly for things like website hosting and your CRM (usually $50-150/month total). We don't take a cut." },
-  { q: "What if I just need something small?", a: "Our monthly Foundation plan begins at just $500 setup + $149/month. If you prefer a one-time payment, projects start at $3,500. Either way, we build complete solutions - not quick fixes." },
+  { q: "What if I just need something small?", a: "Our monthly Foundation plan begins at just $297 setup + $197/month. If you prefer a one-time payment, projects start at $2,500. Either way, we build complete solutions - not quick fixes." },
   { q: "Do I own everything when we're done?", a: "Yes, 100%. The website, the code, all the accounts - it's all yours. No monthly fees to us. No strings attached." },
   { q: "What if I'm not tech-savvy?", a: "Perfect—that's exactly who we help. We handle all the technical setup. You just tell us how you want things to work, and we build it. No coding or tech skills required on your end." },
   { q: "How long until I see results?", a: "Most clients see their first automated booking within 48 hours of launch. ROI typically comes within 30-60 days depending on your lead volume." },
