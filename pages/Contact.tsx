@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Section, Button } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { Mail, MapPin, Clock, Check, Loader2, AlertCircle, Calendar } from 'lucide-react';
+import { Mail, MapPin, Clock, Check, Loader as Loader2, CircleAlert as AlertCircle, Calendar } from 'lucide-react';
 import { SERVICES } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLeads } from '../hooks/useLeads';
@@ -78,7 +78,7 @@ export const Contact: React.FC = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(search);
-    const serviceParam = params.get('service');
+    const serviceParam = params.get('service') || params.get('subject');
     if (serviceParam) {
       setFormData(prev => ({ ...prev, service: decodeURIComponent(serviceParam) }));
     }
@@ -319,6 +319,7 @@ export const Contact: React.FC = () => {
                       className="w-full px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 transition-all text-lg appearance-none cursor-pointer"
                      >
                        <option value="General Inquiry">General Inquiry</option>
+                       <option value="Free AI Audit Request">Free AI Systems Audit</option>
                        {SERVICES.map(service => (
                          <option key={service.id} value={service.title}>{service.title}</option>
                        ))}
