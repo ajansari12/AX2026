@@ -8,7 +8,7 @@ import { ProductCard } from '../components/products/ProductCard';
 import { ProductDetail } from '../components/products/ProductDetail';
 import { ProductBundles } from '../components/products/ProductBundles';
 import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
-import { Calendar, ArrowRight, Sparkles, Repeat, Wrench } from 'lucide-react';
+import { Calendar, ArrowRight, Sparkles, Repeat, Wrench, Bot } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const CATEGORIES: { key: ProductCategory | 'all'; label: string; icon: React.ElementType; description: string }[] = [
@@ -60,6 +60,42 @@ const ProductCatalog: React.FC = () => {
               Ready-to-use products you can buy right now. No proposal process, no multi-week wait. Pick what you need and get started today.
             </p>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-12 rounded-3xl bg-gray-950 dark:bg-gray-900 border border-gray-800 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-8"
+          >
+            <div className="flex-1 min-w-0">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Live Demo Available
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">AI Receptionist</h2>
+              <p className="text-base font-semibold text-gray-300 mb-3">Try before you buy — personalized to your business</p>
+              <p className="text-gray-400 text-sm leading-relaxed max-w-xl">
+                See exactly what an AI assistant for YOUR business looks like. Enter your business name and chat with it live — then get it on your website.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 flex-shrink-0 w-full md:w-auto">
+              <NavLink
+                to="/products/ai-chat-widget"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-white text-gray-900 font-bold rounded-2xl hover:bg-gray-100 transition-all active:scale-95 text-sm whitespace-nowrap"
+              >
+                <Bot size={16} />
+                Try It Free
+                <ArrowRight size={16} />
+              </NavLink>
+              <p className="text-center text-xs text-gray-500">No credit card required to try</p>
+              <NavLink
+                to="/products/ai-chat-widget"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-transparent border border-gray-700 text-gray-300 font-semibold rounded-2xl hover:border-gray-500 hover:text-white transition-all text-sm whitespace-nowrap"
+              >
+                Get It On My Site — $299/mo
+              </NavLink>
+            </div>
+          </motion.div>
 
           <div className="flex flex-wrap gap-3 mb-16">
             {CATEGORIES.map((cat) => (

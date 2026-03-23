@@ -337,6 +337,21 @@ export const Pricing: React.FC = () => {
             </p>
           </div>
           <ROICalculator />
+          <div className="mt-8 p-6 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row items-center gap-6">
+            <div className="flex-1">
+              <p className="font-bold text-gray-900 dark:text-white mb-1">Not ready for a full plan?</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
+                Start with our standalone AI Receptionist at $299/month. No consulting required — just an AI trained for your business, live on your website in 48 hours.
+              </p>
+            </div>
+            <NavLink
+              to="/products"
+              className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl hover:bg-gray-800 transition-all text-sm"
+            >
+              Try It Free First
+              <ArrowRight size={16} />
+            </NavLink>
+          </div>
         </Container>
       </Section>
 

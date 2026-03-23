@@ -232,7 +232,7 @@ export const ChatWidgetDemo: React.FC<ChatWidgetDemoProps> = ({ onCheckout }) =>
                 exit={{ y: -40, opacity: 0 }}
                 className="absolute top-0 left-0 right-0 z-20 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-medium text-center py-2 px-4"
               >
-                You're chatting with a live AI demo -- Get this on your site for $199/mo
+                This is a live AI assistant — trained for your business. Get it on your site starting at $299/mo
               </motion.div>
             )}
           </AnimatePresence>
@@ -412,10 +412,10 @@ export const ChatWidgetDemo: React.FC<ChatWidgetDemoProps> = ({ onCheckout }) =>
                   <MessageSquare className="w-7 h-7 text-gray-900 dark:text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  Add this to your website
+                  Get Your AI Receptionist
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Get an AI assistant trained on your business, answering questions and booking clients 24/7.
+                  Your own AI front-desk that handles inquiries, answers questions, and books clients — 24/7, even while you sleep. Trained on your business in 48 hours.
                 </p>
               </div>
 
@@ -451,7 +451,7 @@ export const ChatWidgetDemo: React.FC<ChatWidgetDemoProps> = ({ onCheckout }) =>
                   disabled={!email.trim()}
                   className="w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all active:scale-95 text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Add to My Website -- $199/mo
+                  Get This for My Business — $299/mo
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <button

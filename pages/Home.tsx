@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowRight, Check, X, Zap, Layers, ChartBar as BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, X, Zap, Layers, ChartBar as BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles, Bot } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
@@ -307,6 +307,25 @@ export const Home: React.FC = () => {
              </FadeIn>
           ))}
         </div>
+
+        <FadeIn delay={0.35}>
+          <NavLink to="/products" className="block mt-8 group">
+            <div className="p-8 md:p-10 rounded-[2.5rem] bg-gray-950 border border-gray-800 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 hover:shadow-2xl hover:border-gray-700 transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 text-emerald-400 bg-emerald-500/10">
+                <Bot size={32} strokeWidth={1.5} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-2">No Signup Required</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Your AI Receptionist — Free to Try</h3>
+                <p className="text-gray-400 leading-relaxed">See what an AI assistant trained for your business looks like. No signup needed.</p>
+              </div>
+              <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-900 font-bold rounded-2xl flex-shrink-0 text-sm group-hover:bg-gray-100 transition-colors whitespace-nowrap">
+                Try It Now
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </span>
+            </div>
+          </NavLink>
+        </FadeIn>
       </Section>
 
       {/* 3b. Comparison Table */}
