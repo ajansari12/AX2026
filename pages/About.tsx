@@ -38,10 +38,10 @@ export const About: React.FC = () => {
                Why We Do This
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
-              We help small businesses <br /><span className="text-gray-400 dark:text-gray-500">work smarter.</span>
+              We got tired of watching great businesses lose clients to bad processes.
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-10 max-w-xl">
-              You shouldn't have to work nights and weekends just to keep up. We build simple tools that handle the repetitive stuff, so you can focus on the parts of your business you actually enjoy.
+              Axrategy started because the best accountant in the room kept losing to the one who returned calls faster. That's not a talent problem. That's a systems problem. We fix it.
             </p>
             <div className="flex gap-4">
               <Button onClick={() => triggerBookingModal()}>
