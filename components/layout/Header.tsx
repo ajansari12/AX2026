@@ -116,9 +116,9 @@ export const Header: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden"
+                  className="absolute top-full right-0 mt-2 w-[580px] bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden max-h-[80vh] overflow-y-auto"
                 >
-                  <div className="p-2">
+                  <div className="p-2 grid grid-cols-2 gap-0.5">
                     {INDUSTRY_LINKS.map((industry) => (
                       <NavLink
                         key={industry.path}
