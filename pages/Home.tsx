@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowRight, Check, Zap, Layers, ChartBar as BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, X, Zap, Layers, ChartBar as BarChart3, ChevronDown, Quote, Calendar, RefreshCw, Sparkles } from 'lucide-react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { PRICING_TIERS, MONTHLY_PRICING_TIERS } from '../constants';
@@ -307,6 +307,98 @@ export const Home: React.FC = () => {
              </FadeIn>
           ))}
         </div>
+      </Section>
+
+      {/* 3b. Comparison Table */}
+      <Section light className="border-t border-gray-100 dark:border-gray-800">
+        <Container size="md" className="mb-16 md:text-center">
+          <FadeIn>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">Why Axrategy vs. the alternatives.</h2>
+            <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">Not all solutions are created equal. Here's how we stack up.</p>
+          </FadeIn>
+        </Container>
+        <FadeIn>
+          <div className="overflow-x-auto rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <table className="w-full min-w-[640px] text-sm">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-700">
+                  <th className="text-left py-5 px-6 text-gray-500 dark:text-gray-400 font-medium w-[36%]"></th>
+                  <th className="py-5 px-4 text-center w-[16%]">
+                    <span className="inline-block bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold text-sm px-3 py-1.5 rounded-full ring-1 ring-emerald-200 dark:ring-emerald-500/30">
+                      Axrategy
+                    </span>
+                  </th>
+                  <th className="py-5 px-4 text-center text-gray-600 dark:text-gray-400 font-semibold w-[16%]">Generic Agency</th>
+                  <th className="py-5 px-4 text-center text-gray-600 dark:text-gray-400 font-semibold w-[16%]">SaaS Tool <span className="block text-xs font-normal text-gray-400 dark:text-gray-500">Zapier / HubSpot</span></th>
+                  <th className="py-5 px-4 text-center text-gray-600 dark:text-gray-400 font-semibold w-[16%]">Virtual Assistant</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    label: "Responds to leads 24/7",
+                    axrategy: true,
+                    agency: false,
+                    saas: true,
+                    va: false,
+                  },
+                  {
+                    label: "No ongoing SaaS fees",
+                    axrategy: true,
+                    agency: "N/A",
+                    saas: false,
+                    va: "N/A",
+                  },
+                  {
+                    label: "You own everything built",
+                    axrategy: true,
+                    agency: false,
+                    saas: false,
+                    va: "N/A",
+                  },
+                  {
+                    label: "No technical skills needed",
+                    axrategy: true,
+                    agency: true,
+                    saas: false,
+                    va: true,
+                  },
+                  {
+                    label: "Responds in under 8 seconds",
+                    axrategy: true,
+                    agency: false,
+                    saas: true,
+                    va: false,
+                  },
+                  {
+                    label: "Local Toronto team",
+                    axrategy: true,
+                    agency: "Varies",
+                    saas: false,
+                    va: false,
+                  },
+                ].map((row, i) => {
+                  const renderCell = (val: boolean | string, highlight = false) => {
+                    if (val === true) return <Check size={18} className={highlight ? "text-emerald-600 dark:text-emerald-400 mx-auto" : "text-emerald-500 dark:text-emerald-500 mx-auto"} strokeWidth={2.5} />;
+                    if (val === false) return <X size={18} className="text-red-400 dark:text-red-500 mx-auto" strokeWidth={2.5} />;
+                    return <span className="text-gray-400 dark:text-gray-500 text-xs font-medium">{val}</span>;
+                  };
+                  return (
+                    <tr key={i} className={i % 2 === 0 ? "bg-white dark:bg-gray-900/20" : "bg-gray-50/60 dark:bg-gray-800/20"}>
+                      <td className="py-4 px-6 text-gray-700 dark:text-gray-300 font-medium">{row.label}</td>
+                      <td className="py-4 px-4 text-center bg-emerald-50/40 dark:bg-emerald-500/5 border-x border-emerald-100 dark:border-emerald-500/10">
+                        {renderCell(row.axrategy, true)}
+                      </td>
+                      <td className="py-4 px-4 text-center">{renderCell(row.agency)}</td>
+                      <td className="py-4 px-4 text-center">{renderCell(row.saas)}</td>
+                      <td className="py-4 px-4 text-center">{renderCell(row.va)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </FadeIn>
       </Section>
 
       {/* 4. How It Works */}
