@@ -1,4 +1,4 @@
-import { Stethoscope, Scale, HardHat, Hop as Home, Calculator, Activity, Shield, TrendingUp, Heart, UtensilsCrossed, Wrench, Sparkles, Building2, Car, Dumbbell } from 'lucide-react';
+import { Stethoscope, Scale, HardHat, Hop as Home, Calculator, Activity, Shield, TrendingUp, Heart, UtensilsCrossed, Sparkles, Building, Car, Dumbbell } from 'lucide-react';
 
 export const NAV_LINKS = [
   { name: 'Services', path: '/services' },
@@ -18,10 +18,10 @@ export const INDUSTRY_LINKS = [
   { name: 'For Insurance', path: '/for-insurance-agents', icon: Shield, description: 'Renewals & lead follow-up' },
   { name: 'For Advisors', path: '/for-financial-advisors', icon: TrendingUp, description: 'Reviews & prospect nurturing' },
   { name: 'For Veterinarians', path: '/for-veterinarians', icon: Heart, description: 'Vaccines & pet owner care' },
-  { name: 'Restaurants', path: '/for-restaurants', icon: UtensilsCrossed, description: 'Reservations, reviews & phone AI' },
-  { name: 'Home Services', path: '/for-home-services', icon: Wrench, description: 'Missed calls, quotes & scheduling' },
-  { name: 'Med Spas & Aesthetics', path: '/for-med-spas', icon: Sparkles, description: 'No-shows, intake & waitlist' },
-  { name: 'Mortgage Brokers', path: '/for-mortgage-brokers', icon: Building2, description: 'Lead response & doc collection' },
-  { name: 'Auto Repair', path: '/for-auto-repair', icon: Car, description: 'Booking, status updates & follow-up' },
-  { name: 'Gyms & Fitness', path: '/for-gyms', icon: Dumbbell, description: 'Membership, retention & churn AI' },
+  { name: 'For Restaurants', path: '/for-restaurants', icon: UtensilsCrossed, description: 'AI that captures reservations and answers FAQs 24/7' },
+  { name: 'For Home Services', path: '/for-home-services', icon: Home, description: 'Never miss a job — AI answers when you\'re on-site' },
+  { name: 'For Med Spas', path: '/for-med-spas', icon: Sparkles, description: 'Automate bookings, intake forms, and follow-ups' },
+  { name: 'For Mortgage Brokers', path: '/for-mortgage-brokers', icon: Building, description: 'First to respond wins the deal — be that broker' },
+  { name: 'For Auto Repair', path: '/for-auto-repair', icon: Car, description: 'AI books jobs and sends reminders while you\'re in the shop' },
+  { name: 'For Gyms', path: '/for-gyms', icon: Dumbbell, description: 'Convert late-night website visits into paid memberships' },
 ];

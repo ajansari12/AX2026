@@ -98,6 +98,12 @@ export const Footer: React.FC = () => {
               <li><NavLink to="/for-insurance-agents" className="hover:text-black dark:hover:text-white">For Insurance</NavLink></li>
               <li><NavLink to="/for-financial-advisors" className="hover:text-black dark:hover:text-white">For Advisors</NavLink></li>
               <li><NavLink to="/for-veterinarians" className="hover:text-black dark:hover:text-white">For Veterinarians</NavLink></li>
+              <li><NavLink to="/for-restaurants" className="hover:text-black dark:hover:text-white">For Restaurants</NavLink></li>
+              <li><NavLink to="/for-home-services" className="hover:text-black dark:hover:text-white">For Home Services</NavLink></li>
+              <li><NavLink to="/for-med-spas" className="hover:text-black dark:hover:text-white">For Med Spas</NavLink></li>
+              <li><NavLink to="/for-mortgage-brokers" className="hover:text-black dark:hover:text-white">For Mortgage Brokers</NavLink></li>
+              <li><NavLink to="/for-auto-repair" className="hover:text-black dark:hover:text-white">For Auto Repair</NavLink></li>
+              <li><NavLink to="/for-gyms" className="hover:text-black dark:hover:text-white">For Gyms</NavLink></li>
             </ul>
           </div>
 
