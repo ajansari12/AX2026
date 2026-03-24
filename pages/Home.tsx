@@ -18,6 +18,7 @@ export const Home: React.FC = () => {
   const bookingModal = useBookingModal();
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const [showQuiz, setShowQuiz] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { caseStudies, isLoading: caseStudiesLoading } = useCaseStudies();
 
   const schema = {
@@ -695,15 +696,31 @@ export const Home: React.FC = () => {
               { q: "What will this cost me each month after?", a: "Just the basic tools - usually $50-150/month for things like hosting and your CRM. You pay those directly, no markup from us." },
               { q: "I'm not very tech-savvy. Will I be able to use this?", a: "Absolutely. We set everything up and train you on how to use it. Most of it runs automatically anyway - that's the whole point." }
             ].map((faq, i) => (
-              <details key={i} className="group bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 open:shadow-lg transition-all duration-300">
-                <summary className="flex items-center justify-between p-8 font-semibold text-lg cursor-pointer list-none text-gray-900 dark:text-white select-none">
+              <div key={i} className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 overflow-hidden transition-all duration-300">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-8 font-semibold text-lg text-gray-900 dark:text-white text-left"
+                  aria-expanded={openFaq === i}
+                >
                   {faq.q}
-                  <ChevronDown className="group-open:rotate-180 transition-transform text-gray-400 group-open:text-white" />
-                </summary>
-                <div className="px-8 pb-8 text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
-                  {faq.a}
-                </div>
-              </details>
+                  <ChevronDown className={`transition-transform duration-200 text-gray-400 flex-shrink-0 ml-4 ${openFaq === i ? 'rotate-180 text-gray-900 dark:text-white' : ''}`} size={20} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-8 pb-8 text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </div>
         </Container>

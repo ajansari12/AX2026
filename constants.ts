@@ -47,7 +47,7 @@ export const SERVICES: Service[] = [
     timeline: '2 - 4 Weeks',
     whoIsItFor: 'Best for businesses drowning in spreadsheets, sticky notes, and "I forgot to follow up" guilt.',
     faq: [
-      { q: 'Do I need to buy new software?', a: 'Usually just Zapier ($20/mo) or Make.com ($10/mo). Total ongoing cost is typically under $70/month.' },
+      { q: 'Do I need to buy new software?', a: 'No additional tools required for the core automation. We build everything on top of your existing email platform and website infrastructure. The only ongoing costs are your hosting and any CRM subscription you choose — typically $0-50/month.' },
       { q: 'Is my customer data safe?', a: 'Absolutely. Everything is encrypted and we follow security best practices. We never store your customer info on our end.' },
       { q: 'What if my workflows are complicated?', a: 'Simple workflows (form to CRM to email): 2 weeks. Complex workflows with multiple systems: 3-4 weeks. We\'ll tell you upfront.' }
     ]

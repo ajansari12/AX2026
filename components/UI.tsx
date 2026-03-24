@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Check, Loader2, ArrowRight, AlertCircle } from 'lucide-react';
+import { X, Check, Loader as Loader2, ArrowRight, CircleAlert as AlertCircle } from 'lucide-react';
 import { useTeardownRequest } from '../hooks/useTeardownRequest';
 
 export const Section: React.FC<{
@@ -108,7 +108,7 @@ export const FadeIn: React.FC<{ children: React.ReactNode; delay?: number }> = (
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+    transition={{ duration: 0.3, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
   >
     {children}
   </motion.div>

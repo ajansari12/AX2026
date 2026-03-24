@@ -87,8 +87,25 @@ const GlobalBookingModal: React.FC = () => {
 };
 
 const LoadingFallback: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-pulse text-gray-500">Loading...</div>
+  <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="h-16 border-b border-gray-100 dark:border-gray-800 px-6 flex items-center justify-between">
+      <div className="h-6 w-28 bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse" />
+      <div className="hidden md:flex gap-6">
+        {[1,2,3,4].map(i => <div key={i} className="h-4 w-16 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />)}
+      </div>
+      <div className="h-9 w-24 bg-gray-100 dark:bg-gray-800 rounded-full animate-pulse" />
+    </div>
+    <div className="max-w-5xl mx-auto px-6 pt-24 pb-12">
+      <div className="h-4 w-24 bg-gray-100 dark:bg-gray-800 rounded-full animate-pulse mb-8" />
+      <div className="h-12 w-2/3 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse mb-4" />
+      <div className="h-12 w-1/2 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse mb-8" />
+      <div className="h-5 w-full max-w-md bg-gray-100 dark:bg-gray-800 rounded animate-pulse mb-2" />
+      <div className="h-5 w-3/4 max-w-md bg-gray-100 dark:bg-gray-800 rounded animate-pulse mb-10" />
+      <div className="flex gap-4">
+        <div className="h-12 w-36 bg-gray-200 dark:bg-gray-700 rounded-2xl animate-pulse" />
+        <div className="h-12 w-28 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse" />
+      </div>
+    </div>
   </div>
 );
 

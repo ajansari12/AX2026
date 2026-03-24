@@ -17,6 +17,12 @@ const INDUSTRY_DATA: Record<string, { hoursSaved: number; hourlyValue: number; l
   chiropractic: { hoursSaved: 12, hourlyValue: 175, leadValue: 400, label: 'Chiropractic / Physio' },
   veterinary: { hoursSaved: 12, hourlyValue: 200, leadValue: 300, label: 'Veterinary Clinic' },
   other: { hoursSaved: 10, hourlyValue: 150, leadValue: 500, label: 'Other Professional Services' },
+  restaurant: { hoursSaved: 18, hourlyValue: 150, leadValue: 200, label: 'Restaurant' },
+  home_services: { hoursSaved: 14, hourlyValue: 120, leadValue: 2800, label: 'Home Services (HVAC / Plumbing)' },
+  med_spa: { hoursSaved: 15, hourlyValue: 250, leadValue: 600, label: 'Med Spa / Aesthetics' },
+  mortgage_broker: { hoursSaved: 11, hourlyValue: 200, leadValue: 4000, label: 'Mortgage Broker' },
+  auto_repair: { hoursSaved: 12, hourlyValue: 140, leadValue: 900, label: 'Auto Repair Shop' },
+  gym: { hoursSaved: 13, hourlyValue: 120, leadValue: 150, label: 'Gym / Fitness Studio' },
 };
 
 const TEAM_MULTIPLIER: Record<string, number> = {
@@ -63,6 +69,36 @@ function getOpportunityText(industry: string, painPoint: string): string {
     real_estate: {
       follow_up: `Real estate agents who respond to online leads within 5 minutes are 100x more likely to make contact. Your CRM should be doing this automatically.`,
       default: `Automated showing scheduling, document collection, and follow-up sequences can save 16+ hours/week — and close more transactions from your existing lead volume.`,
+    },
+    restaurant: {
+      follow_up: `Restaurants that send automated review requests after every visit see 3x more Google reviews in 90 days — without asking staff to do it manually.`,
+      booking: `60% of diners call to ask questions your website already answers. An AI phone agent handles reservations, hours, and menu questions so your staff focuses on guests.`,
+      default: `Restaurant operators are losing 30-40% of potential bookings to missed calls during busy service hours. AI handles those calls automatically.`,
+    },
+    home_services: {
+      follow_up: `Contractors who automate quote follow-up at days 3, 7, and 14 close 2.3x more jobs from the same lead volume. Most leads go cold because nobody follows up.`,
+      booking: `Every missed call while you're on a job is an average $2,400 lost to a competitor. AI answers after hours and on-site automatically.`,
+      default: `Home service businesses leave $127K/year in revenue on the table from leads that went cold before a second contact.`,
+    },
+    med_spa: {
+      booking: `Med spas with automated pre-appointment intake forms eliminate 30 minutes of in-office paperwork per patient — while reducing no-shows by 28%.`,
+      follow_up: `Automated waitlist management fills cancelled slots in minutes instead of hours. At $150-$800 per appointment, every recovered slot matters.`,
+      default: `Your front desk is managing intake, confirmations, and follow-ups manually. All three can be automated — freeing staff for client care.`,
+    },
+    mortgage_broker: {
+      follow_up: `The first broker to respond gets the deal. Harvard research shows 5-minute response is 100x more effective. Average broker response time: 2+ hours.`,
+      lead_tracking: `Automated document collection checklists cut the average mortgage processing time by 3-4 weeks — and clients who can upload documents at 10pm don't switch lenders.`,
+      default: `Mortgage brokers who automate lead response and document collection close 35% more deals from their existing referral volume.`,
+    },
+    auto_repair: {
+      follow_up: `Auto shops that send automated service reminders (oil change, tire rotation, seasonal) get 40% of customers back without a single phone call.`,
+      booking: `8 out of 10 customers choose the shop that responds first. AI chat handles estimates and appointment booking — even at midnight.`,
+      default: `Customers who don't hear back in 2 hours call the next shop. AI handles initial contact, estimates, and scheduling while your techs focus on cars.`,
+    },
+    gym: {
+      follow_up: `Fitness studios that automate the first 90 days of membership (check-in milestones, class suggestions, motivation messages) see 40% better member retention.`,
+      lead_tracking: `52% more trial signups happen after business hours. AI chat handles membership questions and trial booking 24/7 — no front desk staff required.`,
+      default: `Gyms lose 3-5 potential members per week to leads who inquired but never got followed up with. Automated sequences recover most of these.`,
     },
   };
   const indOpps = opportunities[industry] || {};
