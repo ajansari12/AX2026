@@ -7,11 +7,11 @@ import { useServices, useService } from '../hooks/useServices';
 import * as Icons from 'lucide-react';
 import { ArrowRight, CircleCheck as CheckCircle2, ChevronDown, Clock, Users, Package, Circle as HelpCircle, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 
 export const Services: React.FC = () => {
   const { slug } = useParams();
-  const bookingModal = useBookingModal();
+  const triggerBookingModal = useTriggerBookingModal();
   const { services, isLoading } = useServices();
   const { service: singleService } = useService(slug || '');
   const [quizFilter, setQuizFilter] = useState<string | null>(null);
@@ -74,7 +74,7 @@ export const Services: React.FC = () => {
              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.05]">{service.title}</h1>
              <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed mb-12 max-w-3xl">{service.description} {service.outcome}</p>
              <div className="flex gap-4">
-               <Button size="lg" onClick={() => bookingModal.open(service.slug)}>
+               <Button size="lg" onClick={() => triggerBookingModal(service.slug)}>
                  <Calendar className="mr-2 w-4 h-4" />
                  Let's Talk
                </Button>
@@ -170,7 +170,7 @@ export const Services: React.FC = () => {
                       <h4 className="font-bold text-xl mb-6">Sound like what you need?</h4>
                       <Button
                         className="w-full bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 py-4 text-base font-bold"
-                        onClick={() => bookingModal.open(service.slug)}
+                        onClick={() => triggerBookingModal(service.slug)}
                       >
                         <Calendar className="mr-2 w-4 h-4" />
                         Let's Talk
@@ -182,11 +182,6 @@ export const Services: React.FC = () => {
            </div>
         </Section>
 
-        <CalBookingModal
-          isOpen={bookingModal.isOpen}
-          onClose={bookingModal.close}
-          serviceInterest={bookingModal.serviceInterest}
-        />
       </div>
     );
   }
@@ -288,7 +283,7 @@ export const Services: React.FC = () => {
                     
                     <div className="flex items-center gap-4 pt-2">
                       <button
-                        onClick={() => bookingModal.open(service.slug)}
+                        onClick={() => triggerBookingModal(service.slug)}
                         className="pointer-events-auto flex-1 text-center py-4 rounded-xl text-sm font-bold text-white dark:text-black bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 shadow-lg"
                         aria-label={`Book a call for ${service.title}`}
                       >
@@ -305,11 +300,6 @@ export const Services: React.FC = () => {
         </AnimatePresence>
       </Section>
 
-      <CalBookingModal
-        isOpen={bookingModal.isOpen}
-        onClose={bookingModal.close}
-        serviceInterest={bookingModal.serviceInterest}
-      />
     </>
   );
 };

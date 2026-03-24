@@ -42,7 +42,7 @@ export const Home: React.FC = () => {
         "description": "AI automation agency helping small businesses automate operations and grow with AI-powered tools.",
         "url": "https://axrategy.com",
         "email": "hello@axrategy.com",
-        "image": "https://axrategy.com/og-image.svg",
+        "image": "https://axrategy.com/og-image.webp",
         "telephone": "+1-647-607-3046",
         "address": {
           "@type": "PostalAddress",

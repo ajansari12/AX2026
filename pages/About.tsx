@@ -108,6 +108,37 @@ export const About: React.FC = () => {
         </div>
       </Section>
 
+      {/* Meet Ali */}
+      <Section light className="bg-white dark:bg-gray-900">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            <div className="flex-shrink-0">
+              <IllustratedAvatar name="Ali Ansari" size="xl" className="w-32 h-32" />
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs font-bold uppercase tracking-widest mb-4">
+                Founder
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Ali Ansari</h3>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                After years in tech watching small businesses struggle with processes that should be automated, I started Axrategy with one goal: make the tools that enterprise companies take for granted accessible to every dentist, contractor, and law firm in Canada.
+              </p>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                Every business we work with is a real conversation, not a ticket number. I'm involved in every project.
+              </p>
+              <div className="flex gap-4 mt-6">
+                <a href="https://linkedin.com/in/aliansari" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-900 dark:text-white hover:underline">
+                  LinkedIn →
+                </a>
+                <a href="mailto:hello@axrategy.com" className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+                  Email me directly
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Transparency: What we build vs. set up */}
       <Section className="py-20 bg-gray-50 dark:bg-gray-900/30">
         <Container size="lg">

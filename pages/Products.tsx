@@ -7,7 +7,7 @@ import { ProductCategory } from '../types';
 import { ProductCard } from '../components/products/ProductCard';
 import { ProductDetail } from '../components/products/ProductDetail';
 import { ProductBundles } from '../components/products/ProductBundles';
-import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { Calendar, ArrowRight, Sparkles, Repeat, Wrench, Bot } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -31,7 +31,7 @@ export const Products: React.FC = () => {
 const ProductCatalog: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<ProductCategory | 'all'>('all');
   const { allProducts, isLoading } = useProducts();
-  const bookingModal = useBookingModal();
+  const triggerBookingModal = useTriggerBookingModal();
 
   const filtered = activeCategory === 'all'
     ? allProducts
@@ -219,7 +219,7 @@ const ProductCatalog: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
-                onClick={bookingModal.open}
+                onClick={triggerBookingModal}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg"
               >
                 <Calendar size={20} />
@@ -233,14 +233,13 @@ const ProductCatalog: React.FC = () => {
         </Container>
       </Section>
 
-      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );
 };
 
 const ProductDetailView: React.FC<{ slug: string }> = ({ slug }) => {
   const { product, isLoading, error } = useProduct(slug);
-  const bookingModal = useBookingModal();
+  const triggerBookingModal = useTriggerBookingModal();
 
   const handleCheckout = async (email: string) => {
     if (!product) return;
@@ -297,8 +296,7 @@ const ProductDetailView: React.FC<{ slug: string }> = ({ slug }) => {
   return (
     <>
       <SEO title={product.name} description={product.tagline} />
-      <ProductDetail product={product} onBookCall={bookingModal.open} onCheckout={handleCheckout} />
-      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
+      <ProductDetail product={product} onBookCall={triggerBookingModal} onCheckout={handleCheckout} />
     </>
   );
 };

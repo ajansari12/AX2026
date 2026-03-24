@@ -291,7 +291,7 @@ export const PRICING_TIERS: PricingTier[] = [
     description: 'Your complete AI + automation system. Website, AI chat assistant, CRM setup, follow-up sequences, and 90 days of post-launch support.',
     features: [
       'Full website (as many pages as you need)',
-      'AI that answers calls and messages 24/7',
+      'AI chat assistant answers messages 24/7 · Phone AI available on request',
       'CRM setup with your existing contacts',
       'Automatic follow-up emails and texts',
       '90 days of help after launch'
@@ -344,7 +344,7 @@ export const MONTHLY_PRICING_TIERS: MonthlyPricingTier[] = [
     description: 'For businesses ready to automate lead follow-up — AI that works 24/7 so no prospect is ever missed.',
     features: [
       'Full website (unlimited pages)',
-      'AI that answers calls and messages 24/7',
+      'AI chat assistant answers messages 24/7 · Phone AI available on request',
       'CRM setup with your contacts',
       'Automatic follow-up sequences'
     ],

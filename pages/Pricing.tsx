@@ -13,14 +13,14 @@ import {
 } from '../constants';
 import { Check, ShieldCheck, ChevronDown, Minus, Info, Calendar, Zap, RefreshCw, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { PricingToggle } from '../components/PricingToggle';
 import { ROICalculator } from '../components/ROICalculator';
 import { PricingMode } from '../types';
 
 export const Pricing: React.FC = () => {
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
-  const bookingModal = useBookingModal();
+  const triggerBookingModal = useTriggerBookingModal();
 
   const currentTiers = pricingMode === 'one-time' ? PRICING_TIERS : MONTHLY_PRICING_TIERS;
   const currentComparison = pricingMode === 'one-time' ? PRICING_COMPARISON_DATA : MONTHLY_COMPARISON_DATA;
@@ -137,7 +137,7 @@ export const Pricing: React.FC = () => {
                     </div>
 
                     <button
-                      onClick={() => bookingModal.open()}
+                      onClick={() => triggerBookingModal()}
                       className={`w-full py-4 px-6 rounded-xl font-bold text-sm transition-all active:scale-95 mt-auto ${
                         tier.isPopular
                           ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800'
@@ -225,7 +225,7 @@ export const Pricing: React.FC = () => {
                     </div>
 
                     <button
-                      onClick={() => bookingModal.open()}
+                      onClick={() => triggerBookingModal()}
                       className={`w-full py-4 px-6 rounded-xl font-bold text-sm transition-all active:scale-95 mt-auto ${
                         tier.isPopular
                           ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800'
@@ -570,7 +570,7 @@ export const Pricing: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={bookingModal.open}
+              onClick={triggerBookingModal}
               className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg"
             >
               <Calendar size={20} />
@@ -583,7 +583,6 @@ export const Pricing: React.FC = () => {
         </div>
       </Section>
 
-      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );
 };

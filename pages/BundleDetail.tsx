@@ -3,7 +3,7 @@ import { useParams, NavLink } from 'react-router-dom';
 import { Section, Container, FadeIn } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { ProductIcon } from '../components/products/ProductIcon';
-import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { supabase } from '../lib/supabase';
 import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
@@ -33,7 +33,7 @@ export const BundleDetail: React.FC = () => {
   const [bundleProductIds, setBundleProductIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { allProducts } = useProducts();
-  const bookingModal = useBookingModal();
+  const triggerBookingModal = useTriggerBookingModal();
 
   useEffect(() => {
     if (!bundleSlug) return;
@@ -190,7 +190,7 @@ export const BundleDetail: React.FC = () => {
                   </div>
 
                   <button
-                    onClick={bookingModal.open}
+                    onClick={triggerBookingModal}
                     className="w-full py-4 px-6 bg-black dark:bg-white text-white dark:text-black font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all active:scale-95 text-base flex items-center justify-center gap-2 mb-4"
                   >
                     <Calendar size={18} />
@@ -263,8 +263,6 @@ export const BundleDetail: React.FC = () => {
           </div>
         </Container>
       </Section>
-
-      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Section, Container, FadeIn } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { CalBookingModal, useBookingModal } from '../components/CalBookingModal';
+import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { supabase } from '../lib/supabase';
 import { Zap, Clock, DollarSign, TrendingUp, Check, ArrowRight, Calendar, CircleCheck as CheckCircle, Loader as Loader2, TriangleAlert as AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -161,7 +161,7 @@ export const AISystemsAudit: React.FC = () => {
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
-  const bookingModal = useBookingModal();
+  const triggerBookingModal = useTriggerBookingModal();
 
   const auditSchema = {
     "@context": "https://schema.org",
@@ -725,7 +725,7 @@ export const AISystemsAudit: React.FC = () => {
                         Book a free 15-minute call. We'll walk through your results and give you a specific plan — no pitch, no pressure.
                       </p>
                       <button
-                        onClick={bookingModal.open}
+                        onClick={triggerBookingModal}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-base"
                       >
                         <Calendar size={18} />
@@ -777,7 +777,6 @@ export const AISystemsAudit: React.FC = () => {
         </Container>
       </Section>
 
-      <CalBookingModal isOpen={bookingModal.isOpen} onClose={bookingModal.close} />
     </>
   );
 };

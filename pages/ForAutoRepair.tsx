@@ -238,6 +238,9 @@ export const ForAutoRepair: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <p className="text-xs text-gray-400 dark:text-gray-600 mt-4 italic">
+                Results are representative of typical client outcomes in this industry. Individual results vary.
+              </p>
             </div>
           </div>
         </Container>

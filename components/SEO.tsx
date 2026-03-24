@@ -14,7 +14,7 @@ interface SEOProps {
 export const SEO: React.FC<SEOProps> = ({
   title,
   description,
-  image = 'https://axrategy.com/og-image.svg',
+  image = 'https://axrategy.com/og-image.webp',
   type = 'website',
   schema,
   noIndex = false
