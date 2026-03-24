@@ -238,15 +238,15 @@ Deno.serve(async (req: Request) => {
     }
 
     if (messages.length > 30) {
-      return new Response(JSON.stringify({ error: "Conversation limit reached. Please start a new chat." }), {
+      return new Response(JSON.stringify({ error: "Conversation limit reached. Please start a new chat or contact us directly at hello@axrategy.com" }), {
         status: 429,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     for (const msg of messages) {
-      if (typeof msg.content === "string" && msg.content.length > 3000) {
-        return new Response(JSON.stringify({ error: "Message too long" }), {
+      if (typeof msg.content === "string" && msg.content.length > 4000) {
+        return new Response(JSON.stringify({ error: "Message too long. Please keep messages under 4000 characters." }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
