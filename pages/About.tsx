@@ -127,7 +127,7 @@ export const About: React.FC = () => {
                 Every business we work with is a real conversation, not a ticket number. I'm involved in every project.
               </p>
               <div className="flex gap-4 mt-6">
-                <a href="https://linkedin.com/in/aliansari" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-900 dark:text-white hover:underline">
+                <a href="https://www.linkedin.com/in/ali-jaffer-ansari-78901230/" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-900 dark:text-white hover:underline">
                   LinkedIn →
                 </a>
                 <a href="mailto:hello@axrategy.com" className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
