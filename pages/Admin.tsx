@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { SEO } from '../components/SEO';
 import { supabase } from '../lib/supabase';
 import { useAdminAuth } from '../hooks/useAdminAuth';
-import { LayoutDashboard, Users, Calendar, MessageCircle, Settings, Lock, LogOut, RefreshCw, Mail, Phone, DollarSign, TrendingUp, Clock, ChevronRight, ListFilter as Filter, Loader as Loader2, CircleAlert as AlertCircle, Trash2, Send, FileText, ExternalLink, ChartBar as BarChart3, Search, X, Plus } from 'lucide-react';
+import { LayoutDashboard, Users, Calendar, MessageCircle, Settings, Lock, LogOut, RefreshCw, Mail, Phone, DollarSign, TrendingUp, Clock, ChevronRight, ListFilter as Filter, Loader as Loader2, CircleAlert as AlertCircle, Trash2, Send, FileText, ExternalLink, ChartBar as BarChart3, Search, X, Plus, UserPlus, Eye, EyeOff, Building2, CircleCheck as CheckCircle } from 'lucide-react';
 
 type AdminTab = 'dashboard' | 'leads' | 'operations' | 'settings';
 
@@ -26,7 +27,7 @@ const AdminLoginForm: React.FC<{
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
-      <SEO title="Admin Login" description="Axrategy Admin Panel" />
+      <SEO title="Admin Login" description="Axrategy Admin Panel" noIndex />
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 shadow-xl">
           <div className="flex items-center justify-center mb-8">
@@ -638,10 +639,266 @@ const OperationsTab: React.FC = () => {
   );
 };
 
-const SettingsTab: React.FC = () => {
+const generatePassword = () => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$';
+  return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+};
+
+interface InviteClientModalProps {
+  session: Session | null;
+  onClose: () => void;
+  onSuccess: (email: string) => void;
+}
+
+const InviteClientModal: React.FC<InviteClientModalProps> = ({ session, onClose, onSuccess }) => {
+  const [form, setForm] = useState({
+    email: '',
+    name: '',
+    company: '',
+    phone: '',
+    notes: '',
+    password: generatePassword(),
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm(prev => ({ ...prev, [field]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      const token = session?.access_token;
+      if (!token) throw new Error('Not authenticated');
+
+      const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-client-with-password`;
+      const res = await fetch(fnUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          name: form.name || undefined,
+          company: form.company || undefined,
+          phone: form.phone || undefined,
+          notes: form.notes || undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to create client');
+
+      const emailUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
+      await fetch(emailUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'client_invite',
+          to: form.email,
+          subject: 'Your Axrategy Client Portal is Ready',
+          name: form.name || form.email.split('@')[0],
+          portalUrl: 'https://axrategy.com/portal',
+          tempPassword: form.password,
+        }),
+      });
+
+      onSuccess(form.email);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-2xl w-full max-w-lg">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gray-900 dark:bg-white flex items-center justify-center">
+              <UserPlus size={18} className="text-white dark:text-gray-900" />
+            </div>
+            <div>
+              <h2 className="font-bold text-gray-900 dark:text-white">Create Client Account</h2>
+              <p className="text-xs text-gray-500">Invite a client to the portal</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {error && (
+            <div className="flex items-center gap-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm">
+              <AlertCircle size={16} />
+              {error}
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={set('email')}
+                placeholder="client@company.com"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Full Name</label>
+              <input
+                type="text"
+                value={form.name}
+                onChange={set('name')}
+                placeholder="Sarah Johnson"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Company</label>
+              <div className="relative">
+                <Building2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  value={form.company}
+                  onChange={set('company')}
+                  placeholder="Apex Dental"
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+                />
+              </div>
+            </div>
+
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Phone</label>
+              <div className="relative">
+                <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={set('phone')}
+                  placeholder="416-555-0100"
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+                />
+              </div>
+            </div>
+
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Temporary Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={form.password}
+                  onChange={set('password')}
+                  className="w-full px-4 py-2.5 pr-20 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+                />
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(v => !v)}
+                    className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setForm(prev => ({ ...prev, password: generatePassword() }))}
+                    className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                    title="Regenerate password"
+                  >
+                    <RefreshCw size={14} />
+                  </button>
+                </div>
+              </div>
+              <p className="text-xs text-gray-400 mt-1">Client will receive this in their welcome email and should change it on first login.</p>
+            </div>
+
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Notes</label>
+              <textarea
+                value={form.notes}
+                onChange={set('notes')}
+                rows={2}
+                placeholder="Foundation plan, started March 2026..."
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white resize-none"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex-1 py-2.5 px-4 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold hover:bg-gray-800 dark:hover:bg-gray-100 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+              {isSubmitting ? 'Creating...' : 'Create & Send Invite'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+interface SettingsTabProps {
+  session: Session | null;
+}
+
+const SettingsTab: React.FC<SettingsTabProps> = ({ session }) => {
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [successEmail, setSuccessEmail] = useState<string | null>(null);
+
+  const handleSuccess = (email: string) => {
+    setShowInviteModal(false);
+    setSuccessEmail(email);
+    setTimeout(() => setSuccessEmail(null), 5000);
+  };
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+        <button
+          onClick={() => setShowInviteModal(true)}
+          className="flex items-center gap-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl text-sm font-bold hover:bg-gray-800 dark:hover:bg-gray-100 transition-all"
+        >
+          <UserPlus size={16} />
+          Invite Client
+        </button>
+      </div>
+
+      {successEmail && (
+        <div className="flex items-center gap-3 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-700 dark:text-emerald-400 text-sm">
+          <CheckCircle size={18} />
+          <span>Client account created and invite sent to <strong>{successEmail}</strong></span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-6">
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
@@ -714,12 +971,20 @@ const SettingsTab: React.FC = () => {
           </ol>
         </div>
       </div>
+
+      {showInviteModal && (
+        <InviteClientModal
+          session={session}
+          onClose={() => setShowInviteModal(false)}
+          onSuccess={handleSuccess}
+        />
+      )}
     </div>
   );
 };
 
 export const Admin: React.FC = () => {
-  const { isAuthenticated, isLoading: authLoading, isAdmin, signIn: login, signOut: logout } = useAdminAuth();
+  const { session, isAuthenticated, isLoading: authLoading, isAdmin, signIn: login, signOut: logout } = useAdminAuth();
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
 
   if (authLoading) {
@@ -809,7 +1074,7 @@ export const Admin: React.FC = () => {
         {activeTab === 'dashboard' && <DashboardTab onNavigate={setActiveTab} />}
         {activeTab === 'leads' && <LeadsTab />}
         {activeTab === 'operations' && <OperationsTab />}
-        {activeTab === 'settings' && <SettingsTab />}
+        {activeTab === 'settings' && <SettingsTab session={session} />}
       </main>
     </div>
   );
