@@ -1,25 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  FolderKanban,
-  FileText,
-  MessageSquare,
-  Receipt,
-  ArrowRight,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  TrendingUp,
-  Calendar,
-  Target,
-  Layers,
-  Play,
-  Pause,
-  Search,
-  Bot,
-  Gift,
-} from 'lucide-react';
+import { FolderKanban, FileText, MessageSquare, Receipt, ArrowRight, Clock, CircleCheck as CheckCircle2, CircleAlert as AlertCircle, TrendingUp, Calendar, Target, Layers, Play, Pause, Search, Bot, Gift } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { PortalOnboarding } from '../components/PortalOnboarding';
 import { useClientAuth } from '../hooks/useClientAuth';
@@ -473,12 +455,12 @@ export const PortalDashboard: React.FC = () => {
                     to={`/portal/projects/${milestone.projectId}`}
                     className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                   >
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                    <div className={\`w-10 h-10 rounded-xl flex items-center justify-center ${
                       isUrgent
                         ? 'bg-amber-100 dark:bg-amber-900/30'
                         : 'bg-blue-100 dark:bg-blue-900/30'
                     }`}>
-                      <Target className={`w-5 h-5 ${
+                      <Target className={\`w-5 h-5 ${
                         isUrgent
                           ? 'text-amber-600 dark:text-amber-400'
                           : 'text-blue-600 dark:text-blue-400'
@@ -493,12 +475,12 @@ export const PortalDashboard: React.FC = () => {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className={`text-sm font-medium ${
+                      <p className={\`text-sm font-medium ${
                         isUrgent
                           ? 'text-amber-600 dark:text-amber-400'
                           : 'text-gray-600 dark:text-gray-300'
                       }`}>
-                        {daysUntil === 0 ? 'Today' : daysUntil === 1 ? 'Tomorrow' : `${daysUntil} days`}
+                        {daysUntil === 0 ? 'Today' : daysUntil === 1 ? 'Tomorrow' : \`${daysUntil} days`}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
                         {formatDate(milestone.due_date!)}
