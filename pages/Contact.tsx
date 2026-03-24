@@ -6,6 +6,7 @@ import { Mail, MapPin, Clock, Check, Loader as Loader2, CircleAlert as AlertCirc
 import { SERVICES } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLeads } from '../hooks/useLeads';
+import { sanitizeInput } from '../lib/security';
 import { CustomCalendar } from '../components/CustomCalendar';
 import { PricingPreference } from '../types';
 import { Turnstile, useTurnstile, isTurnstileEnabled } from '../components/Turnstile';
@@ -94,11 +95,18 @@ export const Contact: React.FC = () => {
     setFormState('submitting');
     setErrorMessage('');
 
+    const sanitizedData = {
+      name: sanitizeInput(formData.name).slice(0, 100),
+      email: formData.email.toLowerCase().trim().slice(0, 254),
+      message: sanitizeInput(formData.message).slice(0, 2000),
+      service: sanitizeInput(formData.service || '').slice(0, 100),
+    };
+
     const result = await submitLead({
-      name: formData.name,
-      email: formData.email,
-      service_interest: formData.service,
-      message: formData.message,
+      name: sanitizedData.name,
+      email: sanitizedData.email,
+      service_interest: sanitizedData.service,
+      message: sanitizedData.message,
       source: 'contact_form',
       pricing_preference: formData.pricingPreference,
       honeypot: honeypotRef.current?.value || '',

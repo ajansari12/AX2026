@@ -2,11 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Anthropic from "npm:@anthropic-ai/sdk@0.39.0";
 import { createClient } from "npm:@supabase/supabase-js@2.89.0";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+const allowedOrigins = ["https://axrategy.com", "https://www.axrategy.com"];
 
 const SYSTEM_PROMPT = `You are the AI assistant for Axrategy, a digital agency based in Toronto, Canada that helps small businesses automate their operations and grow with AI-powered tools.
 
@@ -203,6 +199,14 @@ async function createLead(
 }
 
 Deno.serve(async (req: Request) => {
+  const origin = req.headers.get("origin") || "";
+  const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": corsOrigin,
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  };
+
   if (req.method === "OPTIONS") {
     return new Response(null, {
       status: 200,
@@ -231,6 +235,22 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: 'Messages are required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+    }
+
+    if (messages.length > 30) {
+      return new Response(JSON.stringify({ error: "Conversation limit reached. Please start a new chat." }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    for (const msg of messages) {
+      if (typeof msg.content === "string" && msg.content.length > 3000) {
+        return new Response(JSON.stringify({ error: "Message too long" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
     }
 
     const isDemo = !!demoContext?.demoMode;
