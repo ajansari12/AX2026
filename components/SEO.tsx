@@ -70,6 +70,8 @@ export const SEO: React.FC<SEOProps> = ({
     updateMeta('og:url', canonicalUrl, 'property');
     updateMeta('og:type', type === 'service' ? 'website' : type, 'property');
     updateMeta('og:image', image, 'property');
+    updateMeta('og:image:width', '1200', 'property');
+    updateMeta('og:image:height', '630', 'property');
 
     // --- Twitter Card ---
     updateMeta('twitter:card', 'summary_large_image');

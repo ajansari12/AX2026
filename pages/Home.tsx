@@ -38,7 +38,9 @@ export const Home: React.FC = () => {
       {
         "@type": "LocalBusiness",
         "name": "Axrategy",
-        "description": "AI automation and web development for small businesses",
+        "description": "AI automation agency helping small businesses automate operations and grow with AI-powered tools.",
+        "url": "https://axrategy.com",
+        "email": "hello@axrategy.com",
         "image": "https://axrategy.com/og-image.svg",
         "telephone": "+1-647-607-3046",
         "address": {
@@ -52,11 +54,9 @@ export const Home: React.FC = () => {
           "latitude": "43.6532",
           "longitude": "-79.3832"
         },
-        "areaServed": [
-          { "@type": "Country", "name": "Canada" },
-          { "@type": "Country", "name": "United States" }
-        ],
-        "priceRange": "$$$",
+        "areaServed": ["Toronto", "Greater Toronto Area", "Ontario", "Canada"],
+        "serviceType": ["AI Automation", "Website Design", "CRM Setup", "Client Portal Development"],
+        "priceRange": "$$",
         "openingHoursSpecification": {
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
