@@ -75,7 +75,7 @@ const ProductCatalog: React.FC = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">AI Receptionist</h2>
               <p className="text-base font-semibold text-gray-300 mb-3">Try before you buy — personalized to your business</p>
               <p className="text-gray-400 text-sm leading-relaxed max-w-xl">
-                See exactly what an AI assistant for YOUR business looks like. Enter your business name and chat with it live — then get it on your website.
+                We set up a dedicated AI assistant for your business — custom-trained on your services, hours, and FAQs. This is configured per client, not a generic bot. Try the demo below to see what yours could look like.
               </p>
             </div>
             <div className="flex flex-col gap-3 flex-shrink-0 w-full md:w-auto">

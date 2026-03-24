@@ -16,26 +16,46 @@ const INDUSTRIES = [
   'Dental Practice',
   'Law Firm',
   'Real Estate Agency',
-  'Chiropractic Clinic',
-  'Accounting Firm',
+  'Restaurant',
+  'Home Services (HVAC / Plumbing / Electrical)',
+  'Chiropractic / Physio',
+  'Med Spa',
+  'Mortgage Broker',
   'Insurance Agency',
+  'Auto Repair',
+  'Gym / Fitness',
+  'Accounting Firm',
   'Veterinary Clinic',
-  'Consulting Firm',
-  'Contractor / Home Services',
+  'Property Management',
+  'Education / Tutoring',
+  'Contractor / Trades',
   'Financial Advisory',
+  'Retail',
+  'Healthcare (General)',
+  'Other',
 ];
 
 const QUICK_ACTIONS: Record<string, string[]> = {
   'Dental Practice': ['What insurance do you accept?', 'Book a cleaning', 'What are your hours?'],
   'Law Firm': ['Do you offer free consultations?', 'What areas of law do you practice?', 'How do your fees work?'],
   'Real Estate Agency': ['I want to sell my home', 'Show me listings in my area', 'What is my home worth?'],
-  'Chiropractic Clinic': ['Do I need a referral?', 'Book an adjustment', 'What conditions do you treat?'],
-  'Accounting Firm': ['I need help with my taxes', 'Do you work with small businesses?', 'What are your rates?'],
+  'Restaurant': ['What are your hours?', 'Do you take reservations?', 'View the menu'],
+  'Home Services (HVAC / Plumbing / Electrical)': ['How fast can you come out?', 'Do you give free quotes?', 'What areas do you serve?'],
+  'Chiropractic / Physio': ['Do I need a referral?', 'Book an adjustment', 'What conditions do you treat?'],
+  'Med Spa': ['Book a consultation', 'What treatments do you offer?', 'Do you offer financing?'],
+  'Mortgage Broker': ['What rates do you have?', 'Get pre-approved', 'First-time buyer help'],
   'Insurance Agency': ['Get a quote for auto insurance', 'What types of insurance do you offer?', 'I need to file a claim'],
+  'Auto Repair': ['Get a repair estimate', 'What are your hours?', 'Do you offer a warranty?'],
+  'Gym / Fitness': ['Do you offer a free trial?', 'What classes do you have?', 'Book a tour'],
+  'Accounting Firm': ['I need help with my taxes', 'Do you work with small businesses?', 'What are your rates?'],
   'Veterinary Clinic': ['Book a wellness exam', 'Do you handle emergencies?', 'What vaccines does my pet need?'],
-  'Consulting Firm': ['What industries do you serve?', 'Book a discovery call', 'How do engagements work?'],
-  'Contractor / Home Services': ['Get a free estimate', 'What services do you offer?', 'Are you licensed and insured?'],
+  'Property Management': ['I have a maintenance request', 'I want to rent a unit', 'Contact the manager'],
+  'Education / Tutoring': ['Book a session', 'What subjects do you cover?', 'Pricing info'],
+  'Contractor / Trades': ['Get a free estimate', 'What services do you offer?', 'Are you licensed and insured?'],
   'Financial Advisory': ['I want to plan for retirement', 'Do you offer free consultations?', 'What are your minimums?'],
+  'Retail': ['Check store hours', 'Do you ship online?', 'Return policy'],
+  'Healthcare (General)': ['Book an appointment', 'Do you accept my insurance?', 'New patient info'],
+  'Other': ['Tell me about your services', 'How do I get started?', 'Contact the team'],
 };
 
 const getVisitorId = (): string => {
@@ -118,7 +138,7 @@ export const ChatWidgetDemo: React.FC<ChatWidgetDemoProps> = ({ onCheckout }) =>
     setShowConversionModal(false);
   };
 
-  const quickActions = QUICK_ACTIONS[industry] || QUICK_ACTIONS['Consulting Firm'];
+  const quickActions = QUICK_ACTIONS[industry] || QUICK_ACTIONS['Other'];
   const hostname = businessName.toLowerCase().replace(/[^a-z0-9]/g, '') || 'yourbusiness';
 
   if (setupStep === 'form') {

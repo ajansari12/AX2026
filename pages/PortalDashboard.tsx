@@ -17,6 +17,8 @@ import {
   Play,
   Pause,
   Search,
+  Bot,
+  Gift,
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { PortalOnboarding } from '../components/PortalOnboarding';
@@ -542,6 +544,57 @@ export const PortalDashboard: React.FC = () => {
               <span className="font-medium text-gray-900 dark:text-white">Pay an Invoice</span>
             </Link>
           </div>
+        </motion.div>
+
+        {/* AI Tools card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-100 dark:to-white rounded-2xl p-6 text-white dark:text-gray-900"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-white/10 dark:bg-gray-900/10 flex items-center justify-center">
+                <Bot className="w-5 h-5 text-white dark:text-gray-900" />
+              </div>
+              <h3 className="font-bold text-lg">Your AI Receptionist</h3>
+            </div>
+            <span className="text-xs bg-emerald-500 text-white px-2 py-1 rounded-full font-medium">Live</span>
+          </div>
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <div>
+              <div className="text-2xl font-bold">—</div>
+              <div className="text-xs text-gray-400 dark:text-gray-600 mt-0.5">Conversations this week</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold">—</div>
+              <div className="text-xs text-gray-400 dark:text-gray-600 mt-0.5">Leads captured</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold">24/7</div>
+              <div className="text-xs text-gray-400 dark:text-gray-600 mt-0.5">Always on</div>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 dark:text-gray-600">Detailed analytics coming soon. Questions? Message us below.</p>
+        </motion.div>
+
+        {/* Refer & Earn card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Link
+            to="/portal/referrals"
+            className="block bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-5 hover:border-amber-400 dark:hover:border-amber-600 transition-colors"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <Gift className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <span className="font-bold text-gray-900 dark:text-white">Refer a Friend, Earn $200</span>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Know a business that needs this? Earn $200 for every referral that becomes a client.</p>
+          </Link>
         </motion.div>
       </div>
     </>

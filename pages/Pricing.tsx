@@ -32,7 +32,7 @@ export const Pricing: React.FC = () => {
       {
         "@type": "WebPage",
         "name": "Pricing & Packages | Axrategy",
-        "description": "AI automation for small businesses starting at $197/mo. No lock-in after 6 months. Built for Canadian and North American SMBs.",
+        "description": "AI automation for small businesses starting at $197/mo. 6-month commitment, then pause or cancel with 30 days notice. Built for Canadian and North American SMBs.",
         "publisher": {
           "@type": "Organization",
           "name": "Axrategy"
@@ -56,7 +56,7 @@ export const Pricing: React.FC = () => {
     <>
       <SEO
         title="Pricing & Packages"
-        description="AI automation for small businesses starting at $197/mo. No lock-in after 6 months. Built for Canadian and North American SMBs."
+        description="AI automation for small businesses starting at $197/mo. 6-month commitment, then pause or cancel with 30 days notice. Built for Canadian and North American SMBs."
         schema={pricingSchema}
       />
 
@@ -183,7 +183,7 @@ export const Pricing: React.FC = () => {
                         Minimum investment: ${(parseInt(tier.monthlyPrice.replace(/[^0-9]/g, '')) * 6 + parseInt(tier.setupFee.replace(/[^0-9]/g, ''))).toLocaleString()} over 6 months
                       </p>
                       <p className={`text-xs leading-snug ${tier.isPopular ? 'text-gray-400 dark:text-gray-600' : 'text-gray-500 dark:text-gray-400'}`}>
-                        6-month engagement — enough time to see measurable results and ROI.
+                        Pause or cancel after your 6-month commitment with 30 days notice.
                       </p>
                     </div>
 
