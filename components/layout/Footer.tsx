@@ -121,7 +121,7 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Resources</h4>
             <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-              <li><NavLink to="/insights" className="hover:text-black dark:hover:text-white">Blog</NavLink></li>
+              <li><NavLink to="/insights" className="hover:text-black dark:hover:text-white">Insights</NavLink></li>
               <li><NavLink to="/resources" className="hover:text-black dark:hover:text-white">Downloads</NavLink></li>
               <li><NavLink to="/terms" className="hover:text-black dark:hover:text-white">Terms of Service</NavLink></li>
               <li><NavLink to="/privacy" className="hover:text-black dark:hover:text-white">Privacy Policy</NavLink></li>

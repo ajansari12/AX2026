@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ExitIntentModal } from './components/UI';
 import { ChatWidget } from './components/ChatWidget';
@@ -66,6 +66,11 @@ const Unsubscribe = lazy(() => import('./pages/Unsubscribe').then(m => ({ defaul
 if (typeof window !== 'undefined') {
   initMonitoring();
 }
+
+const BlogPostRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate to={`/insights/${slug}`} replace />;
+};
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -159,6 +164,8 @@ const App: React.FC = () => {
                       <Route path="/products/:slug" element={<Products />} />
                       <Route path="/about" element={<About />} />
 
+                      <Route path="/blog" element={<Navigate to="/insights" replace />} />
+                      <Route path="/blog/:slug" element={<BlogPostRedirect />} />
                       <Route path="/insights" element={<Insights />} />
                       <Route path="/insights/:slug" element={<Insights />} />
 
