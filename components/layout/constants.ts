@@ -6,6 +6,8 @@ export const NAV_LINKS = [
   { name: 'Work', path: '/work' },
   { name: 'Pricing', path: '/pricing' },
   { name: 'Insights', path: '/insights' },
+  { name: 'Resources', path: '/resources' },
+  { name: 'About', path: '/about' },
 ];
 
 export const INDUSTRY_LINKS = [
