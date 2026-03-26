@@ -1,5 +1,5 @@
 import { useEffect, useRef, useId, useState } from 'react';
-import { Calendar, ExternalLink, Loader2 } from 'lucide-react';
+import { Calendar, ExternalLink, Loader as Loader2 } from 'lucide-react';
 
 interface CalEmbedProps {
   calLink?: string;
@@ -21,6 +21,14 @@ let calScriptLoaded = false;
 let calScriptLoading = false;
 const calScriptCallbacks: (() => void)[] = [];
 
+function fireCallbacks() {
+  if (window.Cal) {
+    window.Cal('init', { origin: 'https://cal.com' });
+  }
+  calScriptCallbacks.forEach(cb => cb());
+  calScriptCallbacks.length = 0;
+}
+
 function loadCalScript(callback: () => void) {
   if (calScriptLoaded && window.Cal) {
     callback();
@@ -35,12 +43,23 @@ function loadCalScript(callback: () => void) {
 
   calScriptLoading = true;
 
-  const existingScript = document.querySelector('script[src*="cal.com/embed/embed.js"]');
+  const existingScript = document.querySelector<HTMLScriptElement>('script[src*="cal.com/embed/embed.js"]');
   if (existingScript) {
-    calScriptLoaded = true;
-    calScriptLoading = false;
-    calScriptCallbacks.forEach(cb => cb());
-    calScriptCallbacks.length = 0;
+    if (window.Cal) {
+      calScriptLoaded = true;
+      calScriptLoading = false;
+      fireCallbacks();
+    } else {
+      existingScript.addEventListener('load', () => {
+        calScriptLoaded = true;
+        calScriptLoading = false;
+        fireCallbacks();
+      }, { once: true });
+      existingScript.addEventListener('error', () => {
+        calScriptLoading = false;
+        calScriptCallbacks.length = 0;
+      }, { once: true });
+    }
     return;
   }
 
@@ -51,11 +70,7 @@ function loadCalScript(callback: () => void) {
   script.onload = () => {
     calScriptLoaded = true;
     calScriptLoading = false;
-    if (window.Cal) {
-      window.Cal('init', { origin: 'https://cal.com' });
-    }
-    calScriptCallbacks.forEach(cb => cb());
-    calScriptCallbacks.length = 0;
+    fireCallbacks();
   };
 
   script.onerror = () => {
@@ -74,6 +89,7 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   useEffect(() => {
     if (initializedRef.current) return;
@@ -98,7 +114,37 @@ export const CalEmbed: React.FC<CalEmbedProps> = ({
     };
 
     loadCalScript(initializeEmbed);
+
+    const timeout = setTimeout(() => {
+      if (!initializedRef.current) {
+        setIsLoading(false);
+        setLoadFailed(true);
+      }
+    }, 10000);
+
+    return () => clearTimeout(timeout);
   }, [calLink, containerId]);
+
+  if (loadFailed) {
+    return (
+      <div className={`flex flex-col items-center justify-center min-h-[300px] gap-4 ${className}`}>
+        <Calendar className="w-10 h-10 text-gray-400" />
+        <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+          The calendar couldn't load. Book directly on Cal.com.
+        </p>
+        <a
+          href={`https://cal.com/${calLink}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
+        >
+          <Calendar className="w-4 h-4" />
+          Open Booking Page
+          <ExternalLink className="w-4 h-4" />
+        </a>
+      </div>
+    );
+  }
 
   return (
     <div className={className}>

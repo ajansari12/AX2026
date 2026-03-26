@@ -94,24 +94,22 @@ export function useCalBooking(eventTypeId: number = 0) {
       const response = await fetch(`${CAL_PROXY_URL}?${params}`, { headers });
       const data = await response.json();
 
-      if (response.status === 500 && data.error?.includes('API key')) {
+      if (response.status === 401 || response.status === 403) {
         setApiUnavailable(true);
         return;
       }
 
-      if (!response.ok) {
+      if (response.status === 500 && typeof data.error === 'string' && data.error.toLowerCase().includes('api key')) {
         setApiUnavailable(true);
         return;
       }
 
-      if (data.status === 'success' && data.data?.slots) {
-        setSlots(data.data.slots);
-      } else {
-        setApiUnavailable(true);
+      const slots = data?.data?.slots ?? data?.slots ?? null;
+      if (slots && typeof slots === 'object') {
+        setSlots(slots);
       }
     } catch (err) {
       console.error('Error fetching slots:', err);
-      setApiUnavailable(true);
     } finally {
       setIsLoadingSlots(false);
       setIsInitializing(false);
