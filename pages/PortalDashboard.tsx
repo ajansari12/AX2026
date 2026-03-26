@@ -31,7 +31,6 @@ export const PortalDashboard: React.FC = () => {
 
   const isLoading = projectsLoading || documentsLoading || messagesLoading || invoicesLoading;
 
-  // Get current time of day for greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -39,7 +38,6 @@ export const PortalDashboard: React.FC = () => {
     return 'Good evening';
   };
 
-  // Format currency
   const formatCurrency = (amount: number, currency = 'USD') => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -48,7 +46,6 @@ export const PortalDashboard: React.FC = () => {
     }).format(amount);
   };
 
-  // Format relative time
   const formatRelativeTime = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -64,7 +61,6 @@ export const PortalDashboard: React.FC = () => {
     return date.toLocaleDateString();
   };
 
-  // Get status color
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       planning: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
@@ -96,7 +92,6 @@ export const PortalDashboard: React.FC = () => {
     { key: 'on_hold', label: 'On Hold', color: 'bg-gray-500', icon: <Pause className="w-3.5 h-3.5" /> },
   ];
 
-  // Quick stats
   const stats = [
     {
       label: 'Total Projects',
@@ -151,7 +146,6 @@ export const PortalDashboard: React.FC = () => {
             Here's an overview of your projects and recent activity.
           </p>
 
-          {/* Outstanding balance alert */}
           {totalOutstanding > 0 && (
             <div className="mt-6 flex items-center gap-3 bg-amber-500/20 border border-amber-500/30 rounded-xl px-4 py-3">
               <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0" />
@@ -455,12 +449,12 @@ export const PortalDashboard: React.FC = () => {
                     to={`/portal/projects/${milestone.projectId}`}
                     className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                   >
-                    <div className={\`w-10 h-10 rounded-xl flex items-center justify-center ${
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                       isUrgent
                         ? 'bg-amber-100 dark:bg-amber-900/30'
                         : 'bg-blue-100 dark:bg-blue-900/30'
                     }`}>
-                      <Target className={\`w-5 h-5 ${
+                      <Target className={`w-5 h-5 ${
                         isUrgent
                           ? 'text-amber-600 dark:text-amber-400'
                           : 'text-blue-600 dark:text-blue-400'
@@ -475,12 +469,12 @@ export const PortalDashboard: React.FC = () => {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className={\`text-sm font-medium ${
+                      <p className={`text-sm font-medium ${
                         isUrgent
                           ? 'text-amber-600 dark:text-amber-400'
                           : 'text-gray-600 dark:text-gray-300'
                       }`}>
-                        {daysUntil === 0 ? 'Today' : daysUntil === 1 ? 'Tomorrow' : \`${daysUntil} days`}
+                        {daysUntil === 0 ? 'Today' : daysUntil === 1 ? 'Tomorrow' : `${daysUntil} days`}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
                         {formatDate(milestone.due_date!)}
@@ -583,7 +577,6 @@ export const PortalDashboard: React.FC = () => {
   );
 };
 
-// Helper to get activity icon based on type
 function getActivityIcon(type: string) {
   const iconClass = "w-4 h-4 text-gray-500 dark:text-gray-400";
 
