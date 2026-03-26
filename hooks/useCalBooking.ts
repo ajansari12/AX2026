@@ -56,6 +56,13 @@ export interface BookingState {
   bookingResult: BookingResponse['data'] | null;
 }
 
+const localDateKey = (date: Date): string => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+};
+
 export function useCalBooking(eventTypeId: number = 0) {
   const [step, setStep] = useState<BookingStep>('date');
   const [slots, setSlots] = useState<Record<string, TimeSlot[]>>({});
@@ -70,6 +77,8 @@ export function useCalBooking(eventTypeId: number = 0) {
     attendee: null,
     bookingResult: null,
   });
+
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const headers = {
     'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
@@ -89,6 +98,7 @@ export function useCalBooking(eventTypeId: number = 0) {
         endTime: endDate.toISOString(),
         eventTypeSlug: '15min',
         username: 'axrategy',
+        timeZone: timezone,
       });
 
       const response = await fetch(`${CAL_PROXY_URL}?${params}`, { headers });
@@ -104,9 +114,9 @@ export function useCalBooking(eventTypeId: number = 0) {
         return;
       }
 
-      const slots = data?.data?.slots ?? data?.slots ?? null;
-      if (slots && typeof slots === 'object') {
-        setSlots(slots);
+      const incoming = data?.data?.slots ?? data?.slots ?? null;
+      if (incoming && typeof incoming === 'object') {
+        setSlots(prev => ({ ...prev, ...incoming }));
       }
     } catch (err) {
       console.error('Error fetching slots:', err);
@@ -114,7 +124,7 @@ export function useCalBooking(eventTypeId: number = 0) {
       setIsLoadingSlots(false);
       setIsInitializing(false);
     }
-  }, [apiUnavailable]);
+  }, [apiUnavailable, timezone]);
 
   const createBooking = useCallback(async (bookingData: BookingData): Promise<boolean> => {
     setIsBooking(true);
@@ -231,14 +241,12 @@ export function useCalBooking(eventTypeId: number = 0) {
   }, []);
 
   const getSlotsForDate = useCallback((date: Date): string[] => {
-    const dateKey = date.toISOString().split('T')[0];
-    const dateSlots = slots[dateKey] || [];
+    const dateSlots = slots[localDateKey(date)] || [];
     return dateSlots.map(slot => slot.time);
   }, [slots]);
 
   const hasAvailability = useCallback((date: Date): boolean => {
-    const dateKey = date.toISOString().split('T')[0];
-    return !!slots[dateKey]?.length;
+    return !!slots[localDateKey(date)]?.length;
   }, [slots]);
 
   return {

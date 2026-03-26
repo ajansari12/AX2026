@@ -16,6 +16,7 @@ interface SlotsRequest {
   eventTypeId?: number;
   duration?: number;
   username?: string;
+  timeZone?: string;
 }
 
 interface BookingRequestInternal {
@@ -49,7 +50,7 @@ async function getAvailableSlots(apiKey: string, params: SlotsRequest): Promise<
     startTime: params.startTime,
     endTime: params.endTime,
   });
-  
+
   if (params.eventTypeSlug) {
     searchParams.set("eventTypeSlug", params.eventTypeSlug);
   }
@@ -58,6 +59,9 @@ async function getAvailableSlots(apiKey: string, params: SlotsRequest): Promise<
   }
   if (params.duration) {
     searchParams.set("duration", params.duration.toString());
+  }
+  if (params.timeZone) {
+    searchParams.set("timeZone", params.timeZone);
   }
   let queryString = searchParams.toString();
   if (params.username) {
@@ -205,6 +209,7 @@ Deno.serve(async (req: Request) => {
         const eventTypeId = url.searchParams.get("eventTypeId");
         const duration = url.searchParams.get("duration");
         const username = url.searchParams.get("username") || Deno.env.get("CAL_USERNAME") || undefined;
+        const timeZone = url.searchParams.get("timeZone") || undefined;
 
         if (!startTime || !endTime) {
           return new Response(
@@ -220,6 +225,7 @@ Deno.serve(async (req: Request) => {
           eventTypeId: eventTypeId ? parseInt(eventTypeId) : undefined,
           duration: duration ? parseInt(duration) : undefined,
           username,
+          timeZone,
         });
       }
 

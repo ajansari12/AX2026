@@ -81,8 +81,14 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = ({
            (currentYear === today.getFullYear() && currentMonth > today.getMonth());
   };
 
+  const isUnavailable = (day: number) => {
+    if (isPastDate(day) || isLoading) return false;
+    const date = new Date(currentYear, currentMonth, day);
+    return !hasAvailability(date);
+  };
+
   const handleDateClick = (day: number) => {
-    if (isPastDate(day)) return;
+    if (isPastDate(day) || isUnavailable(day)) return;
     const selectedDate = new Date(currentYear, currentMonth, day);
     onDateSelect(selectedDate);
   };
@@ -143,15 +149,17 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = ({
             const isPast = isPastDate(day);
             const isTodayDate = isToday(day);
             const hasSlots = !isPast && hasAvailability(date);
+            const unavailable = isUnavailable(day);
+            const isDisabled = isPast || (!isLoading && unavailable);
 
             return (
               <button
                 key={day}
                 onClick={() => handleDateClick(day)}
-                disabled={isPast || isLoading}
+                disabled={isDisabled}
                 className={`
                   aspect-square rounded-xl text-sm font-medium transition-all relative
-                  ${isPast
+                  ${isPast || (!isLoading && unavailable)
                     ? 'text-gray-300 dark:text-gray-700 cursor-not-allowed'
                     : 'text-gray-900 dark:text-white hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:ring-2 hover:ring-emerald-500 cursor-pointer'
                   }
