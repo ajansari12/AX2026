@@ -25,6 +25,7 @@ const Terms = lazy(() => import('./pages/Legal').then(m => ({ default: m.Terms }
 const Privacy = lazy(() => import('./pages/Legal').then(m => ({ default: m.Privacy })));
 const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.NotFound })));
 const Admin = lazy(() => import('./pages/Admin').then(m => ({ default: m.Admin })));
+const AdminLogin = lazy(() => import('./pages/AdminLogin').then(m => ({ default: m.AdminLogin })));
 const ProposalView = lazy(() => import('./pages/ProposalView').then(m => ({ default: m.ProposalView })));
 
 const ForDentists = lazy(() => import('./pages/ForDentists').then(m => ({ default: m.ForDentists })));
@@ -119,6 +120,9 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/proposal/:token" element={<ProposalView />} />
 
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<Admin />} />
+
             <Route path="/portal/login" element={<PortalLogin />} />
             <Route path="/portal/set-password" element={<SetPassword />} />
             <Route path="/portal/reset-password" element={<ResetPassword />} />
@@ -163,7 +167,6 @@ const App: React.FC = () => {
 
                       <Route path="/terms" element={<Terms />} />
                       <Route path="/privacy" element={<Privacy />} />
-                      <Route path="/admin" element={<Admin />} />
                       <Route path="/roi-calculator" element={<ROICalculatorPage />} />
                       <Route path="/help" element={<HelpCenter />} />
                       <Route path="/ai-audit" element={<AISystemsAudit />} />

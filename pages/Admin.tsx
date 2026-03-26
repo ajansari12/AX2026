@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { Session } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { supabase } from '../lib/supabase';
 import { useAdminAuth } from '../hooks/useAdminAuth';
@@ -7,78 +8,6 @@ import { LayoutDashboard, Users, Calendar, MessageCircle, Settings, Lock, LogOut
 
 type AdminTab = 'dashboard' | 'leads' | 'operations' | 'settings';
 
-const AdminLoginForm: React.FC<{
-  onLogin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  error?: string | null;
-}> = ({ onLogin, error: authError }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsSubmitting(true);
-    const result = await onLogin(email, password);
-    if (!result.success) setError(result.error || 'Login failed');
-    setIsSubmitting(false);
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
-      <SEO title="Admin Login" description="Axrategy Admin Panel" noIndex />
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 shadow-xl">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-gray-900 dark:bg-white flex items-center justify-center">
-              <Lock className="w-8 h-8 text-white dark:text-gray-900" />
-            </div>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-2">Admin Access</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-center mb-8">Sign in to access the dashboard</p>
-          {(error || authError) && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl flex items-center gap-3 text-red-700 dark:text-red-400">
-              <AlertCircle size={20} />
-              <span className="text-sm">{error || authError}</span>
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
-                placeholder="hello@axrategy.com"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
-                placeholder="Enter your password"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3 px-6 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold text-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Sign In'}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const DashboardTab: React.FC<{ onNavigate: (tab: AdminTab) => void }> = ({ onNavigate }) => {
   const [stats, setStats] = useState({
@@ -984,10 +913,17 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ session }) => {
 };
 
 export const Admin: React.FC = () => {
-  const { session, isAuthenticated, isLoading: authLoading, isAdmin, signIn: login, signOut: logout } = useAdminAuth();
+  const { session, isAuthenticated, isLoading: authLoading, isAdmin, signOut: logout } = useAdminAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
 
-  if (authLoading) {
+  useEffect(() => {
+    if (!authLoading && (!isAuthenticated || !isAdmin)) {
+      navigate('/admin/login', { replace: true });
+    }
+  }, [authLoading, isAuthenticated, isAdmin, navigate]);
+
+  if (authLoading || !isAuthenticated || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <Loader2 className="animate-spin text-gray-400" size={32} />
@@ -995,34 +931,9 @@ export const Admin: React.FC = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <AdminLoginForm onLogin={login} />;
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
-        <SEO title="Access Denied" description="You do not have permission to access this page." />
-        <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 shadow-xl text-center max-w-md w-full">
-          <div className="w-16 h-16 rounded-2xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center mx-auto mb-6">
-            <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Access Denied</h1>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">You are not authorized to access the admin panel.</p>
-          <button
-            onClick={logout}
-            className="w-full py-3 px-6 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold text-sm hover:bg-gray-800 transition-all"
-          >
-            Sign Out
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex">
-      <SEO title="Admin Dashboard" description="Manage leads, bookings, and operations for Axrategy." />
+      <SEO title="Admin Dashboard" description="Manage leads, bookings, and operations for Axrategy." noIndex />
 
       <aside className="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col fixed h-full z-10">
         <div className="p-6 border-b border-gray-100 dark:border-gray-800">
@@ -1061,7 +972,7 @@ export const Admin: React.FC = () => {
 
         <div className="p-4 border-t border-gray-100 dark:border-gray-800">
           <button
-            onClick={logout}
+            onClick={async () => { await logout(); navigate('/admin/login', { replace: true }); }}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all"
           >
             <LogOut size={18} />
