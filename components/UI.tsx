@@ -107,8 +107,9 @@ export const FadeIn: React.FC<{ children: React.ReactNode; delay?: number }> = (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
+    viewport={{ once: true, amount: 0.1 }}
     transition={{ duration: 0.3, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+    style={{ minHeight: 0 }}
   >
     {children}
   </motion.div>

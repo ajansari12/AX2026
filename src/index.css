@@ -141,3 +141,12 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #d4d4d8;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -159,11 +159,7 @@ export const Home: React.FC = () => {
         <div className="absolute bottom-0 left-0 -z-10 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-50/80 to-transparent dark:from-emerald-900/10 dark:to-transparent rounded-full blur-[100px] opacity-40 -translate-x-1/3 translate-y-1/4"></div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
+          <div>
             <div className="relative z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-white/10 border border-gray-200 dark:border-white/10 shadow-sm mb-10 transition-transform hover:scale-105 backdrop-blur-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="text-sm font-semibold text-black dark:text-white tracking-wide">AI • Automation • Web Systems</span>
@@ -206,7 +202,7 @@ export const Home: React.FC = () => {
               </div>
               <p>Trusted by growing businesses across North America</p>
             </div>
-          </motion.div>
+          </div>
 
           <HeroDashboard />
         </div>
