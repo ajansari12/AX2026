@@ -1,13 +1,16 @@
-import { Stethoscope, Scale, HardHat, Hop as Home, Calculator, Activity, Shield, TrendingUp, Heart, UtensilsCrossed, Sparkles, Building, Car, Dumbbell } from 'lucide-react';
+import { Stethoscope, Scale, HardHat, Hop as Home, Calculator, Activity, Shield, TrendingUp, Heart, UtensilsCrossed, Sparkles, Building, Car, Dumbbell, BookOpen, Download, Users } from 'lucide-react';
 
 export const NAV_LINKS = [
   { name: 'Services', path: '/services' },
   { name: 'Products', path: '/products' },
   { name: 'Work', path: '/work' },
   { name: 'Pricing', path: '/pricing' },
-  { name: 'Insights', path: '/insights' },
-  { name: 'Resources', path: '/resources' },
-  { name: 'About', path: '/about' },
+];
+
+export const LEARN_LINKS = [
+  { name: 'Insights', path: '/insights', icon: BookOpen, description: 'Blog posts, guides & AI tips' },
+  { name: 'Resources', path: '/resources', icon: Download, description: 'Free downloads & templates' },
+  { name: 'About', path: '/about', icon: Users, description: 'Our story & the team behind Axrategy' },
 ];
 
 export const INDUSTRY_LINKS = [

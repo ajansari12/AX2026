@@ -4,12 +4,13 @@ import { Menu, X, Moon, Sun, Calendar, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTriggerBookingModal } from '../../hooks/useGlobalBookingModal';
 import { CommandPalette } from '../CommandPalette';
-import { NAV_LINKS, INDUSTRY_LINKS } from './constants';
+import { NAV_LINKS, LEARN_LINKS, INDUSTRY_LINKS } from './constants';
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [industriesOpen, setIndustriesOpen] = useState(false);
+  const [learnOpen, setLearnOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -66,6 +67,8 @@ export const Header: React.FC = () => {
     })
   };
 
+  const dropdownLinkClass = "flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group";
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
@@ -79,7 +82,7 @@ export const Header: React.FC = () => {
           <span className="group-hover:opacity-80 transition-opacity font-sansation"><span className="text-red-600">AX</span>RATEGY</span>
         </NavLink>
 
-        <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+        <nav className="hidden md:flex items-center gap-6" aria-label="Main Navigation">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.path}
@@ -93,6 +96,53 @@ export const Header: React.FC = () => {
               {link.name}
             </NavLink>
           ))}
+
+          <div
+            className="relative"
+            onMouseEnter={() => setLearnOpen(true)}
+            onMouseLeave={() => setLearnOpen(false)}
+          >
+            <button
+              className="text-sm font-medium transition-colors hover:text-black dark:hover:text-white text-gray-500 dark:text-gray-400 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-md"
+              onClick={() => setLearnOpen(!learnOpen)}
+              aria-expanded={learnOpen}
+              aria-haspopup="true"
+            >
+              Learn
+              <ChevronDown size={14} className={`transition-transform ${learnOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {learnOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden"
+                >
+                  <div className="p-2">
+                    {LEARN_LINKS.map((item) => (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => setLearnOpen(false)}
+                        className={dropdownLinkClass}
+                      >
+                        <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors">
+                          <item.icon size={18} className="text-gray-600 dark:text-gray-400" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{item.name}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{item.description}</div>
+                        </div>
+                      </NavLink>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <div
             className="relative"
@@ -124,7 +174,7 @@ export const Header: React.FC = () => {
                         key={industry.path}
                         to={industry.path}
                         onClick={() => setIndustriesOpen(false)}
-                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
+                        className={dropdownLinkClass}
                       >
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors">
                           <industry.icon size={18} className="text-gray-600 dark:text-gray-400" />
@@ -142,7 +192,7 @@ export const Header: React.FC = () => {
           </div>
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
           <CommandPalette />
           <button
             onClick={toggleTheme}
@@ -159,9 +209,7 @@ export const Header: React.FC = () => {
             Free AI Audit
             <span className="text-xs px-1.5 py-0.5 bg-emerald-500 text-white rounded-full font-bold leading-none">Free</span>
           </NavLink>
-          <NavLink to="/contact" className={`text-sm font-medium transition-colors ${scrolled ? 'hidden lg:block' : ''} text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-md`}>
-            Get a Quote
-          </NavLink>
+
           <button
             onClick={() => triggerBookingModal()}
             className="px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black text-sm font-bold rounded-full hover:bg-gray-800 dark:hover:bg-gray-200 transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black dark:focus-visible:ring-white"
@@ -218,6 +266,27 @@ export const Header: React.FC = () => {
                 custom={NAV_LINKS.length}
                 className="pt-2"
               >
+                <div className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 font-semibold">Learn</div>
+                <div className="flex flex-col gap-3">
+                  {LEARN_LINKS.map((item) => (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-lg font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                    >
+                      <item.icon size={20} />
+                      {item.name}
+                    </NavLink>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                variants={linkVariants}
+                custom={NAV_LINKS.length + 1}
+                className="pt-2"
+              >
                 <div className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 font-semibold">Industries</div>
                 <div className="flex flex-col gap-3">
                   {INDUSTRY_LINKS.map((industry) => (
@@ -236,11 +305,11 @@ export const Header: React.FC = () => {
 
               <motion.div
                 variants={linkVariants}
-                custom={NAV_LINKS.length + 1}
+                custom={NAV_LINKS.length + 2}
                 className="h-px w-full bg-gray-100 dark:bg-gray-800 my-4"
               />
 
-              <motion.div variants={linkVariants} custom={NAV_LINKS.length + 2} className="flex flex-col gap-4">
+              <motion.div variants={linkVariants} custom={NAV_LINKS.length + 3} className="flex flex-col gap-4">
                 <button
                   onClick={() => {
                     setIsOpen(false);
@@ -258,9 +327,6 @@ export const Header: React.FC = () => {
                 >
                   Free AI Audit
                   <span className="text-xs px-1.5 py-0.5 bg-emerald-500 text-white rounded-full font-bold leading-none">Free</span>
-                </NavLink>
-                <NavLink onClick={() => setIsOpen(false)} to="/contact" className="w-full text-center py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-bold text-lg">
-                  Get a Quote
                 </NavLink>
               </motion.div>
             </nav>
