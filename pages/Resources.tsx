@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Section, Button, FadeIn, Container } from '../components/UI';
 import { SEO } from '../components/SEO';
-import { Download, FileText, Check, Loader2, ShieldCheck, Mail, AlertCircle } from 'lucide-react';
+import { Download, FileText, Check, Loader as Loader2, ShieldCheck, Mail, CircleAlert as AlertCircle } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useResourceDownload } from '../hooks/useResourceDownload';
+import { trackDownloadResource } from '../lib/analytics';
 
 const LEAD_MAGNETS = [
   {
@@ -61,6 +62,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) => {
 
     if (result.success) {
       triggerDownload(resource.filename);
+      trackDownloadResource(resource.title);
       setStatus('success');
       setEmail('');
     } else {

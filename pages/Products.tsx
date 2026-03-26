@@ -8,6 +8,7 @@ import { ProductCard } from '../components/products/ProductCard';
 import { ProductDetail } from '../components/products/ProductDetail';
 import { ProductBundles } from '../components/products/ProductBundles';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
+import { trackScheduleCall, trackBeginCheckout } from '../lib/analytics';
 import { Calendar, ArrowRight, Sparkles, Repeat, Wrench, Bot } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -219,7 +220,7 @@ const ProductCatalog: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
-                onClick={triggerBookingModal}
+                onClick={() => { trackScheduleCall('products_page'); triggerBookingModal(); }}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg"
               >
                 <Calendar size={20} />
@@ -258,6 +259,7 @@ const ProductDetailView: React.FC<{ slug: string }> = ({ slug }) => {
       });
       const data = await response.json();
       if (data.url) {
+        trackBeginCheckout(product.name, product.priceCents / 100);
         window.location.href = data.url;
       }
     } catch (err) {

@@ -3,6 +3,7 @@ import { Section, Container, FadeIn } from '../components/UI';
 import { SEO } from '../components/SEO';
 import { useTriggerBookingModal } from '../hooks/useGlobalBookingModal';
 import { supabase } from '../lib/supabase';
+import { trackCompleteAIAudit } from '../lib/analytics';
 import { Zap, Clock, DollarSign, TrendingUp, Check, ArrowRight, Calendar, CircleCheck as CheckCircle, Loader as Loader2, TriangleAlert as AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -274,6 +275,7 @@ export const AISystemsAudit: React.FC = () => {
     }
 
     setResults({ ...auditResults, aiAnalysis });
+    trackCompleteAIAudit();
     setStep('results');
   }, [formData]);
 

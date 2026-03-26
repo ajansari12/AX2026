@@ -7,6 +7,7 @@ import { SERVICES } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLeads } from '../hooks/useLeads';
 import { sanitizeInput } from '../lib/security';
+import { trackGenerateLead } from '../lib/analytics';
 import { CustomCalendar } from '../components/CustomCalendar';
 import { PricingPreference } from '../types';
 import { Turnstile, useTurnstile, isTurnstileEnabled } from '../components/Turnstile';
@@ -114,6 +115,7 @@ export const Contact: React.FC = () => {
     });
 
     if (result.success) {
+      trackGenerateLead();
       setFormState('success');
       setFormData({ name: '', email: '', service: 'General Inquiry', pricingPreference: 'undecided', message: '' });
       turnstile.reset();

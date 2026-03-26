@@ -91,3 +91,28 @@ export const trackBookingCompleted = (serviceInterest?: string) => {
     label: serviceInterest || 'general',
   });
 };
+
+export const trackGenerateLead = () => {
+  trackEvent('generate_lead', { category: 'contact_form' });
+};
+
+export const trackScheduleCall = (location: string) => {
+  trackEvent('schedule_call', { category: 'booking_cta', label: location });
+};
+
+export const trackCompleteAIAudit = () => {
+  trackEvent('complete_ai_audit', { category: 'lead_qualifier' });
+};
+
+export const trackDownloadResource = (resourceName: string) => {
+  trackEvent('download_resource', { category: 'lead_magnet', label: resourceName });
+};
+
+export const trackBeginCheckout = (productName: string, productPrice: number) => {
+  trackEvent('begin_checkout', {
+    category: 'ecommerce',
+    label: productName,
+    value: productPrice,
+    currency: 'USD',
+  });
+};
