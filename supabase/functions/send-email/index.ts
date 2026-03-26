@@ -909,8 +909,7 @@ Deno.serve(async (req: Request) => {
     // Handle resource download
     if (payload.type === "resource_download") {
       const { resource } = payload;
-      const baseUrl = req.headers.get("origin") || "https://axrategy.com";
-      const downloadUrl = `${baseUrl}/${resource.downloadUrl}`;
+      const downloadUrl = resource.downloadUrl;
 
       const resourceEmailResult = await sendEmail(
         resendApiKey,

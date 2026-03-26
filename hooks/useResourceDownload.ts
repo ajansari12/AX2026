@@ -50,7 +50,7 @@ export function useResourceDownload(): UseResourceDownloadReturn {
                 email,
                 resourceName: resourceFilename,
                 resourceTitle,
-                downloadUrl: resourceFilename,
+                downloadUrl: `${window.location.origin}/${resourceFilename}`,
               },
             }),
           }
