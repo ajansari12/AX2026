@@ -143,7 +143,7 @@ export const Services: React.FC = () => {
                         <details key={i} className="group bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 open:shadow-md transition-all duration-300">
                           <summary className="flex items-center justify-between p-8 font-semibold text-lg cursor-pointer list-none text-gray-900 dark:text-white select-none">
                             {item.q}
-                            <ChevronDown className="group-open:rotate-180 transition-transform text-gray-400 group-open:text-white" />
+                            <ChevronDown className="group-open:rotate-180 transition-transform text-gray-400 group-open:text-gray-900 dark:group-open:text-white" />
                           </summary>
                           <div className="px-8 pb-8 text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
                             {item.a}
