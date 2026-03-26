@@ -10,7 +10,7 @@
     - DIY Bundle ($197)
 
   2. Standalone Subscriptions (monthly)
-    - AI Chat Widget ($199/mo)
+    - AI Chat Widget ($99/mo)
     - Appointment Reminder System ($99/mo)
     - Review Generation Autopilot ($79/mo)
     - Speed-to-Lead Auto-Responder ($99/mo)
@@ -114,8 +114,8 @@ VALUES
   'A fully trained AI chatbot embedded on your website that answers visitor questions, qualifies leads, and books appointments directly on your calendar. Pre-trained for your industry with your business details, hours, and services.',
   'subscription',
   'standalone_subscription',
-  19900,
-  '$199/mo',
+  9900,
+  '$99/mo',
   0,
   'monthly',
   'all',
